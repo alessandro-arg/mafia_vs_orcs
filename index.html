@@ -4,11 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>City Runner</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./img/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./img/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./img/favicon/site.webmanifest" />
     <link rel="stylesheet" href="style.css" />
+    <script src="./models/movable_object.class.js"></script>
     <script src="javascript/game.js"></script>
   </head>
-  <body>
+  <body onload="init()">
     <h1>City Runner</h1>
-    <canvas width="1280" height="720"> </canvas>
+    <canvas id="canvas" width="1280" height="720"> </canvas>
   </body>
 </html>
