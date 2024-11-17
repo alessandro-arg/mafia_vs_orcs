@@ -1,7 +1,8 @@
 class World {
   character = new Character();
   enemies = [new Enemie(), new Enemie(), new Enemie()];
-  clouds = [new Cloud()];
+  clouds = [new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud()];
+  backgroundObjects = [new BackgroundObject("img/object_bg/sky.png", 0, 0)];
   canvas;
   ctx;
 
@@ -14,38 +15,30 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.ctx.drawImage(
-      this.character.img,
-      this.character.x,
-      this.character.y,
-      this.character.width,
-      this.character.height
-    );
+    this.addObjectsToMap(this.backgroundObjects);
+    this.addToMap(this.character);
+    this.addObjectsToMap(this.clouds);
+    this.addObjectsToMap(this.enemies);
 
-    this.enemies.forEach((enemy) => {
-      this.ctx.drawImage(
-        enemy.img,
-        enemy.x,
-        enemy.y,
-        enemy.width,
-        enemy.height
-      );
-    });
-
-    this.clouds.forEach((cloud) => {
-      this.ctx.drawImage(
-        cloud.img,
-        cloud.x,
-        cloud.y,
-        cloud.width,
-        cloud.height
-      );
-    });
-
-    // Draw() wird immer wieder aufgerufen
     self = this;
     requestAnimationFrame(function () {
       self.draw();
     });
+  }
+
+  addObjectsToMap(objects) {
+    objects.forEach((o) => {
+      this.addToMap(o);
+    });
+  }
+
+  addToMap(movableObject) {
+    this.ctx.drawImage(
+      movableObject.img,
+      movableObject.x,
+      movableObject.y,
+      movableObject.width,
+      movableObject.height
+    );
   }
 }
