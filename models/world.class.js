@@ -2,7 +2,15 @@ class World {
   character = new Character();
   enemies = [new Enemie(), new Enemie(), new Enemie()];
   clouds = [new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud()];
-  backgroundObjects = [new BackgroundObject("img/object_bg/sky.png", 0, 0)];
+  backgroundObjects = [
+    new BackgroundObject("img/object_bg/sky.png", 0),
+    new BackgroundObject("img/object_bg/houses.png", 0),
+    new BackgroundObject("img/object_bg/houses2.png", 0),
+    new BackgroundObject("img/object_bg/houses1.png", 0),
+    new BackgroundObject("img/object_bg/fountain&bush.png", 0),
+    new BackgroundObject("img/object_bg/umbrella&policebox.png", 0),
+    new BackgroundObject("img/object_bg/road.png", 0),
+  ];
   canvas;
   ctx;
 

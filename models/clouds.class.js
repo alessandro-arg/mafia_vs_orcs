@@ -1,12 +1,12 @@
 class Cloud extends MovableObject {
   y = 20;
-  width = 200;
-  height = 100;
+  width = 143;
+  height = 50;
 
   cloudImg = [
-    "img/clouds/cloud_shape4_3.png",
-    "img/clouds/cloud_shape4_4.png",
-    "img/clouds/cloud_shape4_5.png",
+    "img/clouds/clouds_shape8_3.png",
+    "img/clouds/clouds_shape8_4.png",
+    "img/clouds/clouds_shape8_5.png",
   ];
 
   constructor() {
