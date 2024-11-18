@@ -1,6 +1,7 @@
 @font-face {
-  font-family: DigitalDisco;
-  src: url(DigitalDisco.ttf);
+  font-family: "DigitalDisco";
+  src: url("DigitalDisco.ttf") format("truetype");
+  font-display: swap;
 }
 
 body {
