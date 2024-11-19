@@ -1,6 +1,7 @@
 class Character extends MovableObject {
   height = 350;
   width = 350;
+  speed = 8;
   IDLE_IMAGES = [
     "img/idle/idle_frame_1.png",
     "img/idle/idle_frame_2.png",
@@ -32,6 +33,19 @@ class Character extends MovableObject {
   animate() {
     setInterval(() => {
       if (this.world.keyboard.RIGHT) {
+        this.x += this.speed;
+        this.otherDirection = false;
+      }
+
+      if (this.world.keyboard.LEFT) {
+        this.x -= this.speed;
+        this.otherDirection = true;
+      }
+      this.world.camera_x = -this.x;
+    }, 1000 / 60);
+
+    setInterval(() => {
+      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         let i = this.currentImage % this.RUN_IMAGES.length;
         let path = this.RUN_IMAGES[i];
         this.img = this.imageCache[path];

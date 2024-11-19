@@ -1,19 +1,12 @@
 class World {
   character = new Character();
-  enemies = [new Enemie(), new Enemie(), new Enemie()];
-  clouds = [new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud()];
-  backgroundObjects = [
-    new BackgroundObject("img/object_bg/sky.png", 0),
-    new BackgroundObject("img/object_bg/houses.png", 0),
-    new BackgroundObject("img/object_bg/houses2.png", 0),
-    new BackgroundObject("img/object_bg/houses1.png", 0),
-    new BackgroundObject("img/object_bg/fountain&bush.png", 0),
-    new BackgroundObject("img/object_bg/umbrella&policebox.png", 0),
-    new BackgroundObject("img/object_bg/road.png", 0),
-  ];
+  enemies = level1.enemies;
+  clouds = level1.clouds;
+  backgroundObjects = level1.backgroundObjects;
   canvas;
   ctx;
   keyboard;
+  camera_x = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -30,10 +23,14 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+    this.ctx.translate(this.camera_x, 0);
+
     this.addObjectsToMap(this.backgroundObjects);
     this.addToMap(this.character);
     this.addObjectsToMap(this.clouds);
     this.addObjectsToMap(this.enemies);
+
+    this.ctx.translate(-this.camera_x, 0);
 
     self = this;
     requestAnimationFrame(function () {
@@ -48,6 +45,12 @@ class World {
   }
 
   addToMap(movableObject) {
+    if (movableObject.otherDirection) {
+      this.ctx.save();
+      this.ctx.translate(movableObject.width, 0);
+      this.ctx.scale(-1, 1);
+      movableObject.x = movableObject.x * -1;
+    }
     this.ctx.drawImage(
       movableObject.img,
       movableObject.x,
@@ -55,5 +58,10 @@ class World {
       movableObject.width,
       movableObject.height
     );
+
+    if (movableObject.otherDirection) {
+      movableObject.x = movableObject.x * -1;
+      this.ctx.restore();
+    }
   }
 }
