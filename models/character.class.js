@@ -9,20 +9,45 @@ class Character extends MovableObject {
     "img/idle/idle_frame_5.png",
     "img/idle/idle_frame_6.png",
   ];
+  RUN_IMAGES = [
+    "img/run/run_frame_1.png",
+    "img/run/run_frame_2.png",
+    "img/run/run_frame_3.png",
+    "img/run/run_frame_4.png",
+    "img/run/run_frame_5.png",
+    "img/run/run_frame_6.png",
+    "img/run/run_frame_7.png",
+    "img/run/run_frame_8.png",
+    "img/run/run_frame_9.png",
+  ];
+  world;
 
   constructor() {
     super().loadImage("img/idle/idle_frame_1.png");
     this.loadImages(this.IDLE_IMAGES);
-    this.animate(150);
+    this.loadImages(this.RUN_IMAGES);
+    this.animateIdle(150);
+    this.animateRun();
   }
 
-  animate(time) {
+  animateIdle(time) {
     setInterval(() => {
       let i = this.currentImage % this.IDLE_IMAGES.length;
       let path = this.IDLE_IMAGES[i];
       this.img = this.imageCache[path];
       this.currentImage++;
     }, time);
+  }
+
+  animateRun() {
+    setInterval(() => {
+      if (this.world.keyboard.RIGHT) {
+        let i = this.currentImage % this.RUN_IMAGES.length;
+        let path = this.RUN_IMAGES[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+      }
+    }, 150);
   }
 
   jump() {}
