@@ -26,29 +26,22 @@ class Character extends MovableObject {
     super().loadImage("img/idle/idle_frame_1.png");
     this.loadImages(this.IDLE_IMAGES);
     this.loadImages(this.RUN_IMAGES);
-    this.animateIdle(150);
-    this.animateRun();
+    this.animate();
   }
 
-  animateIdle(time) {
-    setInterval(() => {
-      let i = this.currentImage % this.IDLE_IMAGES.length;
-      let path = this.IDLE_IMAGES[i];
-      this.img = this.imageCache[path];
-      this.currentImage++;
-    }, time);
-  }
-
-  animateRun() {
+  animate() {
     setInterval(() => {
       if (this.world.keyboard.RIGHT) {
         let i = this.currentImage % this.RUN_IMAGES.length;
         let path = this.RUN_IMAGES[i];
         this.img = this.imageCache[path];
         this.currentImage++;
+      } else {
+        let i = this.currentImage % this.IDLE_IMAGES.length;
+        let path = this.IDLE_IMAGES[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
       }
     }, 150);
   }
-
-  jump() {}
 }

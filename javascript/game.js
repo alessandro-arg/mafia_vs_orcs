@@ -11,45 +11,45 @@ function init() {
 }
 
 document.addEventListener("keydown", (event) => {
-  if (event.key == 32) {
+  if (event.keyCode == 32) {
     keyboard.SPACE = true;
   }
 
-  if (event.key == 38) {
+  if (event.keyCode == 38) {
     keyboard.UP = true;
   }
 
-  if (event.key == 40) {
+  if (event.keyCode == 40) {
     keyboard.DOWN = true;
   }
 
-  if (event.key == 39) {
+  if (event.keyCode == 39) {
     keyboard.RIGHT = true;
   }
 
-  if (event.key == 37) {
+  if (event.keyCode == 37) {
     keyboard.LEFT = true;
   }
 });
 
 document.addEventListener("keyup", (event) => {
-  if (event.key == 32) {
+  if (event.keyCode == 32) {
     keyboard.SPACE = false;
   }
 
-  if (event.key == 38) {
+  if (event.keyCode == 38) {
     keyboard.UP = false;
   }
 
-  if (event.key == 40) {
+  if (event.keyCode == 40) {
     keyboard.DOWN = false;
   }
 
-  if (event.key == 39) {
+  if (event.keyCode == 39) {
     keyboard.RIGHT = false;
   }
 
-  if (event.key == 37) {
+  if (event.keyCode == 37) {
     keyboard.LEFT = false;
   }
 });
