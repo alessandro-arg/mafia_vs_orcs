@@ -17,17 +17,14 @@ class Enemie extends MovableObject {
   constructor() {
     super().loadImage("img/enemie/enemy_run_frame_1_mirrored.png");
     this.loadImages(this.ENEMIES_IMAGES);
-    this.x = 250 + Math.random() * 800;
+    this.x = 250 + Math.random() * 2500;
     this.animate(0.5);
     this.animateRun(100);
   }
 
   animateRun(time) {
     setInterval(() => {
-      let i = this.currentImage % this.ENEMIES_IMAGES.length;
-      let path = this.ENEMIES_IMAGES[i];
-      this.img = this.imageCache[path];
-      this.currentImage++;
+      this.playAnimation(this.ENEMIES_IMAGES);
     }, time);
   }
 }

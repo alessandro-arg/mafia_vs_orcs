@@ -1,7 +1,7 @@
 class Character extends MovableObject {
   height = 350;
   width = 350;
-  speed = 7;
+  speed = 8;
   IDLE_IMAGES = [
     "img/idle/idle_frame_1.png",
     "img/idle/idle_frame_2.png",
@@ -22,6 +22,7 @@ class Character extends MovableObject {
     "img/run/run_frame_9.png",
   ];
   world;
+  walking_sound = new Audio("audio/run.mp3");
 
   constructor() {
     super().loadImage("img/idle/idle_frame_1.png");
@@ -32,29 +33,26 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      if (this.world.keyboard.RIGHT) {
+      this.walking_sound.pause();
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.x += this.speed;
         this.otherDirection = false;
+        this.walking_sound.play();
       }
 
       if (this.world.keyboard.LEFT && this.x > -500) {
         this.x -= this.speed;
         this.otherDirection = true;
+        this.walking_sound.play();
       }
       this.world.camera_x = -this.x + 50;
     }, 1000 / 60);
 
     setInterval(() => {
       if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        let i = this.currentImage % this.RUN_IMAGES.length;
-        let path = this.RUN_IMAGES[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.playAnimation(this.RUN_IMAGES);
       } else {
-        let i = this.currentImage % this.IDLE_IMAGES.length;
-        let path = this.IDLE_IMAGES[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.playAnimation(this.IDLE_IMAGES);
       }
     }, 120);
   }
