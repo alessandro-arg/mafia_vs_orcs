@@ -1,7 +1,7 @@
 class Character extends MovableObject {
   height = 350;
   width = 350;
-  speed = 8;
+  speed = 7;
   IDLE_IMAGES = [
     "img/idle/idle_frame_1.png",
     "img/idle/idle_frame_2.png",
@@ -56,6 +56,6 @@ class Character extends MovableObject {
         this.img = this.imageCache[path];
         this.currentImage++;
       }
-    }, 150);
+    }, 120);
   }
 }
