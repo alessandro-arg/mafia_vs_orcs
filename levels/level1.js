@@ -1,5 +1,5 @@
 const level1 = new Level(
-  [new Enemie(), new Enemie(), new Enemie(), new Endboss()],
+  [new Enemie(), new Enemie(), new Enemie(), new Enemie(), new Endboss()],
   [new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud()],
   [
     new BackgroundObject("img/object_bg/sky.png", -1280),
