@@ -1,7 +1,7 @@
 class Endboss extends MovableObject {
   height = 500;
   width = 500;
-  y = 180;
+  y = 165;
 
   IDLE_BOSS = [
     "img/boss/idle/idle_boss_frame_1_mirrored.png",

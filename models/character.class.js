@@ -2,6 +2,7 @@ class Character extends MovableObject {
   height = 350;
   width = 350;
   speed = 8;
+  y = 150;
   IDLE_IMAGES = [
     "img/idle/idle_frame_1.png",
     "img/idle/idle_frame_2.png",
@@ -28,6 +29,7 @@ class Character extends MovableObject {
     super().loadImage("img/idle/idle_frame_1.png");
     this.loadImages(this.IDLE_IMAGES);
     this.loadImages(this.RUN_IMAGES);
+    this.applyGravity();
     this.animate();
   }
 
