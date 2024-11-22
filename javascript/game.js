@@ -8,6 +8,7 @@ function init() {
 
   console.log("My Character is", world.character);
   console.log("My Enemies are", level1.enemies);
+  console.log("My Ammo are", level1.ammo);
 }
 
 document.addEventListener("keydown", (event) => {

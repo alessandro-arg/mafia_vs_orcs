@@ -13,6 +13,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: url("img/3.png"), auto;
 }
 
 h1 {

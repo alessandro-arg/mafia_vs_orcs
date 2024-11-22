@@ -2,6 +2,7 @@ class Endboss extends MovableObject {
   height = 500;
   width = 500;
   y = 180;
+
   IDLE_BOSS = [
     "img/boss/idle/idle_boss_frame_1_mirrored.png",
     "img/boss/idle/idle_boss_frame_2_mirrored.png",
@@ -13,7 +14,7 @@ class Endboss extends MovableObject {
   constructor() {
     super().loadImage("img/boss/idle/idle_boss_frame_1_mirrored.png");
     this.loadImages(this.IDLE_BOSS);
-    this.x = 700;
+    this.x = 3200;
     this.animate();
   }
 
