@@ -1,7 +1,7 @@
 class Enemie extends MovableObject {
-  height = 250;
-  width = 250;
-  y = 415;
+  height = 200;
+  width = 200;
+  y = 465;
   ENEMIES_IMAGES = [
     "img/enemie/enemy_type_1/enemy1_run_frame_7.png",
     "img/enemie/enemy_type_1/enemy1_run_frame_6.png",
