@@ -1,7 +1,7 @@
 class Character extends MovableObject {
-  height = 350;
-  width = 350;
-  y = 305;
+  height = 71 * 3;
+  width = 52 * 3;
+  y = 450;
   IDLE_IMAGES = [
     "img/idle/idle_frame_1.png",
     "img/idle/idle_frame_2.png",
@@ -30,8 +30,6 @@ class Character extends MovableObject {
     "img/jump/jump_frame_6.png",
     "img/jump/jump_frame_7.png",
     "img/jump/jump_frame_8.png",
-    "img/jump/jump_frame_9.png",
-    "img/jump/jump_frame_10.png",
   ];
   world;
   walking_sound = new Audio("audio/run.mp3");
