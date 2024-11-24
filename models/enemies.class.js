@@ -16,13 +16,17 @@ class Enemie extends MovableObject {
     super().loadImage("img/enemie/enemy_type_1/enemy1_run_frame_7.png");
     this.loadImages(this.ENEMIES_IMAGES);
     this.x = 250 + Math.random() * 2500;
-    this.animate(0.5);
-    this.animateRun(100);
+    this.speed = 0.5 + Math.random() * 1;
+    this.animate();
   }
 
-  animateRun(time) {
+  animate() {
+    setInterval(() => {
+      this.moveLeft();
+    }, 1000 / 60);
+
     setInterval(() => {
       this.playAnimation(this.ENEMIES_IMAGES);
-    }, time);
+    }, 100);
   }
 }

@@ -1,6 +1,7 @@
 class MovableObject {
   x = 50;
   y = 330;
+  speed = 7;
   img;
   currentImage = 0;
   imageCache = {};
@@ -49,14 +50,10 @@ class MovableObject {
 
   moveRight() {
     this.x += this.speed;
-    this.otherDirection = false;
-    this.walking_sound.play();
   }
 
   moveLeft() {
     this.x -= this.speed;
-    this.otherDirection = true;
-    this.walking_sound.play();
   }
 
   jump() {

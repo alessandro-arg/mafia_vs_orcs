@@ -1,7 +1,6 @@
 class Character extends MovableObject {
   height = 350;
   width = 350;
-  speed = 8;
   y = 305;
   IDLE_IMAGES = [
     "img/idle/idle_frame_1.png",
@@ -51,16 +50,18 @@ class Character extends MovableObject {
       this.walking_sound.pause();
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
+        this.otherDirection = false;
+        this.walking_sound.play();
       }
 
       if (this.world.keyboard.LEFT && this.x > -500) {
         this.moveLeft();
+        this.otherDirection = true;
+        this.walking_sound.play();
       }
 
-      if (this.world.keyboard.SPACE || this.world.keyboard.UP) {
-        if (!this.isAboveGround()) {
-          this.jump();
-        }
+      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+        this.jump();
       }
 
       this.world.camera_x = -this.x + 50;
@@ -74,6 +75,6 @@ class Character extends MovableObject {
       } else {
         this.playAnimation(this.IDLE_IMAGES);
       }
-    }, 120);
+    }, 150);
   }
 }
