@@ -8,6 +8,7 @@ class MovableObject {
   otherDirection = false;
   speedY = 0;
   acceleration = 2.5;
+  energy = 100;
 
   applyGravity() {
     setInterval(() => {
@@ -47,6 +48,26 @@ class MovableObject {
       ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();
     }
+  }
+
+  isColliding(object) {
+    return (
+      this.x + this.width > object.x &&
+      this.x < object.x &&
+      this.y + this.height > object.y &&
+      this.y < object.y + object.height
+    );
+  }
+
+  hit() {
+    if (this.energy > 0) {
+      this.energy -= 20;
+      console.log("Energy after collision:", this.energy);
+    }
+  }
+
+  isDead() {
+    return this.energy == 0;
   }
 
   playAnimation(images) {
