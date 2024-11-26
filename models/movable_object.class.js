@@ -1,14 +1,10 @@
-class MovableObject {
-  x = 50;
-  y = 330;
+class MovableObject extends DrawableObject {
   speed = 7;
-  img;
-  currentImage = 0;
-  imageCache = {};
   otherDirection = false;
   speedY = 0;
   acceleration = 2.5;
   energy = 100;
+  lastHit = 0;
 
   applyGravity() {
     setInterval(() => {
@@ -23,33 +19,6 @@ class MovableObject {
     return this.y < 450;
   }
 
-  loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
-
-  loadImages(array) {
-    array.forEach((path) => {
-      let img = new Image();
-      img.src = path;
-      this.imageCache[path] = img;
-    });
-  }
-
-  draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  }
-
-  drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Enemie) {
-      ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
-    }
-  }
-
   isColliding(object) {
     return (
       this.x + this.width > object.x &&
@@ -60,10 +29,18 @@ class MovableObject {
   }
 
   hit() {
-    if (this.energy > 0) {
-      this.energy -= 20;
-      console.log("Energy after collision:", this.energy);
+    this.energy -= 20;
+    if (this.energy < 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
     }
+  }
+
+  isHurt() {
+    let timepassed = new Date().getTime() - this.lastHit;
+    timepassed = timepassed / 1000;
+    return timepassed < 0.5;
   }
 
   isDead() {

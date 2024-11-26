@@ -31,6 +31,20 @@ class Character extends MovableObject {
     "img/jump/jump_frame_7.png",
     "img/jump/jump_frame_8.png",
   ];
+  DEAD_IMAGES = [
+    "img/dead/dead_frame_1.png",
+    "img/dead/dead_frame_2.png",
+    "img/dead/dead_frame_3.png",
+    "img/dead/dead_frame_4.png",
+    "img/dead/dead_frame_5.png",
+  ];
+  HURT_IMAGES = [
+    "img/hurt/hurt_frame_1.png",
+    "img/hurt/hurt_frame_2.png",
+    "img/hurt/hurt_frame_3.png",
+    "img/hurt/hurt_frame_4.png",
+    "img/hurt/hurt_frame_5.png",
+  ];
   world;
   walking_sound = new Audio("audio/run.mp3");
 
@@ -39,6 +53,8 @@ class Character extends MovableObject {
     this.loadImages(this.IDLE_IMAGES);
     this.loadImages(this.RUN_IMAGES);
     this.loadImages(this.JUMP_IMAGES);
+    this.loadImages(this.DEAD_IMAGES);
+    this.loadImages(this.HURT_IMAGES);
     this.applyGravity();
     this.animate();
   }
@@ -66,7 +82,11 @@ class Character extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-      if (this.isAboveGround()) {
+      if (this.isDead()) {
+        this.playAnimation(this.DEAD_IMAGES);
+      } else if (this.isHurt()) {
+        this.playAnimation(this.HURT_IMAGES);
+      } else if (this.isAboveGround()) {
         this.playAnimation(this.JUMP_IMAGES);
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         this.playAnimation(this.RUN_IMAGES);
