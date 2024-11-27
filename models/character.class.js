@@ -2,6 +2,7 @@ class Character extends MovableObject {
   height = 71 * 3;
   width = 52 * 3;
   y = 450;
+  isDeadAnimationComplete = false;
   IDLE_IMAGES = [
     "img/idle/idle_frame_1.png",
     "img/idle/idle_frame_2.png",
@@ -62,20 +63,26 @@ class Character extends MovableObject {
   animate() {
     setInterval(() => {
       this.walking_sound.pause();
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.moveRight();
-        this.otherDirection = false;
-        this.walking_sound.play();
-      }
 
-      if (this.world.keyboard.LEFT && this.x > -500) {
-        this.moveLeft();
-        this.otherDirection = true;
-        this.walking_sound.play();
-      }
+      if (!this.isDead()) {
+        if (
+          this.world.keyboard.RIGHT &&
+          this.x < this.world.level.level_end_x
+        ) {
+          this.moveRight();
+          this.otherDirection = false;
+          this.walking_sound.play();
+        }
 
-      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        this.jump();
+        if (this.world.keyboard.LEFT && this.x > -500) {
+          this.moveLeft();
+          this.otherDirection = true;
+          this.walking_sound.play();
+        }
+
+        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+          this.jump();
+        }
       }
 
       this.world.camera_x = -this.x + 50;
@@ -83,7 +90,9 @@ class Character extends MovableObject {
 
     setInterval(() => {
       if (this.isDead()) {
-        this.playAnimation(this.DEAD_IMAGES);
+        if (!this.isDeadAnimationComplete) {
+          this.playAnimationOnce(this.DEAD_IMAGES);
+        }
       } else if (this.isHurt()) {
         this.playAnimation(this.HURT_IMAGES);
       } else if (this.isAboveGround()) {

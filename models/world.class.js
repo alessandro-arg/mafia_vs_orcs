@@ -6,6 +6,7 @@ class World {
   keyboard;
   camera_x = 0;
   statusBar = new Statusbar();
+  ammoBar = new Ammobar();
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -14,6 +15,7 @@ class World {
     this.draw();
     this.setWorld();
     this.checkCollisions();
+    this.checkCollisionsAmmo();
   }
 
   setWorld() {
@@ -31,6 +33,19 @@ class World {
     }, 500);
   }
 
+  checkCollisionsAmmo() {
+    setInterval(() => {
+      this.level.ammo = this.level.ammo.filter((ammo) => {
+        if (this.character.isColliding(ammo)) {
+          this.character.addAmmo();
+          this.ammoBar.setAmmunition(this.character.ammo);
+          return false;
+        }
+        return true;
+      });
+    }, 500);
+  }
+
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -42,6 +57,7 @@ class World {
 
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
+    this.addToMap(this.ammoBar);
     this.ctx.translate(this.camera_x, 0);
 
     this.addObjectsToMap(this.level.enemies);

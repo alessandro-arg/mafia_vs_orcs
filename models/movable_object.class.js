@@ -4,6 +4,7 @@ class MovableObject extends DrawableObject {
   speedY = 0;
   acceleration = 2.5;
   energy = 100;
+  ammo = 0;
   lastHit = 0;
 
   applyGravity() {
@@ -37,6 +38,13 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  addAmmo() {
+    this.ammo += 2;
+    if (this.ammo >= 8) {
+      this.ammo = 8;
+    }
+  }
+
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
@@ -52,6 +60,19 @@ class MovableObject extends DrawableObject {
     let path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;
+  }
+
+  playAnimationOnce(images) {
+    let i = this.currentImage % images.length;
+    let path = images[i];
+
+    if (i === images.length - 1) {
+      this.isDeadAnimationComplete = true;
+      this.img = this.imageCache[path];
+    } else {
+      this.img = this.imageCache[path];
+      this.currentImage++;
+    }
   }
 
   animate(time) {

@@ -25,7 +25,11 @@ class DrawableObject {
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Enemie) {
+    if (
+      this instanceof Character ||
+      this instanceof Enemie ||
+      this instanceof Ammo
+    ) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";
