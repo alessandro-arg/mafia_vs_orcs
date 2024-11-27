@@ -13,7 +13,7 @@ class Ammobar extends DrawableObject {
     super();
     this.loadImages(this.AMMO_IMAGES);
     this.x = 40;
-    this.y = 60;
+    this.y = 80;
     this.width = 47 * 5;
     this.height = 7 * 5;
     this.setAmmunition(0);
