@@ -43,7 +43,7 @@ class World {
         }
         return true;
       });
-    }, 500);
+    }, 100);
   }
 
   draw() {
