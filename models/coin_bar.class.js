@@ -1,10 +1,10 @@
 class Coinbar extends DrawableObject {
   COIN_IMAGES = [
-    "img/ammobar/empty_bar.png",
-    "img/ammobar/2_bullets.png",
-    "img/ammobar/4_bullets.png",
-    "img/ammobar/6_bullets.png",
-    "img/ammobar/8_bullets.png",
+    "img/healthbar/health_frame_1.png",
+    "img/healthbar/health_frame_2.png",
+    "img/healthbar/health_frame_3.png",
+    "img/healthbar/health_frame_4.png",
+    "img/healthbar/health_frame_5.png",
   ];
 
   coin = 0;

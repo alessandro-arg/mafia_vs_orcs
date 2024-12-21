@@ -40,9 +40,9 @@ class MovableObject extends DrawableObject {
   }
 
   addAmmo() {
-    this.ammo += 2;
-    if (this.ammo >= 8) {
-      this.ammo = 8;
+    this.ammo += 1;
+    if (this.ammo >= 5) {
+      this.ammo = 5;
     }
   }
 

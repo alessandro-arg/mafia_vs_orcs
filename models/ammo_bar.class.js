@@ -1,10 +1,11 @@
 class Ammobar extends DrawableObject {
   AMMO_IMAGES = [
-    "img/ammobar/empty_bar.png",
-    "img/ammobar/2_bullets.png",
-    "img/ammobar/4_bullets.png",
-    "img/ammobar/6_bullets.png",
-    "img/ammobar/8_bullets.png",
+    "img/ammobar/ammo_bar_frame_0.png",
+    "img/ammobar/ammo_bar_frame_1.png",
+    "img/ammobar/ammo_bar_frame_2.png",
+    "img/ammobar/ammo_bar_frame_3.png",
+    "img/ammobar/ammo_bar_frame_4.png",
+    "img/ammobar/ammo_bar_frame_5.png",
   ];
 
   ammunition = 0;
@@ -14,8 +15,8 @@ class Ammobar extends DrawableObject {
     this.loadImages(this.AMMO_IMAGES);
     this.x = 40;
     this.y = 80;
-    this.width = 47 * 5;
-    this.height = 7 * 5;
+    this.width = 3425 / 15;
+    this.height = 917 / 15;
     this.setAmmunition(0);
   }
 
@@ -28,14 +29,16 @@ class Ammobar extends DrawableObject {
   resolveImageIndex() {
     if (this.ammunition == 0) {
       return 0;
-    } else if (this.ammunition == 2) {
+    } else if (this.ammunition == 1) {
       return 1;
-    } else if (this.ammunition == 4) {
+    } else if (this.ammunition == 2) {
       return 2;
-    } else if (this.ammunition == 6) {
+    } else if (this.ammunition == 3) {
       return 3;
-    } else {
+    } else if (this.ammunition == 4) {
       return 4;
+    } else {
+      return 5;
     }
   }
 }
