@@ -1,10 +1,11 @@
 class Statusbar extends DrawableObject {
   HEALTH_IMAGES = [
-    "img/healthbar/health_frame_1.png",
-    "img/healthbar/health_frame_2.png",
-    "img/healthbar/health_frame_3.png",
-    "img/healthbar/health_frame_4.png",
-    "img/healthbar/health_frame_5.png",
+    "img/healthbar/healthbar_frame_1.png",
+    "img/healthbar/healthbar_frame_2.png",
+    "img/healthbar/healthbar_frame_3.png",
+    "img/healthbar/healthbar_frame_4.png",
+    "img/healthbar/healthbar_frame_5.png",
+    "img/healthbar/healthbar_frame_6.png",
   ];
 
   percentage = 100;
@@ -14,8 +15,8 @@ class Statusbar extends DrawableObject {
     this.loadImages(this.HEALTH_IMAGES);
     this.x = 50;
     this.y = 20;
-    this.width = 47 * 5;
-    this.height = 7 * 5;
+    this.width = 47 * 7;
+    this.height = 7 * 7;
     this.setPercentage(100);
   }
 
@@ -28,14 +29,16 @@ class Statusbar extends DrawableObject {
   resolveImageIndex() {
     if (this.percentage == 100) {
       return 0;
-    } else if (this.percentage >= 70) {
+    } else if (this.percentage >= 80) {
       return 1;
-    } else if (this.percentage >= 50) {
+    } else if (this.percentage >= 60) {
       return 2;
-    } else if (this.percentage >= 20) {
+    } else if (this.percentage >= 40) {
       return 3;
-    } else {
+    } else if (this.percentage >= 20) {
       return 4;
+    } else {
+      return 5;
     }
   }
 }
