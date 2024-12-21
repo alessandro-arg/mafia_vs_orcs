@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
   acceleration = 2.5;
   energy = 100;
   ammo = 0;
+  coin = 0;
   lastHit = 0;
 
   applyGravity() {
@@ -42,6 +43,13 @@ class MovableObject extends DrawableObject {
     this.ammo += 2;
     if (this.ammo >= 8) {
       this.ammo = 8;
+    }
+  }
+
+  addCoin() {
+    this.coin += 1;
+    if (this.coin >= 10) {
+      this.coin = 10;
     }
   }
 

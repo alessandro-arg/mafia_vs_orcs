@@ -7,6 +7,7 @@ class World {
   camera_x = 0;
   statusBar = new Statusbar();
   ammoBar = new Ammobar();
+  coinBar = new Coinbar();
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -16,6 +17,7 @@ class World {
     this.setWorld();
     this.checkCollisions();
     this.checkCollisionsAmmo();
+    this.checkCollisionsCoin();
   }
 
   setWorld() {
@@ -46,6 +48,19 @@ class World {
     }, 100);
   }
 
+  checkCollisionsCoin() {
+    setInterval(() => {
+      this.level.coin = this.level.coin.filter((coin) => {
+        if (this.character.isColliding(coin)) {
+          this.character.addCoin();
+          this.coinBar.setCoin(this.character.coin);
+          return false;
+        }
+        return true;
+      });
+    }, 100);
+  }
+
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -58,10 +73,12 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
     this.addToMap(this.ammoBar);
+    this.addToMap(this.coinBar);
     this.ctx.translate(this.camera_x, 0);
 
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.ammo);
+    this.addObjectsToMap(this.level.coin);
 
     this.ctx.translate(-this.camera_x, 0);
 
