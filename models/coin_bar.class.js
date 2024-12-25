@@ -1,10 +1,11 @@
 class Coinbar extends DrawableObject {
   COIN_IMAGES = [
-    "img/healthbar/healthbar_frame_1.png",
-    "img/healthbar/healthbar_frame_2.png",
-    "img/healthbar/healthbar_frame_3.png",
-    "img/healthbar/healthbar_frame_4.png",
-    "img/healthbar/healthbar_frame_5.png",
+    "img/coin_counter/coin_bar_0.png",
+    "img/coin_counter/coin_bar_1.png",
+    "img/coin_counter/coin_bar_2.png",
+    "img/coin_counter/coin_bar_3.png",
+    "img/coin_counter/coin_bar_4.png",
+    "img/coin_counter/coin_bar_5.png",
   ];
 
   coin = 0;
@@ -12,10 +13,10 @@ class Coinbar extends DrawableObject {
   constructor() {
     super();
     this.loadImages(this.COIN_IMAGES);
-    this.x = 40;
-    this.y = 140;
-    this.width = 47 * 5;
-    this.height = 7 * 5;
+    this.x = 20;
+    this.y = 180;
+    this.width = 3425 / 18;
+    this.height = 917 / 18;
     this.setCoin(0);
   }
 
@@ -34,8 +35,10 @@ class Coinbar extends DrawableObject {
       return 2;
     } else if (this.coin == 3) {
       return 3;
-    } else {
+    } else if (this.coin == 4) {
       return 4;
+    } else {
+      return 5;
     }
   }
 }
