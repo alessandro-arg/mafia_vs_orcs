@@ -8,6 +8,7 @@ class World {
   statusBar = new Statusbar();
   ammoBar = new Ammobar();
   coinBar = new Coinbar();
+  shootingBullet = [new ShootedBullet()];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -79,6 +80,7 @@ class World {
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.ammo);
     this.addObjectsToMap(this.level.coin);
+    this.addObjectsToMap(this.shootingBullet);
 
     this.ctx.translate(-this.camera_x, 0);
 

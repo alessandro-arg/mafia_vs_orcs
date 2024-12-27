@@ -32,6 +32,10 @@ document.addEventListener("keydown", (event) => {
   if (event.keyCode == 37) {
     keyboard.LEFT = true;
   }
+
+  if (event.keyCode == 70) {
+    keyboard.F = true;
+  }
 });
 
 document.addEventListener("keyup", (event) => {
@@ -53,5 +57,9 @@ document.addEventListener("keyup", (event) => {
 
   if (event.keyCode == 37) {
     keyboard.LEFT = false;
+  }
+
+  if (event.keyCode == 70) {
+    keyboard.F = false;
   }
 });
