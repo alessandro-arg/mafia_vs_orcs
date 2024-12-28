@@ -8,7 +8,7 @@ class World {
   statusBar = new Statusbar();
   ammoBar = new Ammobar();
   coinBar = new Coinbar();
-  shootingBullet = [new ShootedBullet()];
+  shootingBullet = [];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -19,6 +19,7 @@ class World {
     this.checkCollisions();
     this.checkCollisionsAmmo();
     this.checkCollisionsCoin();
+    this.checkShootingObject();
   }
 
   setWorld() {
@@ -34,6 +35,18 @@ class World {
         }
       });
     }, 500);
+  }
+
+  checkShootingObject() {
+    setInterval(() => {
+      if (this.keyboard.F) {
+        let bullet = new ShootedBullet(
+          this.character.x + 160,
+          this.character.y + 90
+        );
+        this.shootingBullet.push(bullet);
+      }
+    }, 200);
   }
 
   checkCollisionsAmmo() {

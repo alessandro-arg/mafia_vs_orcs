@@ -1,7 +1,18 @@
 class ShootedBullet extends MovableObject {
-  constructor() {
+  width = 66 / 2;
+  height = 25 / 2;
+
+  constructor(x, y) {
     super().loadImage("img/bullet/bullet.png");
-    this.x = 100;
-    this.y = 100;
+    this.x = x;
+    this.y = y;
+    this.shoot();
+  }
+
+  shoot() {
+    this.speedY = 30;
+    setInterval(() => {
+      this.x += 30;
+    }, 25);
   }
 }

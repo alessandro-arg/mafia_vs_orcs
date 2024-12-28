@@ -18,7 +18,11 @@ class MovableObject extends DrawableObject {
   }
 
   isAboveGround() {
-    return this.y < 450;
+    if (this instanceof ShootedBullet) {
+      return true;
+    } else {
+      return this.y < 450;
+    }
   }
 
   isColliding(object) {

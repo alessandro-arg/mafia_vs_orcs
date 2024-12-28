@@ -15,8 +15,8 @@ class Coinbar extends DrawableObject {
     this.loadImages(this.COIN_IMAGES);
     this.x = 20;
     this.y = 180;
-    this.width = 3425 / 18;
-    this.height = 917 / 18;
+    this.width = 3425 / 20;
+    this.height = 917 / 20;
     this.setCoin(0);
   }
 
