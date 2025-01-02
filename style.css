@@ -7,7 +7,7 @@
 body {
   background-image: url(./img/body_bg/body_bg.png);
   background-position: center;
-  font-family: digitalDisco;
+  font-family: digitalDisco, Arial, Helvetica, sans-serif;
   height: 100vh;
   padding: 0;
   margin: 0;
@@ -21,8 +21,35 @@ body {
 h1 {
   font-size: 60px;
   letter-spacing: 5px;
+  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
 canvas {
   background-color: black;
+}
+
+.instructions {
+  margin-top: 50px;
+  display: flex;
+  gap: 50px;
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.description img {
+  height: 21px;
+  width: 19px;
+}
+
+.description p {
+  font-size: 30px;
+}
+
+.spacebar {
+  width: 98px !important;
 }

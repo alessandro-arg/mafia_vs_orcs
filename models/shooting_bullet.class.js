@@ -1,6 +1,6 @@
 class ShootedBullet extends MovableObject {
-  width = 66 / 2;
-  height = 25 / 2;
+  width = 66 / 2.5;
+  height = 25 / 2.5;
 
   constructor(x, y) {
     super().loadImage("img/bullet/bullet.png");
