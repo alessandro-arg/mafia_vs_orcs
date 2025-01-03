@@ -26,6 +26,27 @@ h1 {
 
 canvas {
   background-color: black;
+  display: block;
+}
+
+@media only screen and (max-width: 1280px) {
+  canvas {
+    width: 100%;
+  }
+
+  .instructions {
+    display: none !important;
+  }
+
+  h1 {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 720px) {
+  canvas {
+    height: 100vh !important;
+  }
 }
 
 .instructions {
@@ -35,6 +56,7 @@ canvas {
 }
 
 .description {
+  min-width: 180px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -42,14 +64,14 @@ canvas {
 }
 
 .description img {
-  height: 21px;
-  width: 19px;
+  height: 90px;
+  width: 100px;
 }
 
 .description p {
-  font-size: 30px;
+  font-size: 35px;
 }
 
 .spacebar {
-  width: 98px !important;
+  width: 500px !important;
 }
