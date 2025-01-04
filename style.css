@@ -15,7 +15,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  cursor: url("img/cursor/cursor.png"), auto;
+  cursor: url("img/cursor/cursor_1.png"), auto;
 }
 
 h1 {
@@ -24,9 +24,74 @@ h1 {
   text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
+h2 {
+  font-size: 200px;
+  color: white;
+}
+
+h2:hover {
+  cursor: url("img/cursor/cursor_2.png"), auto;
+}
+
+.controls {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+
+.controls:hover {
+  cursor: url("img/cursor/cursor_2.png"), auto;
+}
+
+.controls:hover::after {
+  content: "Controls";
+  position: absolute;
+  top: 50%;
+  left: -230px;
+  transform: translateY(-50%);
+  background-color: rgba(20, 18, 18, 0.8);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 40px;
+  letter-spacing: 2px;
+  font-family: digitalDisco;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.controls img {
+  transition: transform 0.3s ease;
+  height: 80px;
+  width: 80px;
+}
+
+.controls:hover img {
+  transform: scale(1.1);
+}
+
 canvas {
   background-color: black;
   display: block;
+}
+
+#start_screen {
+  background-image: url(./img/start_screen/start_city.png);
+  opacity: 1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  margin-bottom: 100px;
+  height: 720px;
+  width: 1280px;
 }
 
 @media only screen and (max-width: 1280px) {
@@ -50,6 +115,7 @@ canvas {
 }
 
 .instructions {
+  opacity: 0;
   margin-top: 50px;
   display: flex;
   gap: 50px;

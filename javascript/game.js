@@ -12,6 +12,15 @@ function init() {
   console.log("My Coins are", level1.coin);
 }
 
+function showInstructions() {
+  let instructions = document.querySelector(".instructions");
+  if (instructions.style.opacity == 0) {
+    instructions.style.opacity = 1;
+  } else if ((instructions.style.opacity = 1)) {
+    instructions.style.opacity = 0;
+  }
+}
+
 document.addEventListener("keydown", (event) => {
   if (event.keyCode == 32) {
     keyboard.SPACE = true;
