@@ -7,6 +7,8 @@
 body {
   background-image: url(./img/body_bg/body_bg.png);
   background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   font-family: digitalDisco, Arial, Helvetica, sans-serif;
   height: 100vh;
   padding: 0;
@@ -25,12 +27,23 @@ h1 {
 }
 
 h2 {
+  margin: 0;
   font-size: 200px;
   color: white;
+  letter-spacing: 10px;
 }
 
 h2:hover {
   cursor: url("img/cursor/cursor_2.png"), auto;
+}
+
+.start_game {
+  background-color: rgba(0, 0, 0, 0.589);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 30px;
+  margin: 0;
 }
 
 .controls {
@@ -39,6 +52,17 @@ h2:hover {
   position: absolute;
   top: 30px;
   right: 30px;
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 .controls:hover {
