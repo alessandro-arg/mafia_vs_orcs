@@ -5,11 +5,6 @@ let keyboard = new Keyboard();
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
-
-  console.log("My Character is", world.character);
-  console.log("My Enemies are", level1.enemies);
-  console.log("My Ammo are", level1.ammo);
-  console.log("My Coins are", level1.coin);
 }
 
 function showInstructions() {

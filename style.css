@@ -26,24 +26,34 @@ h1 {
   text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
-h2 {
+.start_game_btn {
   margin: 0;
-  font-size: 200px;
-  color: white;
-  letter-spacing: 10px;
-}
-
-h2:hover {
-  cursor: url("img/cursor/cursor_2.png"), auto;
-}
-
-.start_game {
+  border: 2px solid rgba(255, 255, 255, 0.397);
   background-color: rgba(0, 0, 0, 0.589);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 30px;
-  margin: 0;
+  border-radius: 20px;
+  box-shadow: 0px 25px 80px rgba(0, 0, 0, 0.5);
+}
+
+.start_game_btn p {
+  font-family: digitalDisco, Arial, Helvetica, sans-serif;
+  font-size: 200px;
+  color: rgba(255, 255, 255, 0.719);
+  letter-spacing: 10px;
+  margin: 15px 0 0 0;
+}
+
+.start_game_btn:hover {
+  cursor: url("img/cursor/cursor_2.png"), auto;
+  background-color: rgba(0, 0, 0, 0.801);
+  border-color: rgba(255, 255, 255, 0.774);
+
+  p {
+    color: rgb(255, 255, 255);
+  }
 }
 
 .controls {
@@ -52,6 +62,15 @@ h2:hover {
   position: absolute;
   top: 30px;
   right: 30px;
+  animation: float 2s ease-in-out infinite;
+}
+
+.howto {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 30px;
+  left: 30px;
   animation: float 2s ease-in-out infinite;
 }
 
@@ -66,6 +85,10 @@ h2:hover {
 }
 
 .controls:hover {
+  cursor: url("img/cursor/cursor_2.png"), auto;
+}
+
+.howto:hover {
   cursor: url("img/cursor/cursor_2.png"), auto;
 }
 
@@ -88,13 +111,42 @@ h2:hover {
   pointer-events: none;
 }
 
+.howto:hover::after {
+  content: "How to play";
+  position: absolute;
+  top: 50%;
+  right: -300px;
+  transform: translateY(-50%);
+  background-color: rgba(20, 18, 18, 0.8);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 40px;
+  letter-spacing: 2px;
+  font-family: digitalDisco;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  opacity: 1;
+  pointer-events: none;
+}
+
 .controls img {
   transition: transform 0.3s ease;
   height: 80px;
   width: 80px;
 }
 
+.howto img {
+  transition: transform 0.3s ease;
+  height: 80px;
+  width: 80px;
+}
+
 .controls:hover img {
+  transform: scale(1.1);
+}
+
+.howto:hover img {
   transform: scale(1.1);
 }
 
@@ -123,6 +175,10 @@ canvas {
     width: 100%;
   }
 
+  #start_screen {
+    width: 100%;
+  }
+
   .instructions {
     display: none !important;
   }
@@ -134,6 +190,10 @@ canvas {
 
 @media only screen and (max-height: 720px) {
   canvas {
+    height: 100vh !important;
+  }
+
+  #start_screen {
     height: 100vh !important;
   }
 }
