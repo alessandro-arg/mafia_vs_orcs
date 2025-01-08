@@ -3,17 +3,29 @@ let world;
 let keyboard = new Keyboard();
 
 function init() {
-  let howtoContainer = document.querySelector(".howto_container");
-  let copyrightContainer = document.querySelector(".copyright_container");
-  let instructions = document.querySelector(".instructions");
-
-  howtoContainer.style.display = "none";
-  copyrightContainer.style.display = "none";
-  instructions.style.opacity = "0";
-
+  let startScreen = document.getElementById("start_screen");
   canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard);
+  let instructions = document.querySelector(".instructions");
+  instructions.style.opacity = "0";
+  startScreen.classList.add("darken");
+
+  setTimeout(function () {
+    startScreen.style.opacity = "0";
+    startScreen.style.visibility = "hidden";
+    canvas.style.opacity = "1";
+
+    setTimeout(function () {
+      startScreen.style.display = "none";
+      initLevel();
+      world = new World(canvas, keyboard);
+    }, 1500);
+  }, 50);
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const startButton = document.querySelector(".start_game_btn");
+  startButton.addEventListener("click", init);
+});
 
 function showInstructions() {
   let instructions = document.querySelector(".instructions");

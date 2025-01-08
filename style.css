@@ -251,8 +251,13 @@ h1 {
 }
 
 canvas {
+  transition: opacity 3s ease-in-out;
   background-color: black;
   display: block;
+}
+
+.darken {
+  background-color: rgba(0, 0, 0, 1);
 }
 
 #start_screen {
@@ -268,6 +273,9 @@ canvas {
   margin-bottom: 100px;
   height: 720px;
   width: 1280px;
+  transition: opacity 1s ease-in-out, visibility 0s 2s;
+  background-color: rgba(0, 0, 0, 0);
+  visibility: visible;
 }
 
 @media only screen and (max-width: 1280px) {
