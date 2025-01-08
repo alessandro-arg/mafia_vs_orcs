@@ -49,19 +49,67 @@
     <script src="./levels/level1.js"></script>
     <script src="javascript/game.js"></script>
   </head>
-  <body onload="init()">
+  <body>
     <h1>Mafia vs. Monsters</h1>
     <canvas id="canvas" width="1280" height="720"> </canvas>
     <div id="start_screen">
       <div class="start_game">
-        <button class="start_game_btn"><p>START GAME</p></button>
+        <button class="start_game_btn" onclick="init()">
+          <p>START GAME</p>
+        </button>
       </div>
       <button class="controls" onclick="showInstructions()">
-        <img src="img/start_screen/help.png" alt="Controls" />
+        <img src="img/start_screen/controller.png" alt="Controls" />
       </button>
-      <button class="howto" onclick="showInstructions()">
+      <button class="howto" onclick="showHowTo()">
         <img src="img/start_screen/help.png" alt="How to play" />
       </button>
+      <div class="howto_container">
+        <div class="howto_content">
+          <img
+            src="img/start_screen/x_button.png"
+            alt="close"
+            class="close_button"
+            onclick="showHowTo()"
+          />
+          <p>The goal of the game is to defeat the boss at the end.</p>
+          <p>
+            Get the coins on your path (optional) and collect all the ammo. You
+            will need to save the ammo for the final boss, if you miss any or
+            shoot randomly, you won't have the chance to kill the boss and
+            you'll lose.
+          </p>
+          <p>Now go shoot that creepy thing!</p>
+        </div>
+      </div>
+      <button class="copyright" onclick="showCopyright()">
+        <p>Copyright ©</p>
+      </button>
+      <div class="copyright_container">
+        <div class="copyright_content">
+          <img
+            src="img/start_screen/x_button.png"
+            alt="close"
+            class="close_button"
+            onclick="showCopyright()"
+          />
+          <div>
+            <h5>Impressum</h5>
+            <p>
+              Alessandro Argenziano<br />
+              Kirchstrasse 2<br />
+              79801 Hohentengen
+            </p>
+          </div>
+          <div>
+            <h5>Contact</h5>
+            <p>
+              Phone: +49 (0)160 92965227<br />
+              E-Mail: alessandro_argenziano@gmail.com
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="instructions">
       <div class="description">
