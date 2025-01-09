@@ -23,7 +23,8 @@ function init() {
       canvas.style.opacity = 1;
       initLevel();
       world = new World(canvas, keyboard);
-      updateInGameButtonsVisibility();
+      let inGameButtons = document.querySelector(".in_game_buttons");
+      inGameButtons.classList.add("visible");
     }, 1000);
   }, 50);
 }
@@ -117,7 +118,6 @@ function restartGame() {
     setTimeout(function () {
       canvasElement.style.visibility = "visible";
       canvasElement.style.opacity = 1;
-      updateInGameButtonsVisibility();
     }, 1500);
   }, 50);
 }
@@ -143,10 +143,6 @@ function returnMenu() {
   endScreen.style.visibility = "hidden";
   endScreen.style.opacity = 0;
   canvasElement.style.opacity = 0;
-
-  setTimeout(function () {
-    updateInGameButtonsVisibility();
-  }, 300);
 }
 
 function updateInGameButtonsVisibility() {

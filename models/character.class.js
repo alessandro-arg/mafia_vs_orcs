@@ -99,7 +99,6 @@ class Character extends MovableObject {
             endScreen.style.visibility = "visible";
             endScreen.style.opacity = 1;
             this.isDeadAnimationComplete = true;
-            updateInGameButtonsVisibility();
           }, 1000);
         }
       } else if (this.isHurt()) {
