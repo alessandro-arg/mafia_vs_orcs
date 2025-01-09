@@ -182,7 +182,8 @@ h1 {
 .controls:hover,
 .howto:hover,
 .copyright:hover,
-.close_button:hover {
+.close_button:hover,
+.endscreen_buttons:hover button {
   cursor: url("img/cursor/cursor_2.png"), auto;
 }
 
@@ -281,7 +282,7 @@ canvas {
 #end_screen {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.95);
-  opacity: 0;
+  opacity: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -290,17 +291,16 @@ canvas {
   margin-bottom: 100px;
   height: 720px;
   width: 1280px;
-  visibility: hidden;
+  /* visibility: hidden; */
   transition: opacity 1s ease;
 }
 
-#end_screen img {
+.game_over {
   height: 350px;
 }
 
 #end_screen button {
-  border: 2px solid;
-  font-size: 50px;
+  border: none;
   background-color: transparent;
   color: white;
 }
@@ -309,6 +309,18 @@ canvas {
   display: flex;
   gap: 100px;
   justify-content: space-between;
+}
+
+.endscreen_buttons button {
+  transition: transform 0.3s ease;
+}
+
+.endscreen_buttons button:hover {
+  transform: scale(1.05);
+}
+
+.endscreen_buttons img {
+  height: 60px;
 }
 
 @media only screen and (max-width: 1280px) {
