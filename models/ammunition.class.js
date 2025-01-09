@@ -15,7 +15,8 @@ class Ammo extends MovableObject {
   constructor() {
     super().loadImage("img/ammo/ammo_frame_1.png");
     this.loadImages(this.AMMO_IMAGES);
-    this.x = 250 + Math.random() * 3000;
+    this.x = 1000 + Math.random() * 2000;
+    this.y = 500 + Math.random() * -300;
     this.animate();
   }
 

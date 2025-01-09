@@ -15,7 +15,7 @@ class Enemie extends MovableObject {
   constructor() {
     super().loadImage("img/enemie/enemy_type_1/enemy1_run_frame_7.png");
     this.loadImages(this.ENEMIES_IMAGES);
-    this.x = 250 + Math.random() * 2500;
+    this.x = 1000 + Math.random() * 2500;
     this.speed = 0.5 + Math.random() * 1;
     this.animate();
   }
