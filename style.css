@@ -183,7 +183,8 @@ h1 {
 .howto:hover,
 .copyright:hover,
 .close_button:hover,
-.endscreen_buttons:hover button {
+.endscreen_buttons:hover button,
+.endscreen_social:hover a {
   cursor: url("img/cursor/cursor_2.png"), auto;
 }
 
@@ -321,6 +322,26 @@ canvas {
 
 .endscreen_buttons img {
   height: 60px;
+}
+
+.endscreen_social {
+  position: absolute;
+  gap: 15px;
+  left: 30px;
+  top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.endscreen_social img {
+  transition: transform 0.3s ease;
+  height: 50px;
+}
+
+.endscreen_social img:hover {
+  transform: scale(1.05);
 }
 
 @media only screen and (max-width: 1280px) {
