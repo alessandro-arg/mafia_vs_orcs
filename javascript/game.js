@@ -1,24 +1,30 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let activeIntervals = [];
 
 function init() {
   let startScreen = document.getElementById("start_screen");
+  let endScreen = document.getElementById("end_screen");
   canvas = document.getElementById("canvas");
   let instructions = document.querySelector(".instructions");
-  instructions.style.opacity = "0";
+
+  instructions.style.opacity = 0;
   startScreen.classList.add("darken");
+  canvas.style.opacity = 0;
 
   setTimeout(function () {
-    startScreen.style.opacity = "0";
+    startScreen.style.opacity = 0;
     startScreen.style.visibility = "hidden";
-    canvas.style.opacity = "1";
+    endScreen.style.opacity = 0;
+    endScreen.style.visibility = "hidden";
 
     setTimeout(function () {
-      startScreen.style.display = "none";
+      canvas.style.opacity = 1;
       initLevel();
       world = new World(canvas, keyboard);
-    }, 1500);
+      updateInGameButtonsVisibility();
+    }, 1000);
   }, 50);
 }
 
@@ -84,6 +90,77 @@ function closeIfClickOutside(event) {
   ) {
     copyrightContainer.style.display = "none";
     document.removeEventListener("click", closeIfClickOutside);
+  }
+}
+
+function restartGame() {
+  clearAllIntervals();
+  const startScreen = document.getElementById("start_screen");
+  const endScreen = document.getElementById("end_screen");
+  const canvasElement = document.getElementById("canvas");
+  startScreen.style.visibility = "hidden";
+  startScreen.style.opacity = 0;
+  startScreen.classList.remove("darken");
+  endScreen.style.visibility = "hidden";
+  endScreen.style.opacity = 0;
+  canvasElement.style.transition = "none";
+  canvasElement.style.visibility = "hidden";
+  canvasElement.style.opacity = 0;
+  const context = canvasElement.getContext("2d");
+  context.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+  setTimeout(function () {
+    initLevel();
+    init();
+    canvasElement.style.transition = "opacity 2s ease-in-out";
+
+    setTimeout(function () {
+      canvasElement.style.visibility = "visible";
+      canvasElement.style.opacity = 1;
+      updateInGameButtonsVisibility();
+    }, 1500);
+  }, 50);
+}
+
+function setIntervalAndTrack(callback, delay) {
+  const interval = setInterval(callback, delay);
+  activeIntervals.push(interval);
+  return interval;
+}
+
+function clearAllIntervals() {
+  activeIntervals.forEach(clearInterval);
+  activeIntervals = [];
+}
+
+function returnMenu() {
+  clearAllIntervals();
+  const startScreen = document.getElementById("start_screen");
+  const endScreen = document.getElementById("end_screen");
+  const canvasElement = document.getElementById("canvas");
+  startScreen.style.visibility = "visible";
+  startScreen.style.opacity = 1;
+  endScreen.style.visibility = "hidden";
+  endScreen.style.opacity = 0;
+  canvasElement.style.opacity = 0;
+
+  setTimeout(function () {
+    updateInGameButtonsVisibility();
+  }, 300);
+}
+
+function updateInGameButtonsVisibility() {
+  const startScreen = document.getElementById("start_screen");
+  const endScreen = document.getElementById("end_screen");
+  const inGameButtons = document.querySelector(".in_game_buttons");
+
+  if (
+    startScreen.style.visibility === "hidden" &&
+    endScreen.style.visibility === "hidden"
+  ) {
+    inGameButtons.classList.add("visible");
+  } else {
+    inGameButtons.classList.remove("visible");
   }
 }
 

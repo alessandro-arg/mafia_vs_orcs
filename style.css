@@ -26,24 +26,27 @@ h1 {
   text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
+.start_game {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 .start_game_btn {
+  width: 90%;
+  border: none;
   margin: 0;
-  border: 2px solid rgba(255, 255, 255, 0.397);
   background-color: rgba(0, 0, 0, 0.589);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 30px;
+  padding: 20px 30px;
   border-radius: 20px;
   box-shadow: 0px 25px 80px rgba(0, 0, 0, 0.5);
 }
 
-.start_game_btn p {
-  font-family: digitalDisco, Arial, Helvetica, sans-serif;
-  font-size: 150px;
-  color: rgba(255, 255, 255, 0.719);
-  letter-spacing: 10px;
-  margin: 15px 0 0 0;
+.start_game_btn img {
+  width: 100%;
 }
 
 .start_game_btn:hover {
@@ -54,6 +57,33 @@ h1 {
   p {
     color: rgb(255, 255, 255);
   }
+}
+
+.in_game_buttons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.in_game_buttons.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.in_game_buttons button {
+  background-color: transparent;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.in_game_buttons img {
+  height: 60px;
 }
 
 .controls {
@@ -184,7 +214,8 @@ h1 {
 .copyright:hover,
 .close_button:hover,
 .endscreen_buttons:hover button,
-.endscreen_social:hover a {
+.endscreen_social:hover a,
+.in_game_buttons:hover button {
   cursor: url("img/cursor/cursor_2.png"), auto;
 }
 
@@ -292,8 +323,8 @@ canvas {
   margin-bottom: 100px;
   height: 720px;
   width: 1280px;
-  /* visibility: hidden; */
-  transition: opacity 1s ease;
+  visibility: hidden;
+  transition: opacity 2s ease-in-out;
 }
 
 .game_over {
@@ -308,15 +339,46 @@ canvas {
 
 .endscreen_buttons {
   display: flex;
-  gap: 100px;
+  gap: 150px;
   justify-content: space-between;
 }
 
 .endscreen_buttons button {
+  position: relative;
+  border: none;
+  background-color: transparent;
+  color: white;
   transition: transform 0.3s ease;
 }
 
-.endscreen_buttons button:hover {
+.endscreen_buttons button img.arrow {
+  position: absolute;
+  left: -60px;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  height: 40px;
+  animation: pulse 1s infinite ease-in-out;
+}
+
+.endscreen_buttons button:hover img.arrow {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: translateY(-50%) scale(0.9);
+  }
+  50% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.endscreen_buttons button:hover,
+.in_game_buttons button:hover {
   transform: scale(1.05);
 }
 

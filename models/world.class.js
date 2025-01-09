@@ -9,18 +9,13 @@ class World {
   ammoBar = new Ammobar();
   coinBar = new Coinbar();
   shootingBullet = [];
-  fullscreenIcon = new Image();
-  fullscreenIconPosition = { x: 0, y: 0, width: 50, height: 50 };
-  isFullscreen = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-    this.fullscreenIcon.src = "./img/fullscreen/fullscreen_icon.png";
     this.setWorld();
     this.draw();
-    this.addEventListeners();
     this.checkCollisions();
     this.checkCollisionsAmmo();
     this.checkCollisionsCoin();
@@ -102,18 +97,6 @@ class World {
 
     this.ctx.translate(-this.camera_x, 0);
 
-    if (!this.isFullscreen) {
-      this.fullscreenIconPosition.x = this.canvas.width - 60;
-      this.fullscreenIconPosition.y = this.canvas.height - 60;
-      this.ctx.drawImage(
-        this.fullscreenIcon,
-        this.fullscreenIconPosition.x,
-        this.fullscreenIconPosition.y,
-        this.fullscreenIconPosition.width,
-        this.fullscreenIconPosition.height
-      );
-    }
-
     self = this;
     requestAnimationFrame(function () {
       self.draw();
@@ -148,38 +131,5 @@ class World {
   resetFlipImage(movableObject) {
     movableObject.x = movableObject.x * -1;
     this.ctx.restore();
-  }
-
-  addEventListeners() {
-    this.canvas.addEventListener("click", (event) => {
-      const rect = this.canvas.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-
-      const { x: fx, y: fy, width, height } = this.fullscreenIconPosition;
-      if (
-        !this.isFullscreen &&
-        x >= fx &&
-        x <= fx + width &&
-        y >= fy &&
-        y <= fy + height
-      ) {
-        this.requestFullscreen();
-      }
-    });
-
-    document.addEventListener("fullscreenchange", () => {
-      this.isFullscreen = !!document.fullscreenElement;
-    });
-  }
-
-  requestFullscreen() {
-    if (this.canvas.requestFullscreen) {
-      this.canvas.requestFullscreen();
-    } else if (this.canvas.webkitRequestFullscreen) {
-      this.canvas.webkitRequestFullscreen();
-    } else if (this.canvas.msRequestFullscreen) {
-      this.canvas.msRequestFullscreen();
-    }
   }
 }

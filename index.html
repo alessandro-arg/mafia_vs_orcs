@@ -51,11 +51,19 @@
   </head>
   <body>
     <h1>Mafia vs. Orcs</h1>
-    <canvas id="canvas" width="1280" height="720"> </canvas>
+    <div style="position: relative">
+      <canvas id="canvas" width="1280" height="720"> </canvas>
+      <div class="in_game_buttons">
+        <button><img src="img/in_game_buttons/fullscreen.png" alt="" /></button>
+        <button><img src="img/in_game_buttons/loud.png" alt="" /></button>
+        <button><img src="img/in_game_buttons/restart.png" alt="" /></button>
+        <button><img src="img/in_game_buttons/exit.png" alt="" /></button>
+      </div>
+    </div>
     <div id="start_screen">
       <div class="start_game">
         <button class="start_game_btn">
-          <p>START GAME</p>
+          <img src="img/start_screen/start_game.png" alt="Start Game" />
         </button>
       </div>
       <button class="controls" onclick="showInstructions()">
@@ -131,8 +139,20 @@
         /></a>
       </div>
       <div class="endscreen_buttons">
-        <button><img src="img/end_screen/retro_restart.png" alt="" /></button>
-        <button><img src="img/end_screen/retro_main_menu.png" alt="" /></button>
+        <button onclick="restartGame()">
+          <img
+            src="img/end_screen/arrow_right.png"
+            class="arrow"
+            alt="Arrow"
+          /><img src="img/end_screen/retro_restart.png" alt="" />
+        </button>
+        <button onclick="returnMenu()">
+          <img
+            src="img/end_screen/arrow_right.png"
+            class="arrow"
+            alt="Arrow"
+          /><img src="img/end_screen/retro_main_menu.png" alt="" />
+        </button>
       </div>
     </div>
     <div class="instructions">

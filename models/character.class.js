@@ -90,14 +90,17 @@ class Character extends MovableObject {
 
     setInterval(() => {
       if (this.isDead()) {
+        const inGameButtons = document.querySelector(".in_game_buttons");
+        const endScreen = document.getElementById("end_screen");
+        inGameButtons.classList.remove("visible");
         if (!this.isDeadAnimationComplete) {
           this.playAnimationOnce(this.DEAD_IMAGES);
           setTimeout(() => {
-            const endScreen = document.getElementById("end_screen");
             endScreen.style.visibility = "visible";
-            endScreen.style.opacity = "1";
+            endScreen.style.opacity = 1;
             this.isDeadAnimationComplete = true;
-          }, 700);
+            updateInGameButtonsVisibility();
+          }, 1000);
         }
       } else if (this.isHurt()) {
         this.playAnimation(this.HURT_IMAGES);
