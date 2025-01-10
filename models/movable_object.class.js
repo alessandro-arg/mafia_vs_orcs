@@ -7,6 +7,12 @@ class MovableObject extends DrawableObject {
   ammo = 0;
   coin = 0;
   lastHit = 0;
+  offset = {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  };
 
   applyGravity() {
     setInterval(() => {
@@ -27,10 +33,12 @@ class MovableObject extends DrawableObject {
 
   isColliding(object) {
     return (
-      this.x + this.width > object.x &&
-      this.x < object.x &&
-      this.y + this.height > object.y &&
-      this.y < object.y + object.height
+      this.x + this.width - this.offset.right > object.x + object.offset.left &&
+      this.y + this.height - this.offset.bottom >
+        object.y + object.offset.top &&
+      this.x + this.offset.left <
+        object.x + object.width - object.offset.right &&
+      this.y + this.offset.top < object.y + object.height - object.offset.bottom
     );
   }
 
@@ -59,7 +67,7 @@ class MovableObject extends DrawableObject {
 
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
-    timepassed = timepassed / 100;
+    timepassed = timepassed / 1000;
     return timepassed < 0.5;
   }
 

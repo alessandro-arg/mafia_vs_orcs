@@ -5,11 +5,13 @@ let activeIntervals = [];
 
 function init() {
   let startScreen = document.getElementById("start_screen");
+  let startButton = document.querySelector(".start_game_btn");
   let endScreen = document.getElementById("end_screen");
   let canvas = document.getElementById("canvas");
   let inGameButtons = document.querySelector(".in_game_buttons");
   let instructions = document.querySelector(".instructions");
 
+  startButton.disabled = true;
   startScreen.style.transition = "opacity 1s ease-in-out, visibility 0s 2s";
   startScreen.style.opacity = 0;
   canvas.style.transition = "opacity 1s ease-in-out";
@@ -26,15 +28,20 @@ function init() {
       initLevel();
       world = new World(canvas, keyboard);
       inGameButtons.classList.add("visible");
+
+      setTimeout(function () {
+        enableInGameButtons();
+      }, 1500);
     }, 800);
   }, 150);
 }
 
 function restartGame() {
+  disableInGameButtons();
   clearAllIntervals();
-  const startScreen = document.getElementById("start_screen");
-  const endScreen = document.getElementById("end_screen");
-  const canvasElement = document.getElementById("canvas");
+  let startScreen = document.getElementById("start_screen");
+  let endScreen = document.getElementById("end_screen");
+  let canvasElement = document.getElementById("canvas");
 
   startScreen.style.visibility = "hidden";
   startScreen.style.opacity = 0;
@@ -57,12 +64,16 @@ function restartGame() {
 }
 
 function returnMenu() {
+  exitFullscreen();
+  disableInGameButtons();
   clearAllIntervals();
-  const startScreen = document.getElementById("start_screen");
-  const endScreen = document.getElementById("end_screen");
-  const canvasElement = document.getElementById("canvas");
-  const inGameButtons = document.querySelector(".in_game_buttons");
+  let startScreen = document.getElementById("start_screen");
+  let endScreen = document.getElementById("end_screen");
+  let canvasElement = document.getElementById("canvas");
+  let inGameButtons = document.querySelector(".in_game_buttons");
+  let startButton = document.querySelector(".start_game_btn");
 
+  startButton.disabled = false;
   startScreen.style.visibility = "visible";
   startScreen.style.opacity = 1;
   startScreen.style.transition = "opacity 1.5s ease-in-out";
@@ -81,6 +92,17 @@ function returnMenu() {
   window.world = null;
 }
 
+function enterFullscreen() {
+  let canvas = document.querySelector("canvas");
+  canvas.requestFullscreen();
+}
+
+function exitFullscreen() {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  }
+}
+
 function setIntervalAndTrack(callback, delay) {
   const interval = setInterval(callback, delay);
   activeIntervals.push(interval);
@@ -90,6 +112,24 @@ function setIntervalAndTrack(callback, delay) {
 function clearAllIntervals() {
   activeIntervals.forEach(clearInterval);
   activeIntervals = [];
+}
+
+function disableInGameButtons() {
+  const div = document.querySelector(".in_game_buttons");
+  const buttons = div.querySelectorAll("button");
+
+  buttons.forEach((button) => {
+    button.disabled = true;
+  });
+}
+
+function enableInGameButtons() {
+  const div = document.querySelector(".in_game_buttons");
+  const buttons = div.querySelectorAll("button");
+
+  buttons.forEach((button) => {
+    button.disabled = false;
+  });
 }
 
 function showInstructions() {

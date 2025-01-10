@@ -43,18 +43,6 @@ class World {
     }, 500);
   }
 
-  checkShootingObject() {
-    setInterval(() => {
-      if (this.keyboard.F) {
-        let bullet = new ShootedBullet(
-          this.character.x + 160,
-          this.character.y + 90
-        );
-        this.shootingBullet.push(bullet);
-      }
-    }, 100);
-  }
-
   checkCollisionsAmmo() {
     setInterval(() => {
       this.level.ammo = this.level.ammo.filter((ammo) => {
@@ -78,6 +66,18 @@ class World {
         }
         return true;
       });
+    }, 100);
+  }
+
+  checkShootingObject() {
+    setInterval(() => {
+      if (this.keyboard.F) {
+        let bullet = new ShootedBullet(
+          this.character.x + 160,
+          this.character.y + 90
+        );
+        this.shootingBullet.push(bullet);
+      }
     }, 100);
   }
 

@@ -113,6 +113,7 @@ class Character extends MovableObject {
       character.playAnimationOnce(character.DEAD_IMAGES);
 
       setTimeout(() => {
+        document.exitFullscreen();
         endScreen.style.visibility = "visible";
         endScreen.style.opacity = 1;
         character.isDeadAnimationComplete = true;
