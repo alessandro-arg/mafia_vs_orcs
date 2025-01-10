@@ -6,33 +6,91 @@ let activeIntervals = [];
 function init() {
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
-  canvas = document.getElementById("canvas");
+  let canvas = document.getElementById("canvas");
+  let inGameButtons = document.querySelector(".in_game_buttons");
   let instructions = document.querySelector(".instructions");
 
-  instructions.style.opacity = 0;
-  startScreen.classList.add("darken");
-  canvas.style.opacity = 0;
+  startScreen.style.transition = "opacity 1s ease-in-out, visibility 0s 2s";
+  startScreen.style.opacity = 0;
+  canvas.style.transition = "opacity 1s ease-in-out";
 
   setTimeout(function () {
-    startScreen.style.opacity = 0;
     startScreen.style.visibility = "hidden";
+    endScreen.style.transition = "opacity 1.5s ease-in-out";
     endScreen.style.opacity = 0;
     endScreen.style.visibility = "hidden";
+    instructions.style.opacity = 0;
 
     setTimeout(function () {
       canvas.style.opacity = 1;
       initLevel();
       world = new World(canvas, keyboard);
-      let inGameButtons = document.querySelector(".in_game_buttons");
       inGameButtons.classList.add("visible");
-    }, 1000);
-  }, 50);
+    }, 800);
+  }, 150);
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  const startButton = document.querySelector(".start_game_btn");
-  startButton.addEventListener("click", init);
-});
+function restartGame() {
+  clearAllIntervals();
+  const startScreen = document.getElementById("start_screen");
+  const endScreen = document.getElementById("end_screen");
+  const canvasElement = document.getElementById("canvas");
+
+  startScreen.style.visibility = "hidden";
+  startScreen.style.opacity = 0;
+  endScreen.style.visibility = "hidden";
+  endScreen.style.opacity = 0;
+  canvasElement.style.transition = "opacity 2s ease-in-out";
+  canvasElement.style.opacity = 0;
+
+  const context = canvasElement.getContext("2d");
+  context.clearRect(0, 0, canvasElement.width, canvasElement.height);
+  initLevel();
+
+  setTimeout(function () {
+    init();
+
+    setTimeout(function () {
+      canvasElement.style.opacity = 1;
+    }, 2000);
+  }, 400);
+}
+
+function returnMenu() {
+  clearAllIntervals();
+  const startScreen = document.getElementById("start_screen");
+  const endScreen = document.getElementById("end_screen");
+  const canvasElement = document.getElementById("canvas");
+  const inGameButtons = document.querySelector(".in_game_buttons");
+
+  startScreen.style.visibility = "visible";
+  startScreen.style.opacity = 1;
+  startScreen.style.transition = "opacity 1.5s ease-in-out";
+  endScreen.style.visibility = "hidden";
+  endScreen.style.opacity = 0;
+  canvasElement.style.opacity = 0;
+  inGameButtons.classList.remove("visible");
+
+  const context = canvasElement.getContext("2d");
+  context.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+  if (window.world) {
+    world.stopGame();
+  }
+
+  window.world = null;
+}
+
+function setIntervalAndTrack(callback, delay) {
+  const interval = setInterval(callback, delay);
+  activeIntervals.push(interval);
+  return interval;
+}
+
+function clearAllIntervals() {
+  activeIntervals.forEach(clearInterval);
+  activeIntervals = [];
+}
 
 function showInstructions() {
   let instructions = document.querySelector(".instructions");
@@ -91,72 +149,6 @@ function closeIfClickOutside(event) {
   ) {
     copyrightContainer.style.display = "none";
     document.removeEventListener("click", closeIfClickOutside);
-  }
-}
-
-function restartGame() {
-  clearAllIntervals();
-  const startScreen = document.getElementById("start_screen");
-  const endScreen = document.getElementById("end_screen");
-  const canvasElement = document.getElementById("canvas");
-  startScreen.style.visibility = "hidden";
-  startScreen.style.opacity = 0;
-  startScreen.classList.remove("darken");
-  endScreen.style.visibility = "hidden";
-  endScreen.style.opacity = 0;
-  canvasElement.style.transition = "none";
-  canvasElement.style.visibility = "hidden";
-  canvasElement.style.opacity = 0;
-  const context = canvasElement.getContext("2d");
-  context.clearRect(0, 0, canvasElement.width, canvasElement.height);
-
-  setTimeout(function () {
-    initLevel();
-    init();
-    canvasElement.style.transition = "opacity 2s ease-in-out";
-
-    setTimeout(function () {
-      canvasElement.style.visibility = "visible";
-      canvasElement.style.opacity = 1;
-    }, 1500);
-  }, 50);
-}
-
-function setIntervalAndTrack(callback, delay) {
-  const interval = setInterval(callback, delay);
-  activeIntervals.push(interval);
-  return interval;
-}
-
-function clearAllIntervals() {
-  activeIntervals.forEach(clearInterval);
-  activeIntervals = [];
-}
-
-function returnMenu() {
-  clearAllIntervals();
-  const startScreen = document.getElementById("start_screen");
-  const endScreen = document.getElementById("end_screen");
-  const canvasElement = document.getElementById("canvas");
-  startScreen.style.visibility = "visible";
-  startScreen.style.opacity = 1;
-  endScreen.style.visibility = "hidden";
-  endScreen.style.opacity = 0;
-  canvasElement.style.opacity = 0;
-}
-
-function updateInGameButtonsVisibility() {
-  const startScreen = document.getElementById("start_screen");
-  const endScreen = document.getElementById("end_screen");
-  const inGameButtons = document.querySelector(".in_game_buttons");
-
-  if (
-    startScreen.style.visibility === "hidden" &&
-    endScreen.style.visibility === "hidden"
-  ) {
-    inGameButtons.classList.add("visible");
-  } else {
-    inGameButtons.classList.remove("visible");
   }
 }
 

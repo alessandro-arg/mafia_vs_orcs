@@ -9,6 +9,7 @@ class World {
   ammoBar = new Ammobar();
   coinBar = new Coinbar();
   shootingBullet = [];
+  animationFrameId = null;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -24,6 +25,11 @@ class World {
 
   setWorld() {
     this.character.world = this;
+  }
+
+  stopGame() {
+    cancelAnimationFrame(this.animationFrameId);
+    clearAllIntervals();
   }
 
   checkCollisions() {

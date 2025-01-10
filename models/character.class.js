@@ -61,7 +61,7 @@ class Character extends MovableObject {
   }
 
   animate() {
-    setInterval(() => {
+    setIntervalAndTrack(() => {
       this.walking_sound.pause();
 
       if (!this.isDead()) {
@@ -88,19 +88,9 @@ class Character extends MovableObject {
       this.world.camera_x = -this.x + 50;
     }, 1000 / 60);
 
-    setInterval(() => {
+    setIntervalAndTrack(() => {
       if (this.isDead()) {
-        const inGameButtons = document.querySelector(".in_game_buttons");
-        const endScreen = document.getElementById("end_screen");
-        inGameButtons.classList.remove("visible");
-        if (!this.isDeadAnimationComplete) {
-          this.playAnimationOnce(this.DEAD_IMAGES);
-          setTimeout(() => {
-            endScreen.style.visibility = "visible";
-            endScreen.style.opacity = 1;
-            this.isDeadAnimationComplete = true;
-          }, 1000);
-        }
+        this.handleGameEnd(this);
       } else if (this.isHurt()) {
         this.playAnimation(this.HURT_IMAGES);
       } else if (this.isAboveGround()) {
@@ -111,5 +101,25 @@ class Character extends MovableObject {
         this.playAnimation(this.IDLE_IMAGES);
       }
     }, 150);
+  }
+
+  handleGameEnd(character) {
+    const inGameButtons = document.querySelector(".in_game_buttons");
+    const endScreen = document.getElementById("end_screen");
+
+    inGameButtons.classList.remove("visible");
+
+    if (!character.isDeadAnimationComplete) {
+      character.playAnimationOnce(character.DEAD_IMAGES);
+
+      setTimeout(() => {
+        endScreen.style.visibility = "visible";
+        endScreen.style.opacity = 1;
+        character.isDeadAnimationComplete = true;
+      }, 1000);
+    } else if (!this.isDead()) {
+      inGameButtons.classList.add("visible");
+      character.isDeadAnimationComplete = false;
+    }
   }
 }
