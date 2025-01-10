@@ -29,7 +29,7 @@ class Enemie extends MovableObject {
     setInterval(() => {
       this.playAnimation(this.ENEMIE_WALKING);
       //   if (this.isDead()) {
-      //     this.playAnimation(this.ENEMIE_DEAD);
+      //     this.playAnimationOnce(this.ENEMIE_DEAD);
       // }
     }, 100);
   }
