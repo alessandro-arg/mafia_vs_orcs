@@ -3,8 +3,9 @@ class Character extends MovableObject {
   width = 52 * 3;
   y = 450;
   currentX;
-  sleep = false;
   world;
+  sleepTimeout = null;
+  sleep = false;
   walking_sound = new Audio("audio/run.mp3");
   // sleeping_sound = new Audio ("");
   isDeadAnimationComplete = false;
@@ -13,7 +14,7 @@ class Character extends MovableObject {
     top: 0,
     bottom: 0,
     left: 20,
-    right: -60,
+    right: 30,
   };
 
   IDLE_IMAGES = [
@@ -59,6 +60,8 @@ class Character extends MovableObject {
     "img/hurt/hurt_frame_4.png",
     "img/hurt/hurt_frame_5.png",
   ];
+  SLEEP_IMAGES = [];
+  SHOOT_IMAGES = [];
 
   constructor() {
     super().loadImage("img/idle/idle_frame_1.png");
@@ -68,9 +71,11 @@ class Character extends MovableObject {
     this.loadImages(this.DEAD_IMAGES);
     this.loadImages(this.HURT_IMAGES);
     // this.loadImages(this.SLEEP_IMAGES);
+    // this.loadImages(this.SHOOT_IMAGES);
+    this.currentX = this.x;
+    this.startSleepCheck();
     this.applyGravity();
     this.animate();
-    this.sleeping();
   }
 
   animate() {
@@ -142,6 +147,7 @@ class Character extends MovableObject {
     this.moveRight();
     this.otherDirection = false;
     this.savePosition();
+    this.sleeping();
     this.walking_sound.play();
   }
 
@@ -150,24 +156,32 @@ class Character extends MovableObject {
     this.otherDirection = true;
     this.moveLeft();
     this.savePosition();
+    this.sleeping();
     this.walking_sound.play();
   }
 
   jump() {
     this.wakeUp();
+    this.sleeping();
     this.speedY = 30;
   }
 
+  startSleepCheck() {
+    this.sleeping();
+  }
+
   sleeping() {
-    setInterval(() => {
-      if (this.currentX == this.x) {
+    if (this.sleepTimeout) clearTimeout(this.sleepTimeout);
+    this.sleepTimeout = setTimeout(() => {
+      if (this.currentX === this.x && !this.isAboveGround()) {
         this.sleep = true;
+        this.sleeps();
       }
     }, 10000);
   }
 
   sleeps() {
-    console.log("Sleeping");
+    this.sleep = true;
 
     // this.playAnimation(this.SLEEP_IMAGES);
     // this.world.playSound(this.sleeping_sound);
@@ -176,6 +190,7 @@ class Character extends MovableObject {
   wakeUp() {
     this.walking_sound.pause();
     this.sleep = false;
+    this.sleeping();
   }
 
   savePosition() {

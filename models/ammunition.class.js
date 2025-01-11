@@ -12,6 +12,8 @@ class Ammo extends MovableObject {
     "img/ammo/ammo_frame_6.png",
   ];
 
+  EXPLOSION_IMAGES = [];
+
   constructor() {
     super().loadImage("img/ammo/ammo_frame_1.png");
     this.loadImages(this.AMMO_IMAGES);
