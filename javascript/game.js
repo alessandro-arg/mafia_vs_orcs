@@ -94,7 +94,13 @@ function returnMenu() {
 
 function enterFullscreen() {
   let canvas = document.querySelector("canvas");
-  canvas.requestFullscreen();
+  if (canvas.requestFullscreen) {
+    canvas.requestFullscreen();
+  } else if (canvas.msRequestFullscreen) {
+    canvas.msRequestFullscreen();
+  } else if (canvas.webkitRequestFullscreen) {
+    canvas.webkitRequestFullscreen();
+  }
 }
 
 function exitFullscreen() {

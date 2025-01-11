@@ -2,7 +2,20 @@ class Character extends MovableObject {
   height = 71 * 3;
   width = 52 * 3;
   y = 450;
+  currentX;
+  sleep = false;
+  world;
+  walking_sound = new Audio("audio/run.mp3");
+  // sleeping_sound = new Audio ("");
   isDeadAnimationComplete = false;
+
+  offset = {
+    top: 0,
+    bottom: 0,
+    left: 20,
+    right: -60,
+  };
+
   IDLE_IMAGES = [
     "img/idle/idle_frame_1.png",
     "img/idle/idle_frame_2.png",
@@ -46,8 +59,6 @@ class Character extends MovableObject {
     "img/hurt/hurt_frame_4.png",
     "img/hurt/hurt_frame_5.png",
   ];
-  world;
-  walking_sound = new Audio("audio/run.mp3");
 
   constructor() {
     super().loadImage("img/idle/idle_frame_1.png");
@@ -56,8 +67,10 @@ class Character extends MovableObject {
     this.loadImages(this.JUMP_IMAGES);
     this.loadImages(this.DEAD_IMAGES);
     this.loadImages(this.HURT_IMAGES);
+    // this.loadImages(this.SLEEP_IMAGES);
     this.applyGravity();
     this.animate();
+    this.sleeping();
   }
 
   animate() {
@@ -69,15 +82,11 @@ class Character extends MovableObject {
           this.world.keyboard.RIGHT &&
           this.x < this.world.level.level_end_x
         ) {
-          this.moveRight();
-          this.otherDirection = false;
-          this.walking_sound.play();
+          this.runRight();
         }
 
         if (this.world.keyboard.LEFT && this.x > -500) {
-          this.moveLeft();
-          this.otherDirection = true;
-          this.walking_sound.play();
+          this.runLeft();
         }
 
         if (this.world.keyboard.SPACE && !this.isAboveGround()) {
@@ -97,6 +106,8 @@ class Character extends MovableObject {
         this.playAnimation(this.JUMP_IMAGES);
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         this.playAnimation(this.RUN_IMAGES);
+      } else if (this.sleep) {
+        this.sleeps();
       } else {
         this.playAnimation(this.IDLE_IMAGES);
       }
@@ -113,7 +124,9 @@ class Character extends MovableObject {
       character.playAnimationOnce(character.DEAD_IMAGES);
 
       setTimeout(() => {
-        document.exitFullscreen();
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
         endScreen.style.visibility = "visible";
         endScreen.style.opacity = 1;
         character.isDeadAnimationComplete = true;
@@ -122,5 +135,50 @@ class Character extends MovableObject {
       inGameButtons.classList.add("visible");
       character.isDeadAnimationComplete = false;
     }
+  }
+
+  runRight() {
+    this.wakeUp();
+    this.moveRight();
+    this.otherDirection = false;
+    this.savePosition();
+    this.walking_sound.play();
+  }
+
+  runLeft() {
+    this.wakeUp();
+    this.otherDirection = true;
+    this.moveLeft();
+    this.savePosition();
+    this.walking_sound.play();
+  }
+
+  jump() {
+    this.wakeUp();
+    this.speedY = 30;
+  }
+
+  sleeping() {
+    setInterval(() => {
+      if (this.currentX == this.x) {
+        this.sleep = true;
+      }
+    }, 10000);
+  }
+
+  sleeps() {
+    console.log("Sleeping");
+
+    // this.playAnimation(this.SLEEP_IMAGES);
+    // this.world.playSound(this.sleeping_sound);
+  }
+
+  wakeUp() {
+    this.walking_sound.pause();
+    this.sleep = false;
+  }
+
+  savePosition() {
+    this.currentX = this.x;
   }
 }
