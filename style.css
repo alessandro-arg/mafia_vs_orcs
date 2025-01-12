@@ -130,7 +130,7 @@ h1 {
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.705);
   position: absolute;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -143,14 +143,14 @@ h1 {
   display: flex;
   position: relative;
   border-radius: 40px;
-  padding: 40px 100px;
+  padding: 50px 100px;
   background-color: rgba(0, 0, 0, 0.966);
   gap: 30px;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  width: 60%;
-  font-size: 45px;
+  width: 55%;
+  font-size: 38px;
   letter-spacing: 3px;
   text-align: center;
   box-shadow: rgba(185, 189, 190, 0.582) 0px 2px 4px 0px,
@@ -335,8 +335,30 @@ canvas {
   transition: opacity 2s ease-in-out;
 }
 
-.game_over {
+#win_screen {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.95);
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 100px;
+  margin-bottom: 100px;
+  height: 720px;
+  width: 1280px;
+  visibility: hidden;
+  transition: opacity 2s ease-in-out;
+}
+
+.game_over,
+.you_win,
+.trophy {
   height: 350px;
+}
+
+.trophy {
+  animation: float 2s ease-in-out infinite;
 }
 
 #end_screen button {
@@ -450,6 +472,7 @@ canvas {
   margin-top: 50px;
   display: flex;
   gap: 50px;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .description {

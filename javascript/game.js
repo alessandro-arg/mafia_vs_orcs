@@ -3,10 +3,23 @@ let world;
 let keyboard = new Keyboard();
 let activeIntervals = [];
 
+document.addEventListener("DOMContentLoaded", () => {
+  let howtoContainer = document.querySelector(".howto_container");
+  howtoContainer.addEventListener("click", closeIfClickOutside);
+
+  if (localStorage.getItem("alreadyPlayed")) {
+    howtoContainer.style.display = "none";
+  } else {
+    howtoContainer.style.display = "flex";
+    localStorage.setItem("alreadyPlayed", "true");
+  }
+});
+
 function init() {
   let startScreen = document.getElementById("start_screen");
   let startButton = document.querySelector(".start_game_btn");
   let endScreen = document.getElementById("end_screen");
+  let winScreen = document.getElementById("win_screen");
   let canvas = document.getElementById("canvas");
   let inGameButtons = document.querySelector(".in_game_buttons");
   let instructions = document.querySelector(".instructions");
@@ -21,6 +34,9 @@ function init() {
     endScreen.style.transition = "opacity 1.5s ease-in-out";
     endScreen.style.opacity = 0;
     endScreen.style.visibility = "hidden";
+    winScreen.style.transition = "opacity 1.5s ease-in-out";
+    winScreen.style.opacity = 0;
+    winScreen.style.visibility = "hidden";
     instructions.style.opacity = 0;
 
     setTimeout(function () {
@@ -41,12 +57,15 @@ function restartGame() {
   clearAllIntervals();
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
+  let winScreen = document.getElementById("win_screen");
   let canvasElement = document.getElementById("canvas");
 
   startScreen.style.visibility = "hidden";
   startScreen.style.opacity = 0;
   endScreen.style.visibility = "hidden";
   endScreen.style.opacity = 0;
+  winScreen.style.visibility = "hidden";
+  winScreen.style.opacity = 0;
   canvasElement.style.transition = "opacity 2s ease-in-out";
   canvasElement.style.opacity = 0;
 
@@ -69,6 +88,7 @@ function returnMenu() {
   clearAllIntervals();
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
+  let winScreen = document.getElementById("win_screen");
   let canvasElement = document.getElementById("canvas");
   let inGameButtons = document.querySelector(".in_game_buttons");
   let startButton = document.querySelector(".start_game_btn");
@@ -79,6 +99,8 @@ function returnMenu() {
   startScreen.style.transition = "opacity 1.5s ease-in-out";
   endScreen.style.visibility = "hidden";
   endScreen.style.opacity = 0;
+  winScreen.style.visibility = "hidden";
+  winScreen.style.opacity = 0;
   canvasElement.style.opacity = 0;
   inGameButtons.classList.remove("visible");
 
@@ -150,25 +172,19 @@ function showInstructions() {
 function showHowTo() {
   let howtoContainer = document.querySelector(".howto_container");
 
-  if (
-    howtoContainer.style.display === "none" ||
-    howtoContainer.style.display === ""
-  ) {
-    howtoContainer.style.display = "flex";
-    howtoContainer.addEventListener("click", closeIfClickOutside);
-  } else {
+  if (howtoContainer.style.display === "flex") {
     howtoContainer.style.display = "none";
     howtoContainer.removeEventListener("click", closeIfClickOutside);
+  } else {
+    howtoContainer.style.display = "flex";
+    howtoContainer.addEventListener("click", closeIfClickOutside);
   }
 }
 
 function showCopyright() {
   let copyrightContainer = document.querySelector(".copyright_container");
 
-  if (
-    copyrightContainer.style.display === "none" ||
-    copyrightContainer.style.display === ""
-  ) {
+  if (copyrightContainer.style.display === "none") {
     copyrightContainer.style.display = "flex";
     copyrightContainer.addEventListener("click", closeIfClickOutside);
   } else {

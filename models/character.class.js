@@ -9,6 +9,7 @@ class Character extends MovableObject {
   walking_sound = new Audio("audio/run.mp3");
   // sleeping_sound = new Audio ("");
   isDeadAnimationComplete = false;
+  isBouncing = false;
 
   offset = {
     top: 0,
@@ -99,6 +100,11 @@ class Character extends MovableObject {
         }
       }
 
+      if (!this.isAboveGround()) {
+        this.y = 450;
+        this.isBouncing = false;
+      }
+
       this.world.camera_x = -this.x + 50;
     }, 1000 / 60);
 
@@ -139,6 +145,13 @@ class Character extends MovableObject {
     } else if (!this.isDead()) {
       inGameButtons.classList.add("visible");
       character.isDeadAnimationComplete = false;
+    }
+  }
+
+  bounceOffEnemy() {
+    if (!this.isBouncing) {
+      this.isBouncing = true;
+      this.speedY = 20;
     }
   }
 

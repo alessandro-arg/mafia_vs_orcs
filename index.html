@@ -85,12 +85,12 @@
             class="close_button"
             onclick="showHowTo()"
           />
-          <p>The goal of the game is to defeat the boss at the end.</p>
+          <p>Hi there! <br /></p>
           <p>
             Get the coins on your path (optional) and collect all the ammo. You
-            will need to save the ammo for the final boss, if you miss any or
-            shoot randomly, you won't have the chance to kill the boss and
-            you'll lose.
+            will need to save the ammo for the final boss, you need at least 4
+            headshots! If you miss any or shoot randomly, you won't have the
+            chance to kill the boss and you'll lose.
           </p>
           <p>Now go shoot that creepy thing!</p>
         </div>
@@ -130,6 +130,41 @@
         alt="Game Over"
         class="game_over"
       />
+      <div class="endscreen_social">
+        <a
+          href="https://www.facebook.com/argenziano.alessandro/"
+          target="_blank"
+          ><img src="img/social_icons/facebook.png" alt="Facebook"
+        /></a>
+        <a href="https://www.instagram.com/alessandro_7.5r/" target="_blank"
+          ><img src="img/social_icons/instagram.png" alt="Instagram"
+        /></a>
+        <a href="https://github.com/alessandro-arg" target="_blank"
+          ><img src="img/social_icons/github.png" alt="Github"
+        /></a>
+      </div>
+      <div class="endscreen_buttons">
+        <button onclick="restartGame()">
+          <img
+            src="img/end_screen/arrow_right.png"
+            class="arrow"
+            alt="Arrow"
+          /><img src="img/end_screen/retro_restart.png" alt="" />
+        </button>
+        <button onclick="returnMenu()">
+          <img
+            src="img/end_screen/arrow_right.png"
+            class="arrow"
+            alt="Arrow"
+          /><img src="img/end_screen/retro_main_menu.png" alt="" />
+        </button>
+      </div>
+    </div>
+    <div id="win_screen">
+      <div style="display: flex; gap: 50px">
+        <img src="img/end_screen/trophy.png" alt="Trophy" class="trophy" />
+        <img src="img/end_screen/retro_win.png" alt="You Win" class="you_win" />
+      </div>
       <div class="endscreen_social">
         <a
           href="https://www.facebook.com/argenziano.alessandro/"

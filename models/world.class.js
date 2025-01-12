@@ -42,7 +42,8 @@ class World {
     }, 200);
 
     setInterval(() => {
-      // this.checkCollisionsTopEnemie();
+      this.checkCollisionsEnemieWithBullet();
+      this.checkCollisionsTopEnemie();
     }, 15);
   }
 
@@ -65,7 +66,6 @@ class World {
   }
 
   checkCollisions() {
-    // this.checkCollisionsEnemieWithBullet();
     this.checkCollisionsCharacterWithEnemie();
     this.checkCollisionsAmmo();
     this.checkCollisionsCoin();
@@ -83,24 +83,37 @@ class World {
   }
 
   checkCollisionsEnemieWithBullet() {
-    this.shootingBullet.forEach((bullet) => {
-      this.level.enemies.forEach((enemy) => {
+    const bulletsToRemove = new Set();
+
+    this.shootingBullet.forEach((bullet, bulletIndex) => {
+      this.level.enemies.forEach((enemy, enemyIndex) => {
         if (bullet.isColliding(enemy) && enemy.energy > 0) {
-          bullet.playAnimation(bullet.EXPLOSION_IMAGES);
-          this.playSound(this.dead_enemie_sound);
+          bulletsToRemove.add(bulletIndex);
+          // bullet.playAnimation(bullet.EXPLOSION_IMAGES);
+          // this.playSound(this.dead_enemie_sound);
           if (
             enemy.constructor.name == "Enemie" ||
             enemy.constructor.name == "Enemie2"
           ) {
             enemy.energy = 0;
+            enemy.stopAtCurrentPosition();
           } else if (enemy.constructor.name == "Endboss") {
-            enemy.playHurtAnimation();
-            enemy.energy -= 20;
-            // this.statusBarEndboss.setPercentage(enemy.energy);
+            if (enemy.energy >= 20) {
+              enemy.playHurtAnimation();
+              enemy.energy -= 20;
+              // this.statusBarEndboss.setPercentage(enemy.energy);
+              if (enemy.energy <= 0) enemy.energy = 0;
+            }
           }
         }
       });
     });
+
+    [...bulletsToRemove]
+      .sort((a, b) => b - a)
+      .forEach((index) => {
+        this.shootingBullet.splice(index, 1);
+      });
   }
 
   checkCollisionsCoin() {
@@ -125,9 +138,31 @@ class World {
     });
   }
 
-  // checkCollisionsTopEnemie() {
+  checkCollisionsTopEnemie() {
+    let hasBounced = false;
 
-  // }
+    this.level.enemies.forEach((enemy) => {
+      if (
+        this.character.y + this.character.height - 5 <= enemy.y &&
+        this.character.x + this.character.width * 0.5 > enemy.x &&
+        this.character.x < enemy.x + enemy.width * 2 &&
+        this.character.speedY >= -30 &&
+        !this.character.isBouncing
+      ) {
+        if (
+          (enemy.constructor.name === "Enemie" ||
+            enemy.constructor.name === "Enemie2") &&
+          enemy.energy > 0
+        ) {
+          enemy.energy = 0;
+          enemy.stopAtCurrentPosition();
+          // this.playSound(this.dead_enemie_sound);
+          this.character.bounceOffEnemy();
+          hasBounced = true;
+        }
+      }
+    });
+  }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -187,9 +222,9 @@ class World {
     this.ctx.restore();
   }
 
-  async playSound(sound) {
-    if (this.playSounds) {
-      await sound.play();
-    }
-  }
+  // async playSound(sound) {
+  //   if (this.playSounds) {
+  //     await sound.play();
+  //   }
+  // }
 }
