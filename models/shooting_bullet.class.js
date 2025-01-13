@@ -1,7 +1,7 @@
 class ShootedBullet extends MovableObject {
   width = 66 / 2.5;
   height = 25 / 2.5;
-  speedX = 30;
+  speedX = 40;
 
   EXPLOSION_IMAGES = [];
 

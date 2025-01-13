@@ -37,9 +37,13 @@ class World {
 
   run() {
     setInterval(() => {
-      this.checkCollisions();
+      this.checkCollisionsCharacterWithEnemie();
+    }, 300);
+
+    setInterval(() => {
       this.checkShootingObject();
-    }, 200);
+      this.checkCollisions();
+    }, 100);
 
     setInterval(() => {
       this.checkCollisionsEnemieWithBullet();
@@ -66,7 +70,6 @@ class World {
   }
 
   checkCollisions() {
-    this.checkCollisionsCharacterWithEnemie();
     this.checkCollisionsAmmo();
     this.checkCollisionsCoin();
   }

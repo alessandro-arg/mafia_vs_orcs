@@ -28,6 +28,7 @@ class DrawableObject {
     if (
       this instanceof Character ||
       this instanceof Enemie ||
+      this instanceof Enemie2 ||
       this instanceof Ammo ||
       this instanceof Endboss ||
       this instanceof Coin
