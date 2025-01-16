@@ -131,6 +131,10 @@ class Character extends MovableObject {
 
     inGameButtons.classList.remove("visible");
 
+    if (character.isAboveGround()) {
+      return;
+    }
+
     if (!character.isDeadAnimationComplete) {
       character.playAnimationOnce(character.DEAD_IMAGES);
 
