@@ -5,13 +5,6 @@ class Enemie2 extends MovableObject {
   isDeadAnimationStarted = false;
   isDeadAnimationComplete = false;
 
-  offset = {
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  };
-
   ENEMIE2_WALKING = [
     "img/enemie/enemy_type_2/enemy_2_run/enemy2_run_frame_1.png",
     "img/enemie/enemy_type_2/enemy_2_run/enemy2_run_frame_2.png",
@@ -36,7 +29,7 @@ class Enemie2 extends MovableObject {
     this.loadImages(this.ENEMIE2_WALKING);
     this.loadImages(this.ENEMIE2_DEAD);
     this.x = 1000 + Math.random() * (1280 * 5);
-    this.speed = 0.5 + Math.random() * 1;
+    this.speed = 1 + Math.random() * 1.5;
     this.animate();
   }
 

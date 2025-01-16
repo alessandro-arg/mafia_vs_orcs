@@ -448,8 +448,21 @@ canvas {
     width: 100%;
   }
 
-  .instructions {
-    display: none !important;
+  #end_screen {
+    width: 100%;
+  }
+
+  #win_screen {
+    width: 100%;
+  }
+
+  .description img {
+    height: 80px;
+    width: 90px;
+  }
+
+  .description p {
+    font-size: 35px;
   }
 
   h1 {
@@ -464,6 +477,10 @@ canvas {
 
   #start_screen {
     height: 100vh !important;
+  }
+
+  .instructions {
+    display: none !important;
   }
 }
 

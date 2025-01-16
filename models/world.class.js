@@ -5,6 +5,8 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
+  endboss;
+  endbossHealthBar;
   statusBar = new Statusbar();
   ammoBar = new Ammobar();
   coinBar = new Coinbar();
@@ -22,6 +24,7 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.setWorld();
+    this.findEndboss();
     this.draw();
     this.run();
   }
@@ -42,13 +45,19 @@ class World {
 
     setInterval(() => {
       this.checkShootingObject();
-      this.checkCollisions();
     }, 100);
 
     setInterval(() => {
+      this.endbossHealthBar.update();
+      this.checkCollisions();
       this.checkCollisionsEnemieWithBullet();
       this.checkCollisionsTopEnemie();
     }, 15);
+  }
+
+  findEndboss() {
+    this.endboss = this.level.enemies.find((enemy) => enemy instanceof Endboss);
+    this.endbossHealthBar = new StatusbarEndboss(this.endboss);
   }
 
   checkShootingObject() {
@@ -104,7 +113,7 @@ class World {
             if (enemy.energy >= 20) {
               enemy.playHurtAnimation();
               enemy.energy -= 20;
-              // this.statusBarEndboss.setPercentage(enemy.energy);
+              this.endbossHealthBar.setPercentage(enemy.energy);
               if (enemy.energy <= 0) enemy.energy = 0;
             }
           }
@@ -145,10 +154,18 @@ class World {
     let hasBounced = false;
 
     this.level.enemies.forEach((enemy) => {
+      let enemyTop = enemy.y + enemy.offset.top;
+      let enemyLeft = enemy.x + enemy.offset.left;
+      let enemyRight = enemy.x + enemy.width - enemy.offset.right;
+
+      let charBottom =
+        this.character.y + this.character.height - this.character.offset.bottom;
+      let charCenterX = this.character.x + this.character.width * 0.5;
+
       if (
-        this.character.y + this.character.height - 5 <= enemy.y &&
-        this.character.x + this.character.width * 0.5 > enemy.x &&
-        this.character.x < enemy.x + enemy.width * 2 &&
+        charBottom <= enemyTop &&
+        charCenterX > enemyLeft &&
+        charCenterX < enemyRight &&
         this.character.speedY >= -30 &&
         !this.character.isBouncing
       ) {
@@ -187,6 +204,11 @@ class World {
     this.addObjectsToMap(this.level.coin);
     this.addObjectsToMap(this.shootingBullet);
 
+    if (this.endbossHealthBar) {
+      this.endbossHealthBar.update();
+      this.addToMap(this.endbossHealthBar);
+    }
+
     this.ctx.translate(-this.camera_x, 0);
 
     self = this;
@@ -206,7 +228,7 @@ class World {
       this.flipImage(movableObject);
     }
     movableObject.draw(this.ctx);
-    movableObject.drawFrame(this.ctx);
+    // movableObject.drawFrame(this.ctx);
 
     if (movableObject.otherDirection) {
       this.resetFlipImage(movableObject);

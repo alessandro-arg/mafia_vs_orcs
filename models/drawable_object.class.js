@@ -24,20 +24,20 @@ class DrawableObject {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
-  drawFrame(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof Enemie ||
-      this instanceof Enemie2 ||
-      this instanceof Ammo ||
-      this instanceof Endboss ||
-      this instanceof Coin
-    ) {
-      ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
-    }
-  }
+  // drawFrame(ctx) {
+  //   if (
+  //     this instanceof Character ||
+  //     this instanceof Enemie ||
+  //     this instanceof Enemie2 ||
+  //     this instanceof Ammo ||
+  //     this instanceof Endboss ||
+  //     this instanceof Coin
+  //   ) {
+  //     ctx.beginPath();
+  //     ctx.lineWidth = "5";
+  //     ctx.strokeStyle = "blue";
+  //     ctx.rect(this.x, this.y, this.width, this.height);
+  //     ctx.stroke();
+  //   }
+  // }
 }

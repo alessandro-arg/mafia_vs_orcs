@@ -184,7 +184,10 @@ function showHowTo() {
 function showCopyright() {
   let copyrightContainer = document.querySelector(".copyright_container");
 
-  if (copyrightContainer.style.display === "none") {
+  if (
+    copyrightContainer.style.display === "none" ||
+    copyrightContainer.style.display === ""
+  ) {
     copyrightContainer.style.display = "flex";
     copyrightContainer.addEventListener("click", closeIfClickOutside);
   } else {
