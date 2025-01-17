@@ -62,7 +62,12 @@ class Character extends MovableObject {
     "img/hurt/hurt_frame_5.png",
   ];
   SLEEP_IMAGES = [];
-  SHOOT_IMAGES = [];
+  SHOOT_IMAGES = [
+    "img/shot/shoot_1.png",
+    "img/shot/shoot_2.png",
+    "img/shot/shoot_3.png",
+    "img/shot/shoot_4.png",
+  ];
 
   constructor() {
     super().loadImage("img/idle/idle_frame_1.png");
@@ -72,7 +77,7 @@ class Character extends MovableObject {
     this.loadImages(this.DEAD_IMAGES);
     this.loadImages(this.HURT_IMAGES);
     // this.loadImages(this.SLEEP_IMAGES);
-    // this.loadImages(this.SHOOT_IMAGES);
+    this.loadImages(this.SHOOT_IMAGES);
     this.currentX = this.x;
     this.startSleepCheck();
     this.applyGravity();
@@ -117,6 +122,8 @@ class Character extends MovableObject {
         this.playAnimation(this.JUMP_IMAGES);
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         this.playAnimation(this.RUN_IMAGES);
+      } else if (this.world.keyboard.F && this.ammo >= 1) {
+        this.playAnimation(this.SHOOT_IMAGES);
       } else if (this.sleep) {
         this.sleeps();
       } else {
