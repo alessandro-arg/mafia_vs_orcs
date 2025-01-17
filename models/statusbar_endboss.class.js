@@ -1,11 +1,11 @@
 class StatusbarEndboss extends DrawableObject {
   HEALTH_IMAGES = [
-    "img/healthbar/healthbar_frame_1.png",
-    "img/healthbar/healthbar_frame_2.png",
-    "img/healthbar/healthbar_frame_3.png",
-    "img/healthbar/healthbar_frame_4.png",
-    "img/healthbar/healthbar_frame_5.png",
-    "img/healthbar/healthbar_frame_6.png",
+    "img/boss/healthbar/boss_healthbar_1.png",
+    "img/boss/healthbar/boss_healthbar_2.png",
+    "img/boss/healthbar/boss_healthbar_3.png",
+    "img/boss/healthbar/boss_healthbar_4.png",
+    "img/boss/healthbar/boss_healthbar_5.png",
+    "img/boss/healthbar/boss_healthbar_6.png",
   ];
 
   percentage = 100;
@@ -14,8 +14,8 @@ class StatusbarEndboss extends DrawableObject {
     super();
     this.endboss = endboss || null;
     this.loadImages(this.HEALTH_IMAGES);
-    this.width = 47 * 7;
-    this.height = 7 * 7;
+    this.width = 320;
+    this.height = 68;
     this.setPercentage(100);
     this.update();
   }

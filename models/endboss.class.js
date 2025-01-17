@@ -33,6 +33,12 @@ class Endboss extends MovableObject {
     "img/boss/hurt/endboss_hurt_2.png",
     "img/boss/hurt/endboss_hurt_1.png",
   ];
+  ENDBOSS_ATTACK = [
+    "img/boss/attack/attack_boss_frame_1.png",
+    "img/boss/attack/attack_boss_frame_2.png",
+    "img/boss/attack/attack_boss_frame_3.png",
+    "img/boss/attack/attack_boss_frame_4.png",
+  ];
   ENDBOSS_DEAD = [
     "img/boss/dead/endboss_dead_4.png",
     "img/boss/dead/endboss_dead_3.png",
@@ -46,6 +52,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.ENDBOSS_WALK);
     this.loadImages(this.ENDBOSS_RUN);
     this.loadImages(this.ENDBOSS_HURT);
+    this.loadImages(this.ENDBOSS_ATTACK);
     this.loadImages(this.ENDBOSS_DEAD);
     this.x = 1280 * 5.5;
     this.speed = 3;
