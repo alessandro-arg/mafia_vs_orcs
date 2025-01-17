@@ -114,7 +114,10 @@ class World {
               enemy.playHurtAnimation();
               enemy.energy -= 20;
               this.endbossHealthBar.setPercentage(enemy.energy);
-              if (enemy.energy <= 0) enemy.energy = 0;
+              if (enemy.energy <= 0) {
+                enemy.energy = 0;
+                enemy.stopAtCurrentPosition();
+              }
             }
           }
         }
