@@ -4,6 +4,7 @@ class Endboss extends MovableObject {
   y = 165;
   isMoving = false;
   isDeadAnimationComplete = false;
+  isHurtAnimationPlaying = false;
 
   ENDBOSS_IDLE = [
     "img/boss/idle/endboss_idle_5.png",

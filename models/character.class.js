@@ -1,6 +1,6 @@
 class Character extends MovableObject {
-  height = 71 * 3;
-  width = 52 * 3;
+  height = 72 * 3;
+  width = 67 * 3;
   y = 450;
   currentX;
   world;
@@ -16,7 +16,7 @@ class Character extends MovableObject {
     top: 0,
     bottom: 100,
     left: 20,
-    right: 30,
+    right: 40,
   };
 
   IDLE_IMAGES = [

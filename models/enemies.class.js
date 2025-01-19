@@ -1,6 +1,6 @@
 class Enemie extends MovableObject {
-  height = 64 * 2.5;
-  width = 31 * 2.5;
+  height = 65 * 2.5;
+  width = 75 * 2.5;
   y = 505;
   isDeadAnimationStarted = false;
   isDeadAnimationComplete = false;
@@ -8,7 +8,7 @@ class Enemie extends MovableObject {
   offset = {
     top: 20,
     bottom: 0,
-    left: 10,
+    left: 140,
     right: 10,
   };
 
@@ -47,8 +47,6 @@ class Enemie extends MovableObject {
           this.isDeadAnimationStarted = true;
           this.currentImage = 0;
         }
-        this.height = 65 * 2.5;
-        this.width = 75 * 2.5;
         this.playAnimationOnce(this.ENEMIE_DEAD);
       } else if (!this.isDead()) {
         this.isDeadAnimationStarted = false;

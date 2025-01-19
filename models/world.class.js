@@ -70,7 +70,6 @@ class World {
       this.character.isShooting = true;
       this.character.ammo -= 1;
       this.ammoBar.setAmmunition(this.character.ammo);
-
       this.character.playAnimationOnce(this.character.SHOOT_IMAGES, () => {
         this.character.isShooting = false;
       });

@@ -1,9 +1,16 @@
 class Enemie2 extends MovableObject {
-  height = 64 * 2.5;
-  width = 31 * 2.5;
-  y = 505;
+  height = 61 * 2.5;
+  width = 70 * 2.5;
+  y = 514;
   isDeadAnimationStarted = false;
   isDeadAnimationComplete = false;
+
+  offset = {
+    top: 20,
+    bottom: 0,
+    left: 30,
+    right: 10,
+  };
 
   ENEMIE2_WALKING = [
     "img/enemie/enemy_type_2/enemy_2_run/enemy2_run_frame_1.png",
@@ -15,11 +22,10 @@ class Enemie2 extends MovableObject {
     "img/enemie/enemy_type_2/enemy_2_run/enemy2_run_frame_7.png",
   ];
   ENEMIE2_DEAD = [
-    "img/enemie/enemy_type_1/enemy_1_dead/enemie_dead_frame_1.png",
-    "img/enemie/enemy_type_1/enemy_1_dead/enemie_dead_frame_2.png",
-    "img/enemie/enemy_type_1/enemy_1_dead/enemie_dead_frame_3.png",
-    "img/enemie/enemy_type_1/enemy_1_dead/enemie_dead_frame_4.png",
-    "img/enemie/enemy_type_1/enemy_1_dead/enemie_dead_frame_5.png",
+    "img/enemie/enemy_type_2/enemy_2_dead/enemie2_dead_4.png",
+    "img/enemie/enemy_type_2/enemy_2_dead/enemie2_dead_3.png",
+    "img/enemie/enemy_type_2/enemy_2_dead/enemie2_dead_2.png",
+    "img/enemie/enemy_type_2/enemy_2_dead/enemie2_dead_1.png",
   ];
 
   constructor() {
@@ -36,8 +42,6 @@ class Enemie2 extends MovableObject {
   animate() {
     setInterval(() => {
       if (this.isDead()) {
-        this.height = 65 * 2.5;
-        this.width = 75 * 2.5;
         this.playAnimationOnce(this.ENEMIE2_DEAD);
       } else {
         this.playAnimation(this.ENEMIE2_WALKING);
