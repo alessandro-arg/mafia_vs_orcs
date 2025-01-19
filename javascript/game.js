@@ -37,6 +37,7 @@ function init() {
     winScreen.style.transition = "opacity 1.5s ease-in-out";
     winScreen.style.opacity = 0;
     winScreen.style.visibility = "hidden";
+    winScreen.style.display = "flex";
     instructions.style.opacity = 0;
 
     setTimeout(function () {
@@ -92,25 +93,23 @@ function returnMenu() {
   let canvasElement = document.getElementById("canvas");
   let inGameButtons = document.querySelector(".in_game_buttons");
   let startButton = document.querySelector(".start_game_btn");
-
   startButton.disabled = false;
   startScreen.style.visibility = "visible";
   startScreen.style.opacity = 1;
   startScreen.style.transition = "opacity 1.5s ease-in-out";
-  endScreen.style.visibility = "hidden";
-  endScreen.style.opacity = 0;
   winScreen.style.visibility = "hidden";
   winScreen.style.opacity = 0;
+  winScreen.style.display = "none";
+  endScreen.style.visibility = "hidden";
+  endScreen.style.opacity = 0;
   canvasElement.style.opacity = 0;
   inGameButtons.classList.remove("visible");
-
   const context = canvasElement.getContext("2d");
   context.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
   if (window.world) {
     world.stopGame();
   }
-
   window.world = null;
 }
 

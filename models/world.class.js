@@ -64,17 +64,28 @@ class World {
     if (
       this.keyboard.F &&
       this.character.ammo > 0 &&
-      !this.character.otherDirection
+      !this.character.otherDirection &&
+      !this.character.isShooting
     ) {
-      this.character.wakeUp();
-      // this.playAnimationOnce(this.character.SHOOT_IMAGES);
-      let bullet = new ShootedBullet(
-        this.character.x + 160,
-        this.character.y + 90
-      );
+      this.character.isShooting = true;
       this.character.ammo -= 1;
       this.ammoBar.setAmmunition(this.character.ammo);
-      this.shootingBullet.push(bullet);
+
+      this.character.playAnimationOnce(this.character.SHOOT_IMAGES, () => {
+        this.character.isShooting = false;
+      });
+
+      setTimeout(() => {
+        let bullet = new ShootedBullet(
+          this.character.x + 160,
+          this.character.y + 90
+        );
+        this.shootingBullet.push(bullet);
+      }, 100);
+
+      setTimeout(() => {
+        this.character.isShooting = false;
+      }, 350);
     }
   }
 

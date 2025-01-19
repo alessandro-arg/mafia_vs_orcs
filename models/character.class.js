@@ -10,6 +10,7 @@ class Character extends MovableObject {
   // sleeping_sound = new Audio ("");
   isDeadAnimationComplete = false;
   isBouncing = false;
+  isShooting = false;
 
   offset = {
     top: 0,
