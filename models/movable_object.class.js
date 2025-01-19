@@ -28,7 +28,7 @@ class MovableObject extends DrawableObject {
     if (this instanceof ShootedBullet) {
       return true;
     } else {
-      return this.y < 450;
+      return this.y < 395;
     }
   }
 

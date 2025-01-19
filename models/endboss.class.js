@@ -1,10 +1,11 @@
 class Endboss extends MovableObject {
   height = 500;
   width = 500;
-  y = 165;
+  y = 166;
   isMoving = false;
   isDeadAnimationComplete = false;
   isHurtAnimationPlaying = false;
+  isLoseAnimationPlaying = false;
 
   ENDBOSS_IDLE = [
     "img/boss/idle/endboss_idle_5.png",
@@ -64,7 +65,7 @@ class Endboss extends MovableObject {
     setIntervalAndTrack(() => {
       if (this.isDead()) {
         this.handleGameEnd(this);
-      } else if (this.isHurt()) {
+      } else if (this.isHurt() && !this.isHurtAnimationPlaying) {
         this.playHurtAnimation();
       } else if (this.energy <= 60) {
         this.startMoving();
@@ -97,7 +98,22 @@ class Endboss extends MovableObject {
   }
 
   playHurtAnimation() {
+    this.isHurtAnimationPlaying = true;
     this.playAnimationOnce(this.ENDBOSS_HURT);
+    setTimeout(() => {
+      this.isHurtAnimationPlaying = false;
+    }, 1000);
+  }
+
+  playLoseAnimation() {
+    if (this.isLoseAnimationPlaying) return;
+    this.isLoseAnimationPlaying = true;
+    this.stopAtCurrentPosition();
+
+    this.playAnimationOnce(this.ENDBOSS_ATTACK, () => {
+      this.isLoseAnimationPlaying = false;
+      this.playAnimation(this.ENDBOSS_IDLE);
+    });
   }
 
   startMoving() {

@@ -34,6 +34,7 @@ function init() {
     endScreen.style.transition = "opacity 1.5s ease-in-out";
     endScreen.style.opacity = 0;
     endScreen.style.visibility = "hidden";
+    endScreen.style.display = "flex";
     winScreen.style.transition = "opacity 1.5s ease-in-out";
     winScreen.style.opacity = 0;
     winScreen.style.visibility = "hidden";
@@ -65,8 +66,10 @@ function restartGame() {
   startScreen.style.opacity = 0;
   endScreen.style.visibility = "hidden";
   endScreen.style.opacity = 0;
+  endScreen.style.display = "none";
   winScreen.style.visibility = "hidden";
   winScreen.style.opacity = 0;
+  winScreen.style.display = "none";
   canvasElement.style.transition = "opacity 2s ease-in-out";
   canvasElement.style.opacity = 0;
 
@@ -102,6 +105,7 @@ function returnMenu() {
   winScreen.style.display = "none";
   endScreen.style.visibility = "hidden";
   endScreen.style.opacity = 0;
+  endScreen.style.display = "none";
   canvasElement.style.opacity = 0;
   inGameButtons.classList.remove("visible");
   const context = canvasElement.getContext("2d");

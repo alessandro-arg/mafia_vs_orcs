@@ -1,7 +1,7 @@
 class Character extends MovableObject {
-  height = 72 * 3;
+  height = 91 * 3;
   width = 67 * 3;
-  y = 450;
+  y = 395;
   currentX;
   world;
   sleepTimeout = null;
@@ -16,7 +16,7 @@ class Character extends MovableObject {
     top: 0,
     bottom: 100,
     left: 20,
-    right: 40,
+    right: 50,
   };
 
   IDLE_IMAGES = [
@@ -37,6 +37,7 @@ class Character extends MovableObject {
     "img/run/run_frame_7.png",
     "img/run/run_frame_8.png",
     "img/run/run_frame_9.png",
+    "img/run/run_frame_10.png",
   ];
   JUMP_IMAGES = [
     "img/jump/jump_frame_1.png",
@@ -47,6 +48,8 @@ class Character extends MovableObject {
     "img/jump/jump_frame_6.png",
     "img/jump/jump_frame_7.png",
     "img/jump/jump_frame_8.png",
+    "img/jump/jump_frame_9.png",
+    "img/jump/jump_frame_10.png",
   ];
   DEAD_IMAGES = [
     "img/dead/dead_frame_1.png",
@@ -107,7 +110,7 @@ class Character extends MovableObject {
       }
 
       if (!this.isAboveGround()) {
-        this.y = 450;
+        this.y = 395;
         this.isBouncing = false;
       }
 

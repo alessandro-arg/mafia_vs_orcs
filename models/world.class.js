@@ -77,7 +77,7 @@ class World {
       setTimeout(() => {
         let bullet = new ShootedBullet(
           this.character.x + 160,
-          this.character.y + 90
+          this.character.y + 130
         );
         this.shootingBullet.push(bullet);
       }, 100);
@@ -100,6 +100,14 @@ class World {
         // this.playSound(this.hurt_sound);
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
+        if (
+          enemy.constructor.name == "Endboss" &&
+          this.character.energy <= 0 &&
+          enemy.energy > 0
+        ) {
+          enemy.stopAtCurrentPosition();
+          enemy.playLoseAnimation();
+        }
       }
     });
   }
@@ -205,6 +213,7 @@ class World {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.shootingBullet);
 
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
@@ -215,7 +224,6 @@ class World {
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.ammo);
     this.addObjectsToMap(this.level.coin);
-    this.addObjectsToMap(this.shootingBullet);
 
     if (this.endbossHealthBar) {
       this.endbossHealthBar.update();

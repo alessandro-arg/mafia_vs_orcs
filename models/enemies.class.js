@@ -6,10 +6,10 @@ class Enemie extends MovableObject {
   isDeadAnimationComplete = false;
 
   offset = {
-    top: 20,
+    top: -10,
     bottom: 0,
-    left: 140,
-    right: 10,
+    left: 120,
+    right: 20,
   };
 
   ENEMIE_WALKING = [
