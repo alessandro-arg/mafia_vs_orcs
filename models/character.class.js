@@ -7,7 +7,10 @@ class Character extends MovableObject {
   sleepTimeout = null;
   sleep = false;
   walking_sound = new Audio("audio/run.mp3");
-  // sleeping_sound = new Audio ("");
+  sleeping_sound = new Audio("audio/sleeping.mp3");
+  jumping_sound = new Audio("audio/jumping.mp3");
+  hurt_sound = new Audio("audio/hurt.mp3");
+  lose_sound = new Audio("audio/lose.mp3");
   isDeadAnimationComplete = false;
   isBouncing = false;
   isShooting = false;
@@ -65,7 +68,19 @@ class Character extends MovableObject {
     "img/hurt/hurt_frame_4.png",
     "img/hurt/hurt_frame_5.png",
   ];
-  SLEEP_IMAGES = [];
+  SLEEP_IMAGES = [
+    "img/sleep_idle/sleep_1.png",
+    "img/sleep_idle/sleep_2.png",
+    "img/sleep_idle/sleep_3.png",
+    "img/sleep_idle/sleep_4.png",
+    "img/sleep_idle/sleep_5.png",
+    "img/sleep_idle/sleep_6.png",
+    "img/sleep_idle/sleep_7.png",
+    "img/sleep_idle/sleep_8.png",
+    "img/sleep_idle/sleep_9.png",
+    "img/sleep_idle/sleep_10.png",
+    "img/sleep_idle/sleep_11.png",
+  ];
   SHOOT_IMAGES = [
     "img/shot/shoot_1.png",
     "img/shot/shoot_2.png",
@@ -80,8 +95,13 @@ class Character extends MovableObject {
     this.loadImages(this.JUMP_IMAGES);
     this.loadImages(this.DEAD_IMAGES);
     this.loadImages(this.HURT_IMAGES);
-    // this.loadImages(this.SLEEP_IMAGES);
+    this.loadImages(this.SLEEP_IMAGES);
     this.loadImages(this.SHOOT_IMAGES);
+    sounds.push(this.walking_sound);
+    sounds.push(this.sleeping_sound);
+    sounds.push(this.jumping_sound);
+    sounds.push(this.hurt_sound);
+    sounds.push(this.lose_sound);
     this.currentX = this.x;
     this.startSleepCheck();
     this.applyGravity();
@@ -91,6 +111,7 @@ class Character extends MovableObject {
   animate() {
     setIntervalAndTrack(() => {
       this.walking_sound.pause();
+      this.setAudioVolumes();
 
       if (!this.isDead()) {
         if (
@@ -122,6 +143,7 @@ class Character extends MovableObject {
         this.handleGameEnd(this);
       } else if (this.isHurt()) {
         this.playAnimation(this.HURT_IMAGES);
+        this.hurt_sound.play();
       } else if (this.isAboveGround()) {
         this.playAnimation(this.JUMP_IMAGES);
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -148,6 +170,7 @@ class Character extends MovableObject {
 
     if (!character.isDeadAnimationComplete) {
       character.playAnimationOnce(character.DEAD_IMAGES);
+      this.lose_sound.play();
 
       setTimeout(() => {
         if (document.fullscreenElement) {
@@ -192,6 +215,7 @@ class Character extends MovableObject {
     this.wakeUp();
     this.sleeping();
     this.speedY = 30;
+    this.jumping_sound.play();
   }
 
   startSleepCheck() {
@@ -210,18 +234,26 @@ class Character extends MovableObject {
 
   sleeps() {
     this.sleep = true;
-
-    // this.playAnimation(this.SLEEP_IMAGES);
-    // this.world.playSound(this.sleeping_sound);
+    this.playAnimation(this.SLEEP_IMAGES);
+    this.sleeping_sound.play();
   }
 
   wakeUp() {
     this.walking_sound.pause();
     this.sleep = false;
     this.sleeping();
+    this.sleeping_sound.pause();
   }
 
   savePosition() {
     this.currentX = this.x;
+  }
+
+  setAudioVolumes() {
+    this.walking_sound.volume = 0.02;
+    this.sleeping_sound.volume = 0.2;
+    this.jumping_sound.volume = 0.2;
+    this.hurt_sound.volume = 0.1;
+    this.lose_sound.volume = 0.4;
   }
 }

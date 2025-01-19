@@ -12,17 +12,24 @@ class World {
   coinBar = new Coinbar();
   shootingBullet = [];
   playSounds = true;
-  //   game_sound = new Audio('');
-  //   collecting_coin_sound = new Audio('');
-  //   collecting_ammo_sound = new Audio('');
-  //   hurt_sound = new Audio('');
-  //   dead_enemie_sound = new Audio('');
+  game_sound = new Audio("audio/game_song.mp3");
+  // end_fight_sound = new Audio('');
+  collecting_coin_sound = new Audio("audio/coin.mp3");
+  collecting_ammo_sound = new Audio("audio/ammo.mp3");
+  shot_sound = new Audio("audio/shot.mp3");
+  dead_enemie_sound = new Audio("audio/enemies_dead.mp3");
   animationFrameId = null;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    sounds.push(this.game_sound);
+    // sounds.push(this.end_fight_sound);
+    sounds.push(this.collecting_coin_sound);
+    sounds.push(this.collecting_ammo_sound);
+    sounds.push(this.shot_sound);
+    sounds.push(this.dead_enemie_sound);
     this.setWorld();
     this.findEndboss();
     this.draw();
@@ -41,6 +48,9 @@ class World {
   run() {
     setInterval(() => {
       this.checkCollisionsCharacterWithEnemie();
+      if (this.character.energy > 0 || this.endboss.energy > 0) {
+        this.setupGameMusic();
+      }
     }, 300);
 
     setInterval(() => {
@@ -53,6 +63,12 @@ class World {
       this.checkCollisionsEnemieWithBullet();
       this.checkCollisionsTopEnemie();
     }, 15);
+  }
+
+  setupGameMusic() {
+    this.game_sound.loop = true;
+    this.game_sound.play();
+    this.game_sound.volume = 0.05;
   }
 
   findEndboss() {
@@ -79,6 +95,8 @@ class World {
           this.character.x + 160,
           this.character.y + 130
         );
+        this.shot_sound.play();
+        this.shot_sound.volume = 0.4;
         this.shootingBullet.push(bullet);
       }, 100);
 
@@ -97,7 +115,8 @@ class World {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && enemy.energy > 0) {
         this.character.wakeUp();
-        // this.playSound(this.hurt_sound);
+        this.character.hurt_sound.play();
+        this.character.hurt_sound.volume = 0.3;
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
         if (
@@ -114,19 +133,18 @@ class World {
 
   checkCollisionsEnemieWithBullet() {
     const bulletsToRemove = new Set();
-
     this.shootingBullet.forEach((bullet, bulletIndex) => {
       this.level.enemies.forEach((enemy, enemyIndex) => {
         if (bullet.isColliding(enemy) && enemy.energy > 0) {
           bulletsToRemove.add(bulletIndex);
-          // bullet.playAnimation(bullet.EXPLOSION_IMAGES);
-          // this.playSound(this.dead_enemie_sound);
           if (
             enemy.constructor.name == "Enemie" ||
             enemy.constructor.name == "Enemie2"
           ) {
             enemy.energy = 0;
             enemy.stopAtCurrentPosition();
+            this.dead_enemie_sound.play();
+            this.dead_enemie_sound.volume = 0.3;
           } else if (enemy.constructor.name == "Endboss") {
             if (enemy.energy >= 20) {
               enemy.playHurtAnimation();
@@ -153,9 +171,10 @@ class World {
     this.level.coin.forEach((coin, index) => {
       if (this.character.isColliding(coin)) {
         this.level.coin.splice(index, 1);
-        // this.playSound(this.collecting_coin_sound);
         this.character.addCoin();
         this.coinBar.setCoin(this.character.coin);
+        this.collecting_coin_sound.play();
+        this.collecting_coin_sound.volume = 0.3;
       }
     });
   }
@@ -165,7 +184,8 @@ class World {
       if (this.character.isColliding(ammo)) {
         this.level.ammo.splice(index, 1);
         this.character.addAmmo();
-        // this.playSound(this.collecting_ammo_sound);
+        this.collecting_ammo_sound.play();
+        this.collecting_ammo_sound.volume = 0.1;
         this.ammoBar.setAmmunition(this.character.ammo);
       }
     });
@@ -197,7 +217,8 @@ class World {
         ) {
           enemy.energy = 0;
           enemy.stopAtCurrentPosition();
-          // this.playSound(this.dead_enemie_sound);
+          this.dead_enemie_sound.play();
+          this.dead_enemie_sound.volume = 0.7;
           this.character.bounceOffEnemy();
           hasBounced = true;
         }

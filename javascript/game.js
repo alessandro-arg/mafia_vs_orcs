@@ -2,6 +2,8 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let activeIntervals = [];
+let sounds = [];
+let muted = false;
 
 document.addEventListener("DOMContentLoaded", () => {
   let howtoContainer = document.querySelector(".howto_container");
