@@ -95,7 +95,7 @@ class Endboss extends MovableObject {
       endboss.victory_sound.play();
       endboss.victory_sound.volume = 0.4;
     }, 1500);
-    endboss.victory_sound.stop();
+    endboss.victory_sound.mute();
     if (!this.isDead()) {
       inGameButtons.classList.add("visible");
       endboss.isDeadAnimationComplete = false;

@@ -30,7 +30,7 @@ function init() {
   startScreen.style.transition = "opacity 1s ease-in-out, visibility 0s 2s";
   startScreen.style.opacity = 0;
   canvas.style.transition = "opacity 1s ease-in-out";
-
+  restoreMuteStatus();
   setTimeout(function () {
     startScreen.style.visibility = "hidden";
     endScreen.style.transition = "opacity 1.5s ease-in-out";
@@ -59,6 +59,7 @@ function init() {
 function restartGame() {
   disableInGameButtons();
   clearAllIntervals();
+  resetSounds();
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
   let winScreen = document.getElementById("win_screen");
@@ -92,6 +93,8 @@ function returnMenu() {
   exitFullscreen();
   disableInGameButtons();
   clearAllIntervals();
+  resetSounds();
+  restoreMuteStatus();
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
   let winScreen = document.getElementById("win_screen");
@@ -117,6 +120,43 @@ function returnMenu() {
     world.stopGame();
   }
   window.world = null;
+}
+
+function mute() {
+  sounds.forEach((sound) => {
+    sound.muted = !sound.muted;
+    muted = sound.muted;
+  });
+  const muteButton = document.getElementById("mute_button");
+
+  if (muted) {
+    muteButton.src = "img/in_game_buttons/mute.png";
+    localStorage.setItem("muteStatus", "true");
+  } else {
+    muteButton.src = "img/in_game_buttons/loud.png";
+    localStorage.setItem("muteStatus", "false");
+  }
+}
+
+function restoreMuteStatus() {
+  const muteStatus = localStorage.getItem("muteStatus");
+  const muteButton = document.getElementById("mute_button");
+
+  if (muteStatus === "true") {
+    muteButton.src = "img/in_game_buttons/mute.png";
+    sounds.forEach((sound) => {
+      sound.muted = true;
+    });
+    muted = true;
+  }
+}
+
+function resetSounds() {
+  sounds.forEach((sound) => {
+    sound.pause();
+    sound.currentTime = 0;
+  });
+  sounds = [];
 }
 
 function enterFullscreen() {

@@ -288,10 +288,4 @@ class World {
     movableObject.x = movableObject.x * -1;
     this.ctx.restore();
   }
-
-  // async playSound(sound) {
-  //   if (this.playSounds) {
-  //     await sound.play();
-  //   }
-  // }
 }
