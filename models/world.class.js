@@ -13,7 +13,7 @@ class World {
   shootingBullet = [];
   playSounds = true;
   game_sound = new Audio("audio/game_song.mp3");
-  // end_fight_sound = new Audio('');
+  end_fight_sound = new Audio("audio/bossfight.mp3");
   collecting_coin_sound = new Audio("audio/coin.mp3");
   collecting_ammo_sound = new Audio("audio/ammo.mp3");
   shot_sound = new Audio("audio/shot.mp3");
@@ -25,7 +25,7 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     sounds.push(this.game_sound);
-    // sounds.push(this.end_fight_sound);
+    sounds.push(this.end_fight_sound);
     sounds.push(this.collecting_coin_sound);
     sounds.push(this.collecting_ammo_sound);
     sounds.push(this.shot_sound);
@@ -51,6 +51,7 @@ class World {
       if (this.character.energy > 0 || this.endboss.energy > 0) {
         this.setupGameMusic();
       }
+      this.checkEndbossProximity();
     }, 300);
 
     setInterval(() => {
@@ -68,12 +69,52 @@ class World {
   setupGameMusic() {
     this.game_sound.loop = true;
     this.game_sound.play();
-    this.game_sound.volume = 0.05;
+    this.game_sound.volume = 0.2;
   }
 
   findEndboss() {
     this.endboss = this.level.enemies.find((enemy) => enemy instanceof Endboss);
     this.endbossHealthBar = new StatusbarEndboss(this.endboss);
+  }
+
+  checkEndbossProximity() {
+    if (!this.endboss) return;
+
+    let distance = Math.abs(this.character.x - this.endboss.x);
+
+    if (
+      distance < 1200 &&
+      this.endboss.energy > 0 &&
+      this.character.energy > 0
+    ) {
+      this.endboss.fight_start_sound.currentTime = 0;
+      this.endboss.fight_start_sound.volume = 0.2;
+      this.endboss.fight_start_sound.play();
+      if (!this.end_fight_sound.playing) {
+        this.game_sound.pause();
+        this.end_fight_sound.loop = true;
+        this.end_fight_sound.play();
+        this.end_fight_sound.volume = 0.2;
+      }
+    }
+
+    if (this.character.energy <= 0) {
+      this.end_fight_sound.pause();
+      if (!this.character.gameOverSoundPlayed) {
+        this.character.lose_sound.play();
+        this.character.lose_sound.volume = 0.3;
+        this.character.gameOverSoundPlayed = true;
+      }
+    } else if (this.endboss.energy <= 0) {
+      this.end_fight_sound.pause();
+      if (!this.endboss.gameOverSoundPlayed) {
+        setTimeout(() => {
+          this.endboss.victory_sound.play();
+          this.endboss.victory_sound.volume = 0.3;
+          this.endboss.gameOverSoundPlayed = true;
+        }, 2500);
+      }
+    }
   }
 
   checkShootingObject() {
@@ -86,23 +127,22 @@ class World {
       this.character.isShooting = true;
       this.character.ammo -= 1;
       this.ammoBar.setAmmunition(this.character.ammo);
-      this.character.playAnimationOnce(this.character.SHOOT_IMAGES, () => {
-        this.character.isShooting = false;
-      });
+      this.shot_sound.currentTime = 0;
+      this.shot_sound.play();
+      this.shot_sound.volume = 0.4;
 
       setTimeout(() => {
+        this.character.playAnimationOnce(this.character.SHOOT_IMAGES);
         let bullet = new ShootedBullet(
           this.character.x + 160,
-          this.character.y + 130
+          this.character.y + 150
         );
-        this.shot_sound.play();
-        this.shot_sound.volume = 0.4;
         this.shootingBullet.push(bullet);
       }, 100);
 
       setTimeout(() => {
         this.character.isShooting = false;
-      }, 350);
+      }, 400);
     }
   }
 
@@ -115,8 +155,9 @@ class World {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && enemy.energy > 0) {
         this.character.wakeUp();
+        this.character.hurt_sound.currentTime = 0;
         this.character.hurt_sound.play();
-        this.character.hurt_sound.volume = 0.3;
+        this.character.hurt_sound.volume = 0.1;
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
         if (
@@ -124,6 +165,7 @@ class World {
           this.character.energy <= 0 &&
           enemy.energy > 0
         ) {
+          this.character.hurt_sound.pause();
           enemy.stopAtCurrentPosition();
           enemy.playLoseAnimation();
         }
@@ -141,10 +183,11 @@ class World {
             enemy.constructor.name == "Enemie" ||
             enemy.constructor.name == "Enemie2"
           ) {
+            this.dead_enemie_sound.currentTime = 0;
+            this.dead_enemie_sound.play();
+            this.dead_enemie_sound.volume = 0.15;
             enemy.energy = 0;
             enemy.stopAtCurrentPosition();
-            this.dead_enemie_sound.play();
-            this.dead_enemie_sound.volume = 0.3;
           } else if (enemy.constructor.name == "Endboss") {
             if (enemy.energy >= 20) {
               enemy.playHurtAnimation();
@@ -170,11 +213,12 @@ class World {
   checkCollisionsCoin() {
     this.level.coin.forEach((coin, index) => {
       if (this.character.isColliding(coin)) {
+        this.collecting_coin_sound.currentTime = 0;
+        this.collecting_coin_sound.play();
+        this.collecting_coin_sound.volume = 0.1;
         this.level.coin.splice(index, 1);
         this.character.addCoin();
         this.coinBar.setCoin(this.character.coin);
-        this.collecting_coin_sound.play();
-        this.collecting_coin_sound.volume = 0.3;
       }
     });
   }
@@ -182,10 +226,11 @@ class World {
   checkCollisionsAmmo() {
     this.level.ammo.forEach((ammo, index) => {
       if (this.character.isColliding(ammo)) {
-        this.level.ammo.splice(index, 1);
-        this.character.addAmmo();
+        this.collecting_ammo_sound.currentTime = 0;
         this.collecting_ammo_sound.play();
         this.collecting_ammo_sound.volume = 0.1;
+        this.level.ammo.splice(index, 1);
+        this.character.addAmmo();
         this.ammoBar.setAmmunition(this.character.ammo);
       }
     });

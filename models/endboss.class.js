@@ -6,7 +6,9 @@ class Endboss extends MovableObject {
   isDeadAnimationComplete = false;
   isHurtAnimationPlaying = false;
   isLoseAnimationPlaying = false;
+  gameOverSoundPlayed = false;
   victory_sound = new Audio("audio/victory.mp3");
+  fight_start_sound = new Audio("audio/start_fight.mp3");
 
   ENDBOSS_IDLE = [
     "img/boss/idle/endboss_idle_5.png",
@@ -58,6 +60,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.ENDBOSS_ATTACK);
     this.loadImages(this.ENDBOSS_DEAD);
     sounds.push(this.victory_sound);
+    sounds.push(this.fight_start_sound);
     this.x = 1280 * 5.5;
     this.speed = 3;
     this.animate();
@@ -92,10 +95,7 @@ class Endboss extends MovableObject {
       winScreen.style.visibility = "visible";
       winScreen.style.opacity = 1;
       endboss.isDeadAnimationComplete = true;
-      endboss.victory_sound.play();
-      endboss.victory_sound.volume = 0.4;
-    }, 1500);
-    endboss.victory_sound.mute();
+    }, 2500);
     if (!this.isDead()) {
       inGameButtons.classList.add("visible");
       endboss.isDeadAnimationComplete = false;

@@ -12,6 +12,7 @@ class Character extends MovableObject {
   hurt_sound = new Audio("audio/hurt.mp3");
   lose_sound = new Audio("audio/lose.mp3");
   isDeadAnimationComplete = false;
+  gameOverSoundPlayed = false;
   isBouncing = false;
   isShooting = false;
 
@@ -149,6 +150,7 @@ class Character extends MovableObject {
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         this.playAnimation(this.RUN_IMAGES);
       } else if (this.world.keyboard.F && this.ammo >= 1) {
+        this.wakeUp();
         this.playAnimation(this.SHOOT_IMAGES);
       } else if (this.sleep) {
         this.sleeps();
@@ -170,7 +172,6 @@ class Character extends MovableObject {
 
     if (!character.isDeadAnimationComplete) {
       character.playAnimationOnce(character.DEAD_IMAGES);
-      this.lose_sound.play();
 
       setTimeout(() => {
         if (document.fullscreenElement) {
