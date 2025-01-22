@@ -87,9 +87,6 @@ class World {
       this.endboss.energy > 0 &&
       this.character.energy > 0
     ) {
-      this.endboss.fight_start_sound.currentTime = 0;
-      this.endboss.fight_start_sound.volume = 0.2;
-      this.endboss.fight_start_sound.play();
       if (!this.end_fight_sound.playing) {
         this.game_sound.pause();
         this.end_fight_sound.loop = true;
@@ -112,7 +109,7 @@ class World {
           this.endboss.victory_sound.play();
           this.endboss.victory_sound.volume = 0.3;
           this.endboss.gameOverSoundPlayed = true;
-        }, 2500);
+        }, 2000);
       }
     }
   }
@@ -158,8 +155,19 @@ class World {
         this.character.hurt_sound.currentTime = 0;
         this.character.hurt_sound.play();
         this.character.hurt_sound.volume = 0.1;
-        this.character.hit();
-        this.statusBar.setPercentage(this.character.energy);
+
+        if (
+          enemy.constructor.name == "Enemie" ||
+          enemy.constructor.name == "Enemie2"
+        ) {
+          this.character.hit();
+          this.statusBar.setPercentage(this.character.energy);
+        } else if (enemy.constructor.name == "Endboss") {
+          this.character.hit();
+          this.character.hit();
+          this.statusBar.setPercentage(this.character.energy);
+        }
+
         if (
           enemy.constructor.name == "Endboss" &&
           this.character.energy <= 0 &&
@@ -263,7 +271,7 @@ class World {
           enemy.energy = 0;
           enemy.stopAtCurrentPosition();
           this.dead_enemie_sound.play();
-          this.dead_enemie_sound.volume = 0.7;
+          this.dead_enemie_sound.volume = 0.2;
           this.character.bounceOffEnemy();
           hasBounced = true;
         }
