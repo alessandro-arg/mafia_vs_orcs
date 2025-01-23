@@ -187,6 +187,7 @@ class World {
       this.level.enemies.forEach((enemy, enemyIndex) => {
         if (bullet.isColliding(enemy) && enemy.energy > 0) {
           bulletsToRemove.add(bulletIndex);
+
           if (
             enemy.constructor.name == "Enemie" ||
             enemy.constructor.name == "Enemie2"
@@ -197,14 +198,20 @@ class World {
             enemy.energy = 0;
             enemy.stopAtCurrentPosition();
           } else if (enemy.constructor.name == "Endboss") {
-            if (enemy.energy >= 20) {
-              enemy.playHurtAnimation();
+            let headZone = enemy.y + enemy.height * 0.5;
+
+            if (bullet.y < headZone) {
               enemy.energy -= 20;
-              this.endbossHealthBar.setPercentage(enemy.energy);
-              if (enemy.energy <= 0) {
-                enemy.energy = 0;
-                enemy.stopAtCurrentPosition();
-              }
+            } else {
+              enemy.energy -= 10;
+            }
+            enemy.playHurtAnimation();
+            this.endbossHealthBar.setPercentage(enemy.energy);
+            console.log("Endboss health =", enemy.energy);
+
+            if (enemy.energy <= 0) {
+              enemy.energy = 0;
+              enemy.stopAtCurrentPosition();
             }
           }
         }

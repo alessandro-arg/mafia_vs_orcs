@@ -183,7 +183,7 @@ class Endboss extends MovableObject {
   }
 
   getRandomAttackDelay() {
-    return Math.random() * 2000 + 1000;
+    return Math.random() * 4000 + 1000;
   }
 
   stopAtCurrentPosition() {
