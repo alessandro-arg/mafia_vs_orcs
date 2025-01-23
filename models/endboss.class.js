@@ -6,6 +6,7 @@ class Endboss extends MovableObject {
   isDeadAnimationComplete = false;
   isHurtAnimationPlaying = false;
   isLoseAnimationPlaying = false;
+  isAttacking = false;
   gameOverSoundPlayed = false;
   victory_sound = new Audio("audio/victory.mp3");
   fight_start_sound = new Audio("audio/start_fight.mp3");
@@ -81,6 +82,7 @@ class Endboss extends MovableObject {
         this.playHurtAnimation();
       } else if (this.energy <= 60 && this.energy > 0) {
         this.startMoving();
+        this.scheduleAttackAnimation();
       } else {
         this.playAnimation(this.ENDBOSS_IDLE);
       }
@@ -93,6 +95,7 @@ class Endboss extends MovableObject {
     inGameButtons.classList.remove("visible");
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
+    clearInterval(this.attackInterval);
     endboss.playAnimationOnce(this.ENDBOSS_DEAD);
 
     setTimeout(() => {
@@ -150,6 +153,37 @@ class Endboss extends MovableObject {
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
     this.isMoving = false;
+  }
+
+  scheduleAttackAnimation() {
+    if (!this.attackInterval) {
+      this.attackInterval = setInterval(() => {
+        if (this.energy <= 60 && !this.isAttacking) {
+          this.playAttackAnimation();
+        }
+      }, this.getRandomAttackDelay());
+    }
+  }
+
+  playAttackAnimation() {
+    this.isAttacking = true;
+    this.stopMoving();
+
+    let attackFrameIndex = 0;
+    let attackInterval = setInterval(() => {
+      this.img = this.imageCache[this.ENDBOSS_ATTACK[attackFrameIndex]];
+      attackFrameIndex++;
+
+      if (attackFrameIndex >= this.ENDBOSS_ATTACK.length) {
+        clearInterval(attackInterval);
+        this.isAttacking = false;
+        this.startMoving();
+      }
+    }, 50);
+  }
+
+  getRandomAttackDelay() {
+    return Math.random() * 2000 + 1000;
   }
 
   stopAtCurrentPosition() {
