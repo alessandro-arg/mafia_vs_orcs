@@ -30,7 +30,6 @@ function init() {
   startScreen.style.transition = "opacity 1s ease-in-out, visibility 0s 2s";
   startScreen.style.opacity = 0;
   canvas.style.transition = "opacity 1s ease-in-out";
-  restoreMuteStatus();
   setTimeout(function () {
     startScreen.style.visibility = "hidden";
     endScreen.style.transition = "opacity 1.5s ease-in-out";
@@ -82,9 +81,10 @@ function restartGame() {
 
   setTimeout(function () {
     init();
-
     setTimeout(function () {
       canvasElement.style.opacity = 1;
+      world.game_sound.play();
+      world.game_sound.loop = true;
     }, 2000);
   }, 400);
 }
@@ -94,7 +94,6 @@ function returnMenu() {
   disableInGameButtons();
   clearAllIntervals();
   resetSounds();
-  restoreMuteStatus();
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
   let winScreen = document.getElementById("win_screen");
@@ -118,8 +117,16 @@ function returnMenu() {
 
   if (window.world) {
     world.stopGame();
+    world = null;
   }
-  window.world = null;
+
+  sounds.forEach((sound) => {
+    sound.pause();
+    sound.currentTime = 0;
+    sound.loop = false;
+  });
+
+  muted = true;
 }
 
 function mute() {
@@ -155,8 +162,8 @@ function resetSounds() {
   sounds.forEach((sound) => {
     sound.pause();
     sound.currentTime = 0;
+    sound.loop = false;
   });
-  sounds = [];
 }
 
 function enterFullscreen() {

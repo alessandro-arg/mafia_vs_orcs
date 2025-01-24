@@ -18,6 +18,7 @@ class World {
   collecting_ammo_sound = new Audio("audio/ammo.mp3");
   shot_sound = new Audio("audio/shot.mp3");
   dead_enemie_sound = new Audio("audio/enemies_dead.mp3");
+  endboss_hurt_sound = new Audio("audio/endboss_hurt.mp3");
   animationFrameId = null;
 
   constructor(canvas, keyboard) {
@@ -30,6 +31,7 @@ class World {
     sounds.push(this.collecting_ammo_sound);
     sounds.push(this.shot_sound);
     sounds.push(this.dead_enemie_sound);
+    sounds.push(this.endboss_hurt_sound);
     this.setWorld();
     this.findEndboss();
     this.draw();
@@ -67,9 +69,11 @@ class World {
   }
 
   setupGameMusic() {
-    this.game_sound.loop = true;
-    this.game_sound.play();
-    this.game_sound.volume = 0.2;
+    if (this.game_sound.paused) {
+      this.game_sound.loop = true;
+      this.game_sound.volume = 0.1;
+      this.game_sound.play();
+    }
   }
 
   findEndboss() {
@@ -99,7 +103,7 @@ class World {
       this.end_fight_sound.pause();
       if (!this.character.gameOverSoundPlayed) {
         this.character.lose_sound.play();
-        this.character.lose_sound.volume = 0.3;
+        this.character.lose_sound.volume = 0.2;
         this.character.gameOverSoundPlayed = true;
       }
     } else if (this.endboss.energy <= 0) {
@@ -107,7 +111,7 @@ class World {
       if (!this.endboss.gameOverSoundPlayed) {
         setTimeout(() => {
           this.endboss.victory_sound.play();
-          this.endboss.victory_sound.volume = 0.3;
+          this.endboss.victory_sound.volume = 0.2;
           this.endboss.gameOverSoundPlayed = true;
         }, 2000);
       }
@@ -126,7 +130,7 @@ class World {
       this.ammoBar.setAmmunition(this.character.ammo);
       this.shot_sound.currentTime = 0;
       this.shot_sound.play();
-      this.shot_sound.volume = 0.4;
+      this.shot_sound.volume = 0.3;
 
       setTimeout(() => {
         this.character.playAnimationOnce(this.character.SHOOT_IMAGES);
@@ -150,7 +154,11 @@ class World {
 
   checkCollisionsCharacterWithEnemie() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && enemy.energy > 0) {
+      if (
+        this.character.isColliding(enemy) &&
+        enemy.energy > 0 &&
+        this.character.energy > 0
+      ) {
         this.character.wakeUp();
         this.character.hurt_sound.currentTime = 0;
         this.character.hurt_sound.play();
@@ -173,8 +181,9 @@ class World {
           this.character.energy <= 0 &&
           enemy.energy > 0
         ) {
+          this.character.energy = 0;
           this.character.hurt_sound.pause();
-          enemy.stopAtCurrentPosition();
+          enemy.stopMoving();
           enemy.playLoseAnimation();
         }
       }
@@ -205,6 +214,9 @@ class World {
             } else {
               enemy.energy -= 10;
             }
+            this.endboss_hurt_sound.currentTime = 0;
+            this.endboss_hurt_sound.play();
+            this.endboss_hurt_sound.volume = 0.15;
             enemy.playHurtAnimation();
             this.endbossHealthBar.setPercentage(enemy.energy);
             console.log("Endboss health =", enemy.energy);
