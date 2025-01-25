@@ -450,6 +450,10 @@ canvas {
     aspect-ratio: 16 / 9;
   }
 
+  h1 {
+    margin: 0 0 45px 0;
+  }
+
   .game_over,
   .you_win,
   .trophy {
@@ -498,11 +502,12 @@ canvas {
   }
 
   .instructions {
-    gap: 1vw;
+    margin-top: 15px !important;
   }
 
   .description {
-    min-width: auto;
+    margin-top: 20px;
+    min-width: 150px !important;
   }
 
   .description p {
@@ -514,8 +519,8 @@ canvas {
     width: 7.8vw !important;
   }
 
-  .spacebar {
-    width: 30vw !important;
+  .description .spacebar {
+    width: 25vw !important;
   }
 }
 

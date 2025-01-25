@@ -25,7 +25,7 @@ function init() {
   let canvas = document.getElementById("canvas");
   let inGameButtons = document.querySelector(".in_game_buttons");
   let instructions = document.querySelector(".instructions");
-
+  restoreMuteStatus();
   startButton.disabled = true;
   startScreen.style.transition = "opacity 1s ease-in-out, visibility 0s 2s";
   startScreen.style.opacity = 0;
