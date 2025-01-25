@@ -11,6 +11,7 @@ body {
   background-size: cover;
   font-family: digitalDisco, Arial, Helvetica, sans-serif;
   height: 100vh;
+  overflow: hidden;
   padding: 0;
   margin: 0;
   display: flex;
@@ -440,30 +441,107 @@ canvas {
 }
 
 @media only screen and (max-width: 1280px) {
-  canvas {
-    width: 100%;
-  }
-
-  #start_screen {
-    width: 100%;
-  }
-
-  #end_screen {
-    width: 100%;
-    margin-bottom: 0;
-  }
-
+  canvas,
+  #start_screen,
+  #end_screen,
   #win_screen {
     width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 
-  .description img {
-    height: 80px;
-    width: 90px;
+  .game_over,
+  .you_win,
+  .trophy {
+    height: 30vw;
+  }
+
+  .endscreen_buttons {
+    gap: 10vw;
+  }
+
+  .endscreen_buttons img {
+    height: 4vw;
+  }
+
+  .endscreen_social {
+    left: 2vw;
+    top: 2vw;
+  }
+
+  .endscreen_social img {
+    height: 4vw;
+  }
+
+  .howto_container,
+  .copyright_container {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .howto_content,
+  .copyright_content {
+    width: 60%;
+    padding: 5vw;
+    font-size: 3vw;
+  }
+
+  .copyright_content h5 {
+    font-size: 4vw;
+  }
+
+  .controls img,
+  .howto img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .instructions {
+    gap: 1vw;
+  }
+
+  .description {
+    min-width: auto;
   }
 
   .description p {
-    font-size: 35px;
+    font-size: 2.5vw !important;
+  }
+
+  .description img {
+    height: 7vw !important;
+    width: 7.8vw !important;
+  }
+
+  .spacebar {
+    width: 30vw !important;
+  }
+}
+
+@media only screen and (max-width: 920px) {
+  canvas,
+  #start_screen,
+  #end_screen,
+  #win_screen {
+    display: none;
+  }
+
+  #rotate_screen_overlay {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    z-index: 9999;
   }
 
   h1 {
@@ -512,4 +590,8 @@ canvas {
 
 .spacebar {
   width: 500px !important;
+}
+
+#rotate_screen_overlay {
+  display: none;
 }
