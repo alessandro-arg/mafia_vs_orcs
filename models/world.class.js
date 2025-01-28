@@ -82,12 +82,10 @@ class World {
   }
 
   checkEndbossProximity() {
-    if (!this.endboss) return;
-
     let distance = Math.abs(this.character.x - this.endboss.x);
 
     if (
-      distance < 1200 &&
+      distance < 1000 &&
       this.endboss.energy > 0 &&
       this.character.energy > 0
     ) {

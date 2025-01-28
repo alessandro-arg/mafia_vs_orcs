@@ -227,7 +227,8 @@ h1 {
 .close_button:hover,
 .endscreen_buttons:hover button,
 .endscreen_social:hover a,
-.in_game_buttons:hover button {
+.in_game_buttons:hover button,
+#mobile_buttons button {
   cursor: url("img/cursor/cursor_2.png"), auto;
 }
 
@@ -532,39 +533,8 @@ canvas {
     display: none;
   }
 
-  #rotate_screen_overlay {
-    display: flex !important;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.9);
-    color: white;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
-    z-index: 9999;
-  }
-
   h1 {
     display: none;
-  }
-}
-
-@media only screen and (max-height: 720px) {
-  canvas {
-    height: 100vh !important;
-  }
-
-  #start_screen {
-    height: 100vh !important;
-  }
-
-  .instructions {
-    display: none !important;
   }
 }
 
@@ -599,4 +569,48 @@ canvas {
 
 #rotate_screen_overlay {
   display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  z-index: 9999;
+}
+
+#mobile_buttons {
+  position: absolute;
+  bottom: 10px;
+  width: 98%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#mobile_buttons button {
+  background: rgba(255, 255, 255, 0.144);
+  border: solid 5px black;
+  border-radius: 500px;
+}
+
+#mobile_buttons img {
+  height: 30px;
+  width: 30px;
+  padding: 15px;
+}
+
+.right_side,
+.left_side {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }

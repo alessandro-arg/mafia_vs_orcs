@@ -6,6 +6,8 @@ let sounds = [];
 let muted = false;
 
 document.addEventListener("DOMContentLoaded", () => {
+  checkOrientation();
+  window.addEventListener("resize", checkOrientation);
   let howtoContainer = document.querySelector(".howto_container");
   howtoContainer.addEventListener("click", closeIfClickOutside);
 
@@ -16,6 +18,40 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("alreadyPlayed", "true");
   }
 });
+
+function checkOrientation() {
+  let rotateScreenOverlay = document.getElementById("rotate_screen_overlay");
+  let startScreen = document.getElementById("start_screen");
+  let mobileBtns = document.getElementById("mobile_buttons");
+  let endScreen = document.getElementById("end_screen");
+  let winScreen = document.getElementById("win_screen");
+  let canvas = document.getElementById("canvas");
+
+  if (window.innerWidth < 920) {
+    if (window.matchMedia("(orientation: portrait)").matches) {
+      rotateScreenOverlay.style.display = "flex";
+      startScreen.style.display = "none";
+      mobileBtns.style.display = "none";
+      endScreen.style.display = "none";
+      winScreen.style.display = "none";
+      canvas.style.display = "none";
+    } else {
+      rotateScreenOverlay.style.display = "none";
+      startScreen.style.display = "flex";
+      mobileBtns.style.display = "flex";
+      endScreen.style.display = "";
+      winScreen.style.display = "";
+      canvas.style.display = "";
+    }
+  } else {
+    rotateScreenOverlay.style.display = "none";
+    startScreen.style.display = "flex";
+    mobileBtns.style.display = "none";
+    endScreen.style.display = "";
+    winScreen.style.display = "";
+    canvas.style.display = "";
+  }
+}
 
 function init() {
   let startScreen = document.getElementById("start_screen");
@@ -268,55 +304,3 @@ function closeIfClickOutside(event) {
     document.removeEventListener("click", closeIfClickOutside);
   }
 }
-
-document.addEventListener("keydown", (event) => {
-  if (event.keyCode == 32) {
-    keyboard.SPACE = true;
-  }
-
-  if (event.keyCode == 38) {
-    keyboard.UP = true;
-  }
-
-  if (event.keyCode == 40) {
-    keyboard.DOWN = true;
-  }
-
-  if (event.keyCode == 39) {
-    keyboard.RIGHT = true;
-  }
-
-  if (event.keyCode == 37) {
-    keyboard.LEFT = true;
-  }
-
-  if (event.keyCode == 70) {
-    keyboard.F = true;
-  }
-});
-
-document.addEventListener("keyup", (event) => {
-  if (event.keyCode == 32) {
-    keyboard.SPACE = false;
-  }
-
-  if (event.keyCode == 38) {
-    keyboard.UP = false;
-  }
-
-  if (event.keyCode == 40) {
-    keyboard.DOWN = false;
-  }
-
-  if (event.keyCode == 39) {
-    keyboard.RIGHT = false;
-  }
-
-  if (event.keyCode == 37) {
-    keyboard.LEFT = false;
-  }
-
-  if (event.keyCode == 70) {
-    keyboard.F = false;
-  }
-});
