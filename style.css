@@ -11,6 +11,7 @@ body {
   background-size: cover;
   font-family: digitalDisco, Arial, Helvetica, sans-serif;
   height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
   padding: 0;
   margin: 0;
@@ -531,10 +532,20 @@ canvas {
   #end_screen,
   #win_screen {
     display: none;
+    margin: 0;
+    aspect-ratio: 19/9;
+  }
+
+  .howto_content {
+    padding: 2vw;
+  }
+
+  .instructions {
+    display: none !important;
   }
 
   h1 {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -579,7 +590,7 @@ canvas {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 40px;
+  font-size: 25px;
   font-weight: bold;
   z-index: 9999;
 }
