@@ -1,8 +1,3 @@
-let btnLeft = document.getElementById("btnLeft");
-let btnRight = document.getElementById("btnRight");
-let btnJump = document.getElementById("btnJump");
-let btnShot = document.getElementById("btnShot");
-
 document.addEventListener("keydown", (event) => {
   if (event.keyCode == 32) {
     keyboard.SPACE = true;
@@ -47,34 +42,41 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
-btnLeft.addEventListener("touchstart", () => {
-  keyboard.LEFT = true;
-});
+document.addEventListener("DOMContentLoaded", () => {
+  let btnLeft = document.getElementById("btnLeft");
+  let btnRight = document.getElementById("btnRight");
+  let btnJump = document.getElementById("btnJump");
+  let btnShot = document.getElementById("btnShot");
 
-btnLeft.addEventListener("touchend", () => {
-  keyboard.LEFT = false;
-});
+  btnLeft.addEventListener("touchstart", () => {
+    keyboard.LEFT = true;
+  });
 
-btnRight.addEventListener("touchstart", () => {
-  keyboard.RIGHT = true;
-});
+  btnLeft.addEventListener("touchend", () => {
+    keyboard.LEFT = false;
+  });
 
-btnRight.addEventListener("touchend", () => {
-  keyboard.RIGHT = false;
-});
+  btnRight.addEventListener("touchstart", () => {
+    keyboard.RIGHT = true;
+  });
 
-btnJump.addEventListener("touchstart", () => {
-  keyboard.SPACE = true;
-});
+  btnRight.addEventListener("touchend", () => {
+    keyboard.RIGHT = false;
+  });
 
-btnJump.addEventListener("touchend", () => {
-  keyboard.SPACE = false;
-});
+  btnJump.addEventListener("touchstart", () => {
+    keyboard.SPACE = true;
+  });
 
-btnShot.addEventListener("touchstart", () => {
-  keyboard.F = true;
-});
+  btnJump.addEventListener("touchend", () => {
+    keyboard.SPACE = false;
+  });
 
-btnShot.addEventListener("touchend", () => {
-  keyboard.F = false;
+  btnShot.addEventListener("touchstart", () => {
+    keyboard.F = true;
+  });
+
+  btnShot.addEventListener("touchend", () => {
+    keyboard.F = false;
+  });
 });

@@ -527,7 +527,6 @@ canvas {
 }
 
 @media only screen and (max-width: 920px) {
-  canvas,
   #start_screen,
   #end_screen,
   #win_screen {
@@ -536,8 +535,18 @@ canvas {
     aspect-ratio: 19/9;
   }
 
+  canvas {
+    aspect-ratio: 19/9;
+  }
+
   .howto_content {
     padding: 2vw;
+  }
+
+  .close_button {
+    height: 50px;
+    top: 20px;
+    right: 25px;
   }
 
   .instructions {
