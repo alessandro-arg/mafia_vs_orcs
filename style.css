@@ -539,6 +539,10 @@ canvas {
     aspect-ratio: 19/9;
   }
 
+  #fullscreen_button {
+    display: none;
+  }
+
   .howto_content {
     padding: 2vw;
   }
@@ -616,21 +620,21 @@ canvas {
 
 #mobile_buttons button {
   background: rgba(255, 255, 255, 0.144);
-  border: solid 5px black;
+  border: solid 2px rgba(77, 77, 77, 0.664);
   border-radius: 500px;
 }
 
 #mobile_buttons img {
-  height: 30px;
-  width: 30px;
-  padding: 15px;
+  height: 28px;
+  width: 25px;
+  padding: 10px;
 }
 
 .right_side,
 .left_side {
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
   justify-content: center;
 }

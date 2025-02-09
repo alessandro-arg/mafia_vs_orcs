@@ -127,7 +127,9 @@ function restartGame() {
 }
 
 function returnMenu() {
-  exitFullscreen();
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  }
   disableInGameButtons();
   clearAllIntervals();
   muteAllSounds();
@@ -207,19 +209,17 @@ function muteAllSounds() {
   muted = true;
 }
 
-function enterFullscreen() {
-  let canvas = document.querySelector("canvas");
-  if (canvas.requestFullscreen) {
-    canvas.requestFullscreen();
-  } else if (canvas.msRequestFullscreen) {
-    canvas.msRequestFullscreen();
-  } else if (canvas.webkitRequestFullscreen) {
-    canvas.webkitRequestFullscreen();
-  }
-}
-
-function exitFullscreen() {
-  if (document.fullscreenElement) {
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    let screen = document.documentElement;
+    if (screen.requestFullscreen) {
+      screen.requestFullscreen();
+    } else if (screen.msRequestFullscreen) {
+      screen.msRequestFullscreen();
+    } else if (document.webkitRequestFullscreen) {
+      screen.webkitRequestFullscreen();
+    }
+  } else {
     document.exitFullscreen();
   }
 }
