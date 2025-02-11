@@ -89,8 +89,11 @@ class World {
       this.endboss.energy > 0 &&
       this.character.energy > 0
     ) {
+      this.game_sound.pause();
+      this.game_sound.loop = false;
+      this.game_sound.volume = 0;
+
       if (!this.end_fight_sound.playing) {
-        this.game_sound.pause();
         this.end_fight_sound.loop = true;
         this.end_fight_sound.play();
         this.end_fight_sound.volume = 0.2;
@@ -103,15 +106,17 @@ class World {
         this.character.lose_sound.play();
         this.character.lose_sound.volume = 0.2;
         this.character.gameOverSoundPlayed = true;
+        this.game_sound.pause();
       }
     } else if (this.endboss.energy <= 0) {
       this.end_fight_sound.pause();
+      this.game_sound.pause();
       if (!this.endboss.gameOverSoundPlayed) {
         setTimeout(() => {
           this.endboss.victory_sound.play();
           this.endboss.victory_sound.volume = 0.2;
           this.endboss.gameOverSoundPlayed = true;
-        }, 2000);
+        }, 1500);
       }
     }
   }
@@ -170,7 +175,6 @@ class World {
           this.statusBar.setPercentage(this.character.energy);
         } else if (enemy.constructor.name == "Endboss") {
           this.character.hit();
-          this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
         }
 
@@ -181,8 +185,7 @@ class World {
         ) {
           this.character.energy = 0;
           this.character.hurt_sound.pause();
-          enemy.stopMoving();
-          enemy.playLoseAnimation();
+          enemy.stopWhenCharacterDies();
         }
       }
     });

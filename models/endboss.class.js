@@ -120,13 +120,6 @@ class Endboss extends MovableObject {
     }, 400);
   }
 
-  playLoseAnimation() {
-    if (this.isLoseAnimationPlaying) return;
-    this.isLoseAnimationPlaying = true;
-    this.stopAtCurrentPosition();
-    this.playAnimation(this.ENDBOSS_IDLE);
-  }
-
   startMoving() {
     if (!this.isMoving) {
       this.isMoving = true;
@@ -188,5 +181,16 @@ class Endboss extends MovableObject {
 
   stopAtCurrentPosition() {
     this.speed = 0;
+  }
+
+  stopWhenCharacterDies() {
+    clearInterval(this.movementInterval);
+    clearInterval(this.animationInterval);
+    this.stopAtCurrentPosition();
+    this.isMoving = false;
+    this.isAttacking = false;
+    this.isHurtAnimationPlaying = false;
+    this.isLoseAnimationPlaying = false;
+    this.playAnimation(this.ENDBOSS_IDLE);
   }
 }
