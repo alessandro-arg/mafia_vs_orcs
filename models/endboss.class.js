@@ -96,7 +96,7 @@ class Endboss extends MovableObject {
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
     clearInterval(this.attackInterval);
-    endboss.playAnimationOnce(this.ENDBOSS_DEAD);
+    endboss.playAnimationOnce(endboss.ENDBOSS_DEAD);
 
     setTimeout(() => {
       if (document.fullscreenElement) {

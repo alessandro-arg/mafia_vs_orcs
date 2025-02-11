@@ -94,12 +94,11 @@ function init() {
 function restartGame() {
   disableInGameButtons();
   clearAllIntervals();
-  clearSounds();
+  muteAllSounds();
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
   let winScreen = document.getElementById("win_screen");
   let canvasElement = document.getElementById("canvas");
-
   startScreen.style.visibility = "hidden";
   startScreen.style.opacity = 0;
   endScreen.style.visibility = "hidden";
@@ -110,10 +109,13 @@ function restartGame() {
   winScreen.style.display = "none";
   canvasElement.style.transition = "opacity 2s ease-in-out";
   canvasElement.style.opacity = 0;
-
   const context = canvasElement.getContext("2d");
   context.clearRect(0, 0, canvasElement.width, canvasElement.height);
-  initLevel();
+
+  if (window.world) {
+    world.stopGame();
+    world = null;
+  }
 
   setTimeout(function () {
     init();
