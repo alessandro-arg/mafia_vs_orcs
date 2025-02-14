@@ -92,6 +92,7 @@ class Endboss extends MovableObject {
   handleGameEnd(endboss) {
     const inGameButtons = document.querySelector(".in_game_buttons");
     const winScreen = document.getElementById("win_screen");
+    const mobileButtons = document.getElementById("mobile_buttons");
     inGameButtons.classList.remove("visible");
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
@@ -104,6 +105,7 @@ class Endboss extends MovableObject {
       }
       winScreen.style.visibility = "visible";
       winScreen.style.opacity = 1;
+      mobileButtons.style.display = "none";
       endboss.isDeadAnimationComplete = true;
     }, 2000);
     if (!this.isDead()) {

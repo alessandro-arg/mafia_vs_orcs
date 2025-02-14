@@ -536,6 +536,12 @@ canvas {
     gap: 50px;
   }
 
+  .endscreen_buttons button {
+    border: solid 2px rgb(243, 183, 72) !important;
+    border-radius: 20px;
+    padding: 15px;
+  }
+
   .game_over,
   .you_win,
   .trophy {
@@ -564,7 +570,6 @@ canvas {
     z-index: 999;
     background-color: rgba(0, 0, 0, 0.705);
     position: absolute;
-    display: none;
     justify-content: center;
     align-items: center;
     color: white;
@@ -604,6 +609,10 @@ canvas {
   h1 {
     display: none !important;
   }
+}
+
+.mobile_instructions {
+  display: none;
 }
 
 .instructions {

@@ -177,16 +177,6 @@ class World {
           this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
         }
-
-        if (
-          enemy.constructor.name == "Endboss" &&
-          this.character.energy <= 0 &&
-          enemy.energy > 0
-        ) {
-          this.character.energy = 0;
-          this.character.hurt_sound.pause();
-          enemy.stopWhenCharacterDies();
-        }
       }
     });
   }
@@ -211,7 +201,7 @@ class World {
             let headZone = enemy.y + enemy.height * 0.5;
 
             if (bullet.y < headZone) {
-              enemy.energy -= 20;
+              enemy.energy -= 25;
             } else {
               enemy.energy -= 10;
             }
@@ -220,7 +210,6 @@ class World {
             this.endboss_hurt_sound.volume = 0.15;
             enemy.playHurtAnimation();
             this.endbossHealthBar.setPercentage(enemy.energy);
-            console.log("Endboss health =", enemy.energy);
 
             if (enemy.energy <= 0) {
               enemy.energy = 0;
