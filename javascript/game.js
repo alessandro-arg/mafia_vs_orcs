@@ -38,7 +38,6 @@ function checkOrientation() {
     } else {
       rotateScreenOverlay.style.display = "none";
       startScreen.style.display = "flex";
-      mobileBtns.style.display = "flex";
       endScreen.style.display = "";
       winScreen.style.display = "";
       canvas.style.display = "";
@@ -65,6 +64,7 @@ function init() {
   startScreen.style.transition = "opacity 1s ease-in-out, visibility 0s 2s";
   startScreen.style.opacity = 0;
   canvas.style.transition = "opacity 1s ease-in-out";
+  enableMobileButtons();
   setTimeout(function () {
     startScreen.style.visibility = "hidden";
     endScreen.style.transition = "opacity 1.5s ease-in-out";
@@ -133,6 +133,7 @@ function returnMenu() {
     document.exitFullscreen();
   }
   disableInGameButtons();
+  disableMobileButtons();
   clearAllIntervals();
   muteAllSounds();
   let startScreen = document.getElementById("start_screen");
@@ -256,11 +257,15 @@ function enableInGameButtons() {
 }
 
 function showInstructions() {
+  let screenWidth = window.innerWidth;
   let instructions = document.querySelector(".instructions");
-  if (instructions.style.opacity == 0) {
-    instructions.style.opacity = 1;
-  } else if ((instructions.style.opacity = 1)) {
-    instructions.style.opacity = 0;
+  let mobileInstructions = document.querySelector(".mobile_instructions");
+
+  if (screenWidth > 920) {
+    instructions.style.opacity = instructions.style.opacity == 0 ? 1 : 0;
+  } else {
+    mobileInstructions.style.display =
+      mobileInstructions.style.display === "flex" ? "none" : "flex";
   }
 }
 
@@ -310,4 +315,17 @@ function closeIfClickOutside(event) {
     copyrightContainer.style.display = "none";
     document.removeEventListener("click", closeIfClickOutside);
   }
+}
+
+function enableMobileButtons() {
+  let div = document.getElementById("mobile_buttons");
+
+  if (window.innerWidth < 920) {
+    div.style.display = "flex";
+  }
+}
+
+function disableMobileButtons() {
+  let div = document.getElementById("mobile_buttons");
+  div.style.display = "none";
 }

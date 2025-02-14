@@ -533,6 +533,13 @@ canvas {
     display: none;
     margin: 0;
     aspect-ratio: 19/9;
+    gap: 50px;
+  }
+
+  .game_over,
+  .you_win,
+  .trophy {
+    height: 25vw;
   }
 
   canvas {
@@ -553,8 +560,45 @@ canvas {
     right: 25px;
   }
 
+  .mobile_instructions {
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.705);
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .instructions_content {
+    display: flex;
+    position: relative;
+    border-radius: 40px;
+    padding: 8vw 3vw;
+    background-color: rgba(0, 0, 0, 0.966);
+    gap: 10px;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    width: 80%;
+    box-shadow: rgba(185, 189, 190, 0.582) 0px 2px 4px 0px,
+      rgba(151, 164, 170, 0.637) 0px 2px 16px 0px;
+  }
+
   .instructions {
     display: none !important;
+  }
+
+  .copyright {
+    bottom: 30px;
+  }
+
+  .copyright_content {
+    padding: 2vw;
+    gap: 50px;
   }
 
   h1 {
@@ -612,7 +656,7 @@ canvas {
   position: absolute;
   bottom: 10px;
   width: 98%;
-  display: flex;
+  display: none;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

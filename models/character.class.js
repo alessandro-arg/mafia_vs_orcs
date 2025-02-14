@@ -163,6 +163,7 @@ class Character extends MovableObject {
   handleGameEnd(character) {
     const inGameButtons = document.querySelector(".in_game_buttons");
     const endScreen = document.getElementById("end_screen");
+    const mobileButtons = document.getElementById("mobile_buttons");
 
     inGameButtons.classList.remove("visible");
 
@@ -179,6 +180,7 @@ class Character extends MovableObject {
         }
         endScreen.style.visibility = "visible";
         endScreen.style.opacity = 1;
+        mobileButtons.style.display = "none";
         character.isDeadAnimationComplete = true;
       }, 1000);
     } else if (!this.isDead()) {
