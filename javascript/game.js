@@ -67,14 +67,14 @@ function init() {
   enableMobileButtons();
   setTimeout(function () {
     startScreen.style.visibility = "hidden";
+    endScreen.style.display = "flex";
     endScreen.style.transition = "opacity 1.5s ease-in-out";
     endScreen.style.opacity = 0;
     endScreen.style.visibility = "hidden";
-    endScreen.style.display = "flex";
+    winScreen.style.display = "flex";
     winScreen.style.transition = "opacity 1.5s ease-in-out";
     winScreen.style.opacity = 0;
     winScreen.style.visibility = "hidden";
-    winScreen.style.display = "flex";
     instructions.style.opacity = 0;
 
     setTimeout(function () {

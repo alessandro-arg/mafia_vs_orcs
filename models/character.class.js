@@ -111,53 +111,58 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      this.walking_sound.pause();
-      this.setAudioVolumes();
-
-      if (!this.isDead()) {
-        if (
-          this.world.keyboard.RIGHT &&
-          this.x < this.world.level.level_end_x
-        ) {
-          this.runRight();
-        }
-
-        if (this.world.keyboard.LEFT && this.x > -500) {
-          this.runLeft();
-        }
-
-        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-          this.jump();
-        }
-      }
-
-      if (!this.isAboveGround()) {
-        this.y = 395;
-        this.isBouncing = false;
-      }
-
-      this.world.camera_x = -this.x + 50;
+      this.updateMovement();
+      this.updatePosition();
     }, 1000 / 60);
 
     setInterval(() => {
-      if (this.isDead()) {
-        this.handleGameEnd(this);
-      } else if (this.isHurt() && this.energy > 0) {
-        this.playAnimation(this.HURT_IMAGES);
-        this.hurt_sound.play();
-      } else if (this.isAboveGround()) {
-        this.playAnimation(this.JUMP_IMAGES);
-      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.playAnimation(this.RUN_IMAGES);
-      } else if (this.world.keyboard.F && this.ammo >= 1) {
-        this.wakeUp();
-        this.playAnimation(this.SHOOT_IMAGES);
-      } else if (this.sleep) {
-        this.sleeps();
-      } else {
-        this.playAnimation(this.IDLE_IMAGES);
-      }
+      this.updateAnimations();
     }, 150);
+  }
+
+  updateMovement() {
+    this.walking_sound.pause();
+    this.setAudioVolumes();
+
+    if (!this.isDead()) {
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        this.runRight();
+      }
+      if (this.world.keyboard.LEFT && this.x > -500) {
+        this.runLeft();
+      }
+      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+        this.jump();
+      }
+    }
+  }
+
+  updatePosition() {
+    if (!this.isAboveGround()) {
+      this.y = 395;
+      this.isBouncing = false;
+    }
+    this.world.camera_x = -this.x + 50;
+  }
+
+  updateAnimations() {
+    if (this.isDead()) {
+      this.handleGameEnd(this);
+    } else if (this.isHurt() && this.energy > 0) {
+      this.playAnimation(this.HURT_IMAGES);
+      this.hurt_sound.play();
+    } else if (this.isAboveGround()) {
+      this.playAnimation(this.JUMP_IMAGES);
+    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.playAnimation(this.RUN_IMAGES);
+    } else if (this.world.keyboard.F && this.ammo >= 1) {
+      this.wakeUp();
+      this.playAnimation(this.SHOOT_IMAGES);
+    } else if (this.sleep) {
+      this.sleeps();
+    } else {
+      this.playAnimation(this.IDLE_IMAGES);
+    }
   }
 
   handleGameEnd(character) {

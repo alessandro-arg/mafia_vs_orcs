@@ -1,4 +1,6 @@
 document.addEventListener("keydown", (event) => {
+  if (world.endbossDefeated) return;
+
   if (event.keyCode == 32) {
     keyboard.SPACE = true;
   }

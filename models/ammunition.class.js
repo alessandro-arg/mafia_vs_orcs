@@ -12,7 +12,11 @@ class Ammo extends MovableObject {
     "img/ammo/ammo_frame_6.png",
   ];
 
-  EXPLOSION_IMAGES = [];
+  EXPLOSION_IMAGES = [
+    "img/explosion/explosion_frame_0.png",
+    "img/explosion/explosion_frame_1.png",
+    "img/explosion/explosion_frame_2.png",
+  ];
 
   constructor() {
     super().loadImage("img/ammo/ammo_frame_1.png");

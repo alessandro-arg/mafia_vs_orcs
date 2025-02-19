@@ -20,6 +20,7 @@ class World {
   dead_enemie_sound = new Audio("audio/enemies_dead.mp3");
   endboss_hurt_sound = new Audio("audio/endboss_hurt.mp3");
   animationFrameId = null;
+  endbossDefeated = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -141,6 +142,7 @@ class World {
           this.character.x + 160,
           this.character.y + 150
         );
+        bullet.initialX = bullet.x;
         this.shootingBullet.push(bullet);
       }, 100);
 
@@ -162,6 +164,10 @@ class World {
         enemy.energy > 0 &&
         this.character.energy > 0
       ) {
+        if (this.endbossDefeated) {
+          return;
+        }
+
         this.character.wakeUp();
         this.character.hurt_sound.currentTime = 0;
         this.character.hurt_sound.play();
@@ -185,7 +191,11 @@ class World {
     const bulletsToRemove = new Set();
     this.shootingBullet.forEach((bullet, bulletIndex) => {
       this.level.enemies.forEach((enemy, enemyIndex) => {
-        if (bullet.isColliding(enemy) && enemy.energy > 0) {
+        if (
+          bullet.isColliding(enemy) &&
+          enemy.energy > 0 &&
+          bullet.x <= bullet.initialX + 1280
+        ) {
           bulletsToRemove.add(bulletIndex);
 
           if (
@@ -214,6 +224,7 @@ class World {
             if (enemy.energy <= 0) {
               enemy.energy = 0;
               enemy.stopAtCurrentPosition();
+              this.endbossDefeated = true;
             }
           }
         }
