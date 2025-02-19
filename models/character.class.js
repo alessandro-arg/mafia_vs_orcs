@@ -110,7 +110,7 @@ class Character extends MovableObject {
   }
 
   animate() {
-    setIntervalAndTrack(() => {
+    setInterval(() => {
       this.walking_sound.pause();
       this.setAudioVolumes();
 
@@ -139,7 +139,7 @@ class Character extends MovableObject {
       this.world.camera_x = -this.x + 50;
     }, 1000 / 60);
 
-    setIntervalAndTrack(() => {
+    setInterval(() => {
       if (this.isDead()) {
         this.handleGameEnd(this);
       } else if (this.isHurt() && this.energy > 0) {

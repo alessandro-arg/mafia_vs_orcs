@@ -75,12 +75,12 @@ class Endboss extends MovableObject {
   }
 
   animate() {
-    setIntervalAndTrack(() => {
+    setInterval(() => {
       if (this.isDead()) {
         this.handleGameEnd(this);
       } else if (this.isHurt() && !this.isHurtAnimationPlaying) {
         this.playHurtAnimation();
-      } else if (this.energy <= 60 && this.energy > 0) {
+      } else if (this.energy <= 80 && this.energy > 0) {
         this.startMoving();
         this.scheduleAttackAnimation();
       } else {
@@ -127,7 +127,7 @@ class Endboss extends MovableObject {
       this.isMoving = true;
 
       this.movementInterval = setInterval(() => {
-        if (this.energy <= 20) {
+        if (this.energy <= 50) {
           this.x -= this.speed * 2;
         } else {
           this.x -= this.speed;
@@ -135,7 +135,7 @@ class Endboss extends MovableObject {
       }, 1000 / 60);
 
       this.animationInterval = setInterval(() => {
-        if (this.energy <= 20) {
+        if (this.energy <= 50) {
           this.playAnimation(this.ENDBOSS_RUN);
         } else {
           this.playAnimation(this.ENDBOSS_WALK);

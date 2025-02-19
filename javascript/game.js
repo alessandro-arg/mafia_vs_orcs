@@ -227,12 +227,6 @@ function toggleFullscreen() {
   }
 }
 
-function setIntervalAndTrack(callback, delay) {
-  const interval = setInterval(callback, delay);
-  activeIntervals.push(interval);
-  return interval;
-}
-
 function clearAllIntervals() {
   activeIntervals.forEach(clearInterval);
   activeIntervals = [];
