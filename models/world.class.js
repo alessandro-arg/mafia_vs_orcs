@@ -181,6 +181,9 @@ class World {
           this.statusBar.setPercentage(this.character.energy);
         } else if (enemy.constructor.name == "Endboss") {
           this.character.hit();
+          if (enemy.energy <= 50) {
+            this.character.hit();
+          }
           this.statusBar.setPercentage(this.character.energy);
         }
       }

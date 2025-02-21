@@ -55,28 +55,15 @@ function checkOrientation() {
 function init() {
   let startScreen = document.getElementById("start_screen");
   let startButton = document.querySelector(".start_game_btn");
-  let endScreen = document.getElementById("end_screen");
-  let winScreen = document.getElementById("win_screen");
   let canvas = document.getElementById("canvas");
   let inGameButtons = document.querySelector(".in_game_buttons");
-  let instructions = document.querySelector(".instructions");
   startButton.disabled = true;
   startScreen.style.transition = "opacity 1s ease-in-out, visibility 0s 2s";
   startScreen.style.opacity = 0;
   canvas.style.transition = "opacity 1s ease-in-out";
   enableMobileButtons();
   setTimeout(function () {
-    startScreen.style.visibility = "hidden";
-    endScreen.style.display = "flex";
-    endScreen.style.transition = "opacity 1.5s ease-in-out";
-    endScreen.style.opacity = 0;
-    endScreen.style.visibility = "hidden";
-    winScreen.style.display = "flex";
-    winScreen.style.transition = "opacity 1.5s ease-in-out";
-    winScreen.style.opacity = 0;
-    winScreen.style.visibility = "hidden";
-    instructions.style.opacity = 0;
-
+    initializeElements();
     setTimeout(function () {
       canvas.style.opacity = 1;
       initLevel();
@@ -89,6 +76,23 @@ function init() {
       }, 1500);
     }, 800);
   }, 150);
+}
+
+function initializeElements() {
+  let startScreen = document.getElementById("start_screen");
+  let endScreen = document.getElementById("end_screen");
+  let winScreen = document.getElementById("win_screen");
+  let instructions = document.querySelector(".instructions");
+  startScreen.style.visibility = "hidden";
+  endScreen.style.display = "flex";
+  endScreen.style.transition = "opacity 1.5s ease-in-out";
+  endScreen.style.opacity = 0;
+  endScreen.style.visibility = "hidden";
+  winScreen.style.display = "flex";
+  winScreen.style.transition = "opacity 1.5s ease-in-out";
+  winScreen.style.opacity = 0;
+  winScreen.style.visibility = "hidden";
+  instructions.style.opacity = 0;
 }
 
 function restartGame() {

@@ -10,6 +10,7 @@ class Endboss extends MovableObject {
   gameOverSoundPlayed = false;
   victory_sound = new Audio("audio/victory.mp3");
   fight_start_sound = new Audio("audio/start_fight.mp3");
+  gameOver = false;
 
   offset = {
     top: 0,
@@ -90,9 +91,15 @@ class Endboss extends MovableObject {
   }
 
   handleGameEnd(endboss) {
+    if (this.gameOver) return;
+    this.gameOver = true;
+
+    console.log("handleGameEnd triggered");
+
     const inGameButtons = document.querySelector(".in_game_buttons");
     const winScreen = document.getElementById("win_screen");
     const mobileButtons = document.getElementById("mobile_buttons");
+
     inGameButtons.classList.remove("visible");
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
@@ -108,10 +115,6 @@ class Endboss extends MovableObject {
       mobileButtons.style.display = "none";
       endboss.isDeadAnimationComplete = true;
     }, 2000);
-    if (!this.isDead()) {
-      inGameButtons.classList.add("visible");
-      endboss.isDeadAnimationComplete = false;
-    }
   }
 
   playHurtAnimation() {
