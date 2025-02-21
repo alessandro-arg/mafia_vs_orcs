@@ -19,47 +19,68 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+/**
+ * Checks the current screen orientation and updates the UI accordingly.
+ */
 function checkOrientation() {
-  let rotateScreenOverlay = document.getElementById("rotate_screen_overlay");
-  let startScreen = document.getElementById("start_screen");
-  let mobileBtns = document.getElementById("mobile_buttons");
-  let endScreen = document.getElementById("end_screen");
-  let winScreen = document.getElementById("win_screen");
-  let canvas = document.getElementById("canvas");
-
   if (window.innerWidth < 920) {
     if (window.matchMedia("(orientation: portrait)").matches) {
-      rotateScreenOverlay.style.display = "flex";
-      startScreen.style.display = "none";
-      mobileBtns.style.display = "none";
-      endScreen.style.display = "none";
-      winScreen.style.display = "none";
-      canvas.style.display = "none";
+      handlePortraitMode();
     } else {
-      rotateScreenOverlay.style.display = "none";
-      startScreen.style.display = "flex";
-      endScreen.style.display = "";
-      winScreen.style.display = "";
-      canvas.style.display = "";
+      handleLandscapeMode();
     }
   } else {
-    rotateScreenOverlay.style.display = "none";
-    startScreen.style.display = "flex";
-    mobileBtns.style.display = "none";
-    endScreen.style.display = "";
-    winScreen.style.display = "";
-    canvas.style.display = "";
+    handleDesktopMode();
   }
 }
 
+/**
+ * Handles UI updates when the device is in portrait mode.
+ */
+function handlePortraitMode() {
+  toggleDisplay("flex", "none", "none", "none", "none", "none");
+}
+
+/**
+ * Handles UI updates when the device is in landscape mode.
+ */
+function handleLandscapeMode() {
+  toggleDisplay("none", "flex", "none", "", "", "");
+}
+
+/**
+ * Handles UI updates when the screen width is large enough (desktop mode).
+ */
+function handleDesktopMode() {
+  toggleDisplay("none", "flex", "none", "", "", "");
+}
+
+/**
+ * Updates the display properties of various UI elements.
+ *
+ * @param {string} rotateScreen - Display style for the rotate screen overlay.
+ * @param {string} start - Display style for the start screen.
+ * @param {string} mobile - Display style for the mobile buttons.
+ * @param {string} end - Display style for the end screen.
+ * @param {string} win - Display style for the win screen.
+ * @param {string} canvas - Display style for the game canvas.
+ */
+function toggleDisplay(rotateScreen, start, mobile, end, win, canvas) {
+  document.getElementById("rotate_screen_overlay").style.display = rotateScreen;
+  document.getElementById("start_screen").style.display = start;
+  document.getElementById("mobile_buttons").style.display = mobile;
+  document.getElementById("end_screen").style.display = end;
+  document.getElementById("win_screen").style.display = win;
+  document.getElementById("canvas").style.display = canvas;
+}
+
+/**
+ * Initializes the game by setting up UI elements, enabling buttons, and starting the game logic.
+ */
 function init() {
-  let startScreen = document.getElementById("start_screen");
-  let startButton = document.querySelector(".start_game_btn");
+  initializeStartScreen();
   let canvas = document.getElementById("canvas");
   let inGameButtons = document.querySelector(".in_game_buttons");
-  startButton.disabled = true;
-  startScreen.style.transition = "opacity 1s ease-in-out, visibility 0s 2s";
-  startScreen.style.opacity = 0;
   canvas.style.transition = "opacity 1s ease-in-out";
   enableMobileButtons();
   setTimeout(function () {
@@ -69,15 +90,29 @@ function init() {
       initLevel();
       clearSounds();
       world = new World(canvas, keyboard);
-      inGameButtons.classList.add("visible");
       updateMuteButton();
       setTimeout(function () {
+        inGameButtons.classList.add("visible");
         enableInGameButtons();
       }, 1500);
     }, 800);
   }, 150);
 }
 
+/**
+ * Handles the transition of the start screen by disabling the start button and fading out the screen.
+ */
+function initializeStartScreen() {
+  let startScreen = document.getElementById("start_screen");
+  let startButton = document.querySelector(".start_game_btn");
+  startButton.disabled = true;
+  startScreen.style.transition = "opacity 1s ease-in-out, visibility 0s 2s";
+  startScreen.style.opacity = 0;
+}
+
+/**
+ * Initializes various UI elements such as the start, end, and win screens, setting their visibility and transitions.
+ */
 function initializeElements() {
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
@@ -95,14 +130,26 @@ function initializeElements() {
   instructions.style.opacity = 0;
 }
 
+/**
+ * Restarts the game by resetting UI elements, clearing game data, and reinitializing the game world.
+ */
 function restartGame() {
   disableInGameButtons();
   clearAllIntervals();
   muteAllSounds();
+  resetUIElements();
+  clearCanvas();
+  stopGameWorld();
+  setTimeout(startNewGame, 400);
+}
+
+/**
+ * Resets the visibility and opacity of key UI elements (start, end, and win screens).
+ */
+function resetUIElements() {
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
   let winScreen = document.getElementById("win_screen");
-  let canvasElement = document.getElementById("canvas");
   startScreen.style.visibility = "hidden";
   startScreen.style.opacity = 0;
   endScreen.style.visibility = "hidden";
@@ -111,35 +158,77 @@ function restartGame() {
   winScreen.style.visibility = "hidden";
   winScreen.style.opacity = 0;
   winScreen.style.display = "none";
+}
+
+/**
+ * Clears the game canvas by removing all drawn elements.
+ */
+function clearCanvas() {
+  let canvasElement = document.getElementById("canvas");
   canvasElement.style.transition = "opacity 2s ease-in-out";
   canvasElement.style.opacity = 0;
   const context = canvasElement.getContext("2d");
   context.clearRect(0, 0, canvasElement.width, canvasElement.height);
+}
 
+/**
+ * Stops the current game world instance if it exists.
+ */
+function stopGameWorld() {
   if (window.world) {
     world.stopGame();
     world = null;
   }
-
-  setTimeout(function () {
-    init();
-    updateMuteButton();
-    setTimeout(function () {
-      canvasElement.style.opacity = 1;
-      world.game_sound.play();
-      world.game_sound.loop = true;
-    }, 2000);
-  }, 400);
 }
 
+/**
+ * Starts a new game after a short delay, restoring UI elements and game logic.
+ */
+function startNewGame() {
+  init();
+  updateMuteButton();
+  setTimeout(function () {
+    let canvasElement = document.getElementById("canvas");
+    canvasElement.style.opacity = 1;
+    world.game_sound.play();
+    world.game_sound.loop = true;
+    enableInGameButtons();
+  }, 2000);
+}
+
+/**
+ * Returns to the main menu by resetting UI elements and clearing game state.
+ */
 function returnMenu() {
+  exitFullscreenMode();
+  disableGameControls();
+  clearAllIntervals();
+  muteAllSounds();
+  resetUIForMenu();
+  clearGameState();
+}
+
+/**
+ * Exits fullscreen mode if the game is in fullscreen.
+ */
+function exitFullscreenMode() {
   if (document.fullscreenElement) {
     document.exitFullscreen();
   }
+}
+
+/**
+ * Disables in-game and mobile buttons.
+ */
+function disableGameControls() {
   disableInGameButtons();
   disableMobileButtons();
-  clearAllIntervals();
-  muteAllSounds();
+}
+
+/**
+ * Resets UI elements for returning to the menu.
+ */
+function resetUIForMenu() {
   let startScreen = document.getElementById("start_screen");
   let endScreen = document.getElementById("end_screen");
   let winScreen = document.getElementById("win_screen");
@@ -158,23 +247,28 @@ function returnMenu() {
   endScreen.style.display = "none";
   canvasElement.style.opacity = 0;
   inGameButtons.classList.remove("visible");
+}
+
+/**
+ * Clears game state, including sounds and world instance.
+ */
+function clearGameState() {
+  let canvasElement = document.getElementById("canvas");
   const context = canvasElement.getContext("2d");
   context.clearRect(0, 0, canvasElement.width, canvasElement.height);
-
-  if (window.world) {
-    world.stopGame();
-    world = null;
-  }
-
+  stopGameWorld();
   sounds.forEach((sound) => {
     sound.pause();
     sound.currentTime = 0;
     sound.loop = false;
   });
-
   muted = true;
 }
 
+/**
+ * Toggles the mute state of all sounds and updates the mute button icon accordingly.
+ * The mute state is stored in a global variable 'muted'.
+ */
 function mute() {
   sounds.forEach((sound) => {
     sound.muted = !sound.muted;
@@ -189,6 +283,9 @@ function mute() {
   }
 }
 
+/**
+ * Resets the mute state to unmuted and updates the mute button icon.
+ */
 function updateMuteButton() {
   muted = false;
   const muteButton = document.getElementById("mute_button");
@@ -197,6 +294,10 @@ function updateMuteButton() {
   }
 }
 
+/**
+ * Pauses all sounds, resets their playback position to the start, and disables looping.
+ * Clears the 'sounds' array.
+ */
 function clearSounds() {
   sounds.forEach((sound) => {
     sound.pause();
@@ -206,6 +307,10 @@ function clearSounds() {
   sounds = [];
 }
 
+/**
+ * Pauses all sounds, resets their playback position to the start, and disables looping.
+ * Mutes all sounds and sets the 'muted' state to true.
+ */
 function muteAllSounds() {
   sounds.forEach((sound) => {
     sound.pause();
@@ -216,6 +321,10 @@ function muteAllSounds() {
   muted = true;
 }
 
+/**
+ * Toggles the fullscreen mode of the document.
+ * Requests fullscreen if not already in fullscreen mode, otherwise exits fullscreen.
+ */
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
     let screen = document.documentElement;
@@ -231,11 +340,18 @@ function toggleFullscreen() {
   }
 }
 
+/**
+ * Clears all active intervals by calling 'clearInterval' on each one stored in the 'activeIntervals' array.
+ * Resets the 'activeIntervals' array to an empty state.
+ */
 function clearAllIntervals() {
   activeIntervals.forEach(clearInterval);
   activeIntervals = [];
 }
 
+/**
+ * Disables all in-game buttons by setting their 'disabled' property to true.
+ */
 function disableInGameButtons() {
   const div = document.querySelector(".in_game_buttons");
   const buttons = div.querySelectorAll("button");
@@ -245,6 +361,9 @@ function disableInGameButtons() {
   });
 }
 
+/**
+ * Enables all in-game buttons by setting their 'disabled' property to false.
+ */
 function enableInGameButtons() {
   const div = document.querySelector(".in_game_buttons");
   const buttons = div.querySelectorAll("button");
@@ -254,6 +373,10 @@ function enableInGameButtons() {
   });
 }
 
+/**
+ * Toggles the visibility of the instructions based on the screen width.
+ * Shows the desktop instructions if the screen is wider than 920px, otherwise shows the mobile instructions.
+ */
 function showInstructions() {
   let screenWidth = window.innerWidth;
   let instructions = document.querySelector(".instructions");
@@ -267,6 +390,10 @@ function showInstructions() {
   }
 }
 
+/**
+ * Toggles the visibility of the how-to container.
+ * Adds or removes an event listener to close the container if clicked outside.
+ */
 function showHowTo() {
   let howtoContainer = document.querySelector(".howto_container");
 
@@ -279,6 +406,10 @@ function showHowTo() {
   }
 }
 
+/**
+ * Toggles the visibility of the copyright container.
+ * Adds or removes an event listener to close the container if clicked outside.
+ */
 function showCopyright() {
   let copyrightContainer = document.querySelector(".copyright_container");
 
@@ -294,6 +425,12 @@ function showCopyright() {
   }
 }
 
+/**
+ * Closes the how-to or copyright container if a click is detected outside of the container.
+ * Removes the event listener once the container is closed.
+ *
+ * @param {Event} event - The click event that triggers the closure.
+ */
 function closeIfClickOutside(event) {
   let howtoContainer = document.querySelector(".howto_container");
   let howtoContent = document.querySelector(".howto_content");
@@ -315,6 +452,9 @@ function closeIfClickOutside(event) {
   }
 }
 
+/**
+ * Displays the mobile buttons if the screen width is below 920px.
+ */
 function enableMobileButtons() {
   let div = document.getElementById("mobile_buttons");
 
@@ -323,6 +463,9 @@ function enableMobileButtons() {
   }
 }
 
+/**
+ * Hides the mobile buttons if the screen width is above 920px.
+ */
 function disableMobileButtons() {
   let div = document.getElementById("mobile_buttons");
   div.style.display = "none";
