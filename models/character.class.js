@@ -1,3 +1,7 @@
+/**
+ * Represents a playable character in the game.
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
   height = 91 * 3;
   width = 67 * 3;
@@ -16,6 +20,10 @@ class Character extends MovableObject {
   isBouncing = false;
   isShooting = false;
 
+  /**
+   * Collision offset values.
+   * @type {{ top: number, bottom: number, left: number, right: number }}
+   */
   offset = {
     top: 0,
     bottom: 100,
@@ -109,6 +117,9 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Starts character animations and movement updates.
+   */
   animate() {
     setInterval(() => {
       this.updateMovement();
@@ -120,6 +131,9 @@ class Character extends MovableObject {
     }, 150);
   }
 
+  /**
+   * Updates character movement based on keyboard input.
+   */
   updateMovement() {
     this.walking_sound.pause();
     this.setAudioVolumes();
@@ -137,6 +151,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Updates the character's position.
+   */
   updatePosition() {
     if (!this.isAboveGround()) {
       this.y = 395;
@@ -145,6 +162,9 @@ class Character extends MovableObject {
     this.world.camera_x = -this.x + 50;
   }
 
+  /**
+   * Updates character animations based on state.
+   */
   updateAnimations() {
     if (this.isDead()) {
       this.handleGameEnd(this);
@@ -165,11 +185,12 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Handles the game-ending sequence for the given character.
+   * @param {Character} character - The character instance that has reached the game-over state.
+   */
   handleGameEnd(character) {
     const inGameButtons = document.querySelector(".in_game_buttons");
-    const endScreen = document.getElementById("end_screen");
-    const mobileButtons = document.getElementById("mobile_buttons");
-
     inGameButtons.classList.remove("visible");
 
     if (character.isAboveGround()) {
@@ -183,9 +204,7 @@ class Character extends MovableObject {
         if (document.fullscreenElement) {
           document.exitFullscreen();
         }
-        endScreen.style.visibility = "visible";
-        endScreen.style.opacity = 1;
-        mobileButtons.style.display = "none";
+        this.handleElements();
         character.isDeadAnimationComplete = true;
       }, 1000);
     } else if (!this.isDead()) {
@@ -193,6 +212,20 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Handles the visibility and display settings of end-game elements.
+   */
+  handleElements() {
+    const endScreen = document.getElementById("end_screen");
+    const mobileButtons = document.getElementById("mobile_buttons");
+    endScreen.style.visibility = "visible";
+    endScreen.style.opacity = 1;
+    mobileButtons.style.display = "none";
+  }
+
+  /**
+   * Makes the character bounce off an enemy.
+   */
   bounceOffEnemy() {
     if (!this.isBouncing) {
       this.isBouncing = true;
@@ -200,6 +233,7 @@ class Character extends MovableObject {
     }
   }
 
+  /** Moves character to the right. */
   runRight() {
     this.wakeUp();
     this.moveRight();
@@ -209,6 +243,7 @@ class Character extends MovableObject {
     this.walking_sound.play();
   }
 
+  /** Moves character to the left. */
   runLeft() {
     this.wakeUp();
     this.otherDirection = true;
@@ -218,6 +253,7 @@ class Character extends MovableObject {
     this.walking_sound.play();
   }
 
+  /** Makes the character jump. */
   jump() {
     this.wakeUp();
     this.sleeping();
@@ -225,10 +261,12 @@ class Character extends MovableObject {
     this.jumping_sound.play();
   }
 
+  /** Starts checking if the character is idle for too long. */
   startSleepCheck() {
     this.sleeping();
   }
 
+  /** Checks if the character should enter sleep mode. */
   sleeping() {
     if (this.sleepTimeout) clearTimeout(this.sleepTimeout);
     this.sleepTimeout = setTimeout(() => {
@@ -239,12 +277,14 @@ class Character extends MovableObject {
     }, 10000);
   }
 
+  /** Puts the character into sleep mode. */
   sleeps() {
     this.sleep = true;
     this.playAnimation(this.SLEEP_IMAGES);
     this.sleeping_sound.play();
   }
 
+  /** Wakes the character up from sleep mode. */
   wakeUp() {
     this.walking_sound.pause();
     this.sleep = false;
@@ -252,10 +292,12 @@ class Character extends MovableObject {
     this.sleeping_sound.pause();
   }
 
+  /** Saves the current position of the character. */
   savePosition() {
     this.currentX = this.x;
   }
 
+  /** Sets the volume for all character sounds. */
   setAudioVolumes() {
     this.walking_sound.volume = 0.02;
     this.sleeping_sound.volume = 0.2;
