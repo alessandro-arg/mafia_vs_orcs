@@ -189,7 +189,6 @@ class Character extends MovableObject {
         character.isDeadAnimationComplete = true;
       }, 1000);
     } else if (!this.isDead()) {
-      inGameButtons.classList.add("visible");
       character.isDeadAnimationComplete = false;
     }
   }

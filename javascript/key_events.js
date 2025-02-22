@@ -1,3 +1,8 @@
+/**
+ * Handles keydown events to update the keyboard state.
+ * Prevents input if the end boss is defeated.
+ * @param {KeyboardEvent} event - The keydown event.
+ */
 document.addEventListener("keydown", (event) => {
   if (world.endbossDefeated) return;
 
@@ -22,6 +27,10 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+/**
+ * Handles keyup events to reset the keyboard state.
+ * @param {KeyboardEvent} event - The keyup event.
+ */
 document.addEventListener("keyup", (event) => {
   if (event.keyCode == 32) {
     keyboard.SPACE = false;
@@ -44,41 +53,62 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
+/**
+ * Initializes touch event listeners for on-screen buttons.
+ * Ensures touch input updates the keyboard state.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   let btnLeft = document.getElementById("btnLeft");
   let btnRight = document.getElementById("btnRight");
   let btnJump = document.getElementById("btnJump");
   let btnShot = document.getElementById("btnShot");
 
-  btnLeft.addEventListener("touchstart", () => {
-    keyboard.LEFT = true;
-  });
+  /**
+   * Handles touch start event to activate the corresponding key.
+   * @param {TouchEvent} event - The touch event.
+   * @param {string} key - The key to activate.
+   */
+  function handleTouchStart(event, key) {
+    event.preventDefault();
+    keyboard[key] = true;
+  }
 
-  btnLeft.addEventListener("touchend", () => {
-    keyboard.LEFT = false;
-  });
+  /**
+   * Handles touch end event to deactivate the corresponding key.
+   * @param {TouchEvent} event - The touch event.
+   * @param {string} key - The key to deactivate.
+   */
+  function handleTouchEnd(event, key) {
+    event.preventDefault();
+    keyboard[key] = false;
+  }
 
-  btnRight.addEventListener("touchstart", () => {
-    keyboard.RIGHT = true;
-  });
+  /**
+   * Handles touch cancel event to ensure key deactivation.
+   * @param {TouchEvent} event - The touch event.
+   * @param {string} key - The key to deactivate.
+   */
+  function handleTouchCancel(event, key) {
+    event.preventDefault();
+    keyboard[key] = false;
+  }
 
-  btnRight.addEventListener("touchend", () => {
-    keyboard.RIGHT = false;
-  });
+  // Add touch event listeners to buttons
+  btnLeft.addEventListener("touchstart", (e) => handleTouchStart(e, "LEFT"));
+  btnLeft.addEventListener("touchend", (e) => handleTouchEnd(e, "LEFT"));
+  btnLeft.addEventListener("touchcancel", (e) => handleTouchCancel(e, "LEFT"));
 
-  btnJump.addEventListener("touchstart", () => {
-    keyboard.SPACE = true;
-  });
+  btnRight.addEventListener("touchstart", (e) => handleTouchStart(e, "RIGHT"));
+  btnRight.addEventListener("touchend", (e) => handleTouchEnd(e, "RIGHT"));
+  btnRight.addEventListener("touchcancel", (e) =>
+    handleTouchCancel(e, "RIGHT")
+  );
 
-  btnJump.addEventListener("touchend", () => {
-    keyboard.SPACE = false;
-  });
+  btnJump.addEventListener("touchstart", (e) => handleTouchStart(e, "SPACE"));
+  btnJump.addEventListener("touchend", (e) => handleTouchEnd(e, "SPACE"));
+  btnJump.addEventListener("touchcancel", (e) => handleTouchCancel(e, "SPACE"));
 
-  btnShot.addEventListener("touchstart", () => {
-    keyboard.F = true;
-  });
-
-  btnShot.addEventListener("touchend", () => {
-    keyboard.F = false;
-  });
+  btnShot.addEventListener("touchstart", (e) => handleTouchStart(e, "F"));
+  btnShot.addEventListener("touchend", (e) => handleTouchEnd(e, "F"));
+  btnShot.addEventListener("touchcancel", (e) => handleTouchCancel(e, "F"));
 });

@@ -1,3 +1,7 @@
+/**
+ * Represents an ammo object in the game, which can be collected or used.
+ * Extends MovableObject to allow movement and animation.
+ */
 class Ammo extends MovableObject {
   y = 550;
   width = 70;
@@ -26,6 +30,9 @@ class Ammo extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Starts the animation loop for the ammo object.
+   */
   animate() {
     setInterval(() => {
       this.playAnimation(this.AMMO_IMAGES);

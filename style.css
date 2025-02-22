@@ -675,6 +675,10 @@ canvas {
   background: rgba(255, 255, 255, 0.144);
   border: solid 2px rgba(77, 77, 77, 0.664);
   border-radius: 500px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 #mobile_buttons img {

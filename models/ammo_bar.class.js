@@ -1,3 +1,7 @@
+/**
+ * Represents an ammunition bar in the game, displaying the current ammo level.
+ * Extends DrawableObject to be rendered on the canvas.
+ */
 class Ammobar extends DrawableObject {
   AMMO_IMAGES = [
     "img/ammobar/ammo_bar_frame_0.png",
@@ -20,12 +24,20 @@ class Ammobar extends DrawableObject {
     this.setAmmunition(0);
   }
 
+  /**
+   * Sets the ammunition level and updates the displayed image accordingly.
+   * @param {number} ammunition - The current ammo level.
+   */
   setAmmunition(ammunition) {
     this.ammunition = ammunition;
     let path = this.AMMO_IMAGES[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Determines the index of the image to be displayed based on the ammo level.
+   * @returns {number} The index of the corresponding image in AMMO_IMAGES.
+   */
   resolveImageIndex() {
     if (this.ammunition == 0) {
       return 0;
