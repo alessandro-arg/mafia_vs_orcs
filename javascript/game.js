@@ -85,6 +85,7 @@ function init() {
   enableMobileButtons();
   setTimeout(function () {
     initializeElements();
+    inGameButtons.classList.add("visible");
     setTimeout(function () {
       canvas.style.opacity = 1;
       initLevel();
@@ -92,7 +93,6 @@ function init() {
       world = new World(canvas, keyboard);
       updateMuteButton();
       setTimeout(function () {
-        inGameButtons.classList.add("visible");
         enableInGameButtons();
       }, 1500);
     }, 800);
@@ -233,7 +233,6 @@ function resetUIForMenu() {
   let endScreen = document.getElementById("end_screen");
   let winScreen = document.getElementById("win_screen");
   let canvasElement = document.getElementById("canvas");
-  let inGameButtons = document.querySelector(".in_game_buttons");
   let startButton = document.querySelector(".start_game_btn");
   startButton.disabled = false;
   startScreen.style.visibility = "visible";
@@ -246,7 +245,6 @@ function resetUIForMenu() {
   endScreen.style.opacity = 0;
   endScreen.style.display = "none";
   canvasElement.style.opacity = 0;
-  inGameButtons.classList.remove("visible");
 }
 
 /**

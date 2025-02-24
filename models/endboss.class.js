@@ -93,9 +93,6 @@ class Endboss extends MovableObject {
   handleGameEnd(endboss) {
     if (this.gameOver) return;
     this.gameOver = true;
-
-    console.log("handleGameEnd triggered");
-
     const inGameButtons = document.querySelector(".in_game_buttons");
     const winScreen = document.getElementById("win_screen");
     const mobileButtons = document.getElementById("mobile_buttons");

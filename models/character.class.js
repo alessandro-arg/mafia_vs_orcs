@@ -178,7 +178,7 @@ class Character extends MovableObject {
     } else if (this.world.keyboard.F && this.ammo >= 1) {
       this.wakeUp();
       this.playAnimation(this.SHOOT_IMAGES);
-    } else if (this.sleep) {
+    } else if (this.sleep && this.energy > 0) {
       this.sleeps();
     } else {
       this.playAnimation(this.IDLE_IMAGES);
@@ -190,6 +190,10 @@ class Character extends MovableObject {
    * @param {Character} character - The character instance that has reached the game-over state.
    */
   handleGameEnd(character) {
+    if (character.isDeadAnimationComplete) {
+      return;
+    }
+
     const inGameButtons = document.querySelector(".in_game_buttons");
     inGameButtons.classList.remove("visible");
 
@@ -204,11 +208,11 @@ class Character extends MovableObject {
         if (document.fullscreenElement) {
           document.exitFullscreen();
         }
-        this.handleElements();
         character.isDeadAnimationComplete = true;
+        this.handleElements();
+        clearInterval(this.world.animationFrameId);
+        this.world.stopGame();
       }, 1000);
-    } else if (!this.isDead()) {
-      character.isDeadAnimationComplete = false;
     }
   }
 
