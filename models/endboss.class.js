@@ -1,3 +1,7 @@
+/**
+ * Represents the final boss in the game.
+ * @extends MovableObject
+ */
 class Endboss extends MovableObject {
   height = 500;
   width = 500;
@@ -60,6 +64,9 @@ class Endboss extends MovableObject {
     "img/boss/dead/endboss_dead_1.png",
   ];
 
+  /**
+   * Creates an instance of the Endboss.
+   */
   constructor() {
     super().loadImage("img/boss/idle/endboss_idle_5.png");
     this.loadImages(this.ENDBOSS_IDLE);
@@ -75,13 +82,20 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Handles the animation loop for the end boss.
+   */
   animate() {
     setInterval(() => {
       if (this.isDead()) {
         this.handleGameEnd(this);
       } else if (this.isHurt() && !this.isHurtAnimationPlaying) {
         this.playHurtAnimation();
-      } else if (this.energy <= 80 && this.energy > 0) {
+      } else if (
+        this.energy <= 80 &&
+        this.energy > 0 &&
+        !this.gameOverSoundPlayed
+      ) {
         this.startMoving();
         this.scheduleAttackAnimation();
       } else {
@@ -90,6 +104,10 @@ class Endboss extends MovableObject {
     }, 150);
   }
 
+  /**
+   * Handles the game end sequence when the boss is defeated.
+   * @param {Endboss} endboss - The end boss instance.
+   */
   handleGameEnd(endboss) {
     if (this.gameOver) return;
     this.gameOver = true;
@@ -114,6 +132,9 @@ class Endboss extends MovableObject {
     }, 2000);
   }
 
+  /**
+   * Plays the hurt animation.
+   */
   playHurtAnimation() {
     this.isHurtAnimationPlaying = true;
     this.playAnimationOnce(this.ENDBOSS_HURT);
@@ -122,6 +143,9 @@ class Endboss extends MovableObject {
     }, 400);
   }
 
+  /**
+   * Starts moving the boss towards the player.
+   */
   startMoving() {
     if (!this.isMoving) {
       this.isMoving = true;
@@ -144,12 +168,18 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Stops the boss's movement.
+   */
   stopMoving() {
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
     this.isMoving = false;
   }
 
+  /**
+   * Schedules the attack animation at random intervals.
+   */
   scheduleAttackAnimation() {
     if (!this.attackInterval) {
       this.attackInterval = setInterval(() => {
@@ -160,6 +190,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Plays the attack animation sequence.
+   */
   playAttackAnimation() {
     this.isAttacking = true;
     this.stopMoving();
@@ -177,14 +210,24 @@ class Endboss extends MovableObject {
     }, 50);
   }
 
+  /**
+   * Generates a random delay for attack animations.
+   * @returns {number} The random delay in milliseconds.
+   */
   getRandomAttackDelay() {
     return Math.random() * 4000 + 1000;
   }
 
+  /**
+   * Stops the boss at its current position.
+   */
   stopAtCurrentPosition() {
     this.speed = 0;
   }
 
+  /**
+   * Stops all boss actions when the character dies.
+   */
   stopWhenCharacterDies() {
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);

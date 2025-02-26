@@ -1,3 +1,7 @@
+/**
+ * Represents a second type of enemy in the game.
+ * Inherits from MovableObject and handles animations and movement.
+ */
 class Enemie2 extends MovableObject {
   height = 61 * 2.5;
   width = 70 * 2.5;
@@ -27,7 +31,9 @@ class Enemie2 extends MovableObject {
     "img/enemie/enemy_type_2/enemy_2_dead/enemie2_dead_2.png",
     "img/enemie/enemy_type_2/enemy_2_dead/enemie2_dead_1.png",
   ];
-
+  /**
+   * Creates a new second type enemy instance, initializes its images and movement.
+   */
   constructor() {
     super().loadImage(
       "img/enemie/enemy_type_2/enemy_2_run/enemy2_run_frame_1.png"
@@ -39,6 +45,9 @@ class Enemie2 extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Handles the second type enemy animations and movement.
+   */
   animate() {
     setInterval(() => {
       if (this.isDead()) {
@@ -53,6 +62,9 @@ class Enemie2 extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * Stops the second type enemy at its current position.
+   */
   stopAtCurrentPosition() {
     this.speed = 0;
   }

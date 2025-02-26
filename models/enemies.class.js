@@ -1,3 +1,7 @@
+/**
+ * Represents an enemy in the game.
+ * Inherits from MovableObject and handles enemy animations and movement.
+ */
 class Enemie extends MovableObject {
   height = 65 * 2.5;
   width = 75 * 2.5;
@@ -29,6 +33,9 @@ class Enemie extends MovableObject {
     "img/enemie/enemy_type_1/enemy_1_dead/enemie_dead_frame_5.png",
   ];
 
+  /**
+   * Creates a new enemy instance, initializes its images and movement.
+   */
   constructor() {
     super().loadImage(
       "img/enemie/enemy_type_1/enemy_1_run/enemy1_run_frame_7.png"
@@ -40,6 +47,9 @@ class Enemie extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Handles the enemy animations and movement.
+   */
   animate() {
     setInterval(() => {
       if (this.isDead() && !this.isDeadAnimationComplete) {
@@ -60,6 +70,9 @@ class Enemie extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * Stops the enemy at its current position.
+   */
   stopAtCurrentPosition() {
     this.speed = 0;
   }

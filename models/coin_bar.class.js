@@ -1,3 +1,7 @@
+/**
+ * Represents the coin bar in the game, displaying the player's collected coins.
+ * Inherits from DrawableObject.
+ */
 class Coinbar extends DrawableObject {
   COIN_IMAGES = [
     "img/coin_counter/coin_bar_0.png",
@@ -10,6 +14,10 @@ class Coinbar extends DrawableObject {
 
   coin = 0;
 
+  /**
+   * Creates a new Coinbar object.
+   * Initializes position, size, and loads images.
+   */
   constructor() {
     super();
     this.loadImages(this.COIN_IMAGES);
@@ -20,12 +28,20 @@ class Coinbar extends DrawableObject {
     this.setCoin(0);
   }
 
+  /**
+   * Updates the coin count and changes the displayed image accordingly.
+   * @param {number} coin - The current coin count.
+   */
   setCoin(coin) {
     this.coin = coin;
     let path = this.COIN_IMAGES[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Determines the appropriate image index based on the number of collected coins.
+   * @returns {number} The index of the image in COIN_IMAGES.
+   */
   resolveImageIndex() {
     if (this.coin == 0) {
       return 0;

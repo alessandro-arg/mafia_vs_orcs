@@ -1,3 +1,7 @@
+/**
+ * Represents a cloud object in the game.
+ * Inherits from MovableObject and moves across the screen.
+ */
 class Cloud extends MovableObject {
   y = 20;
   width = 143;
@@ -9,6 +13,10 @@ class Cloud extends MovableObject {
     "img/clouds/clouds_shape8_5.png",
   ];
 
+  /**
+   * Creates a new Cloud object.
+   * Selects a random image from 'cloudImg' and sets a random x-position.
+   */
   constructor() {
     super();
     const randomImage =
