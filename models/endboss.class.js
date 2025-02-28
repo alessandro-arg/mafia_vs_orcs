@@ -116,9 +116,9 @@ class Endboss extends MovableObject {
     const mobileButtons = document.getElementById("mobile_buttons");
 
     inGameButtons.classList.remove("visible");
-    clearInterval(this.movementInterval);
-    clearInterval(this.animationInterval);
-    clearInterval(this.attackInterval);
+    clearInterval(endboss.movementInterval);
+    clearInterval(endboss.animationInterval);
+    clearInterval(endboss.attackInterval);
     endboss.playAnimationOnce(endboss.ENDBOSS_DEAD);
 
     setTimeout(() => {
@@ -129,7 +129,7 @@ class Endboss extends MovableObject {
       winScreen.style.opacity = 1;
       mobileButtons.style.display = "none";
       endboss.isDeadAnimationComplete = true;
-    }, 2000);
+    }, 1500);
   }
 
   /**
