@@ -117,15 +117,28 @@ h1 {
   animation: float 2s ease-in-out infinite;
 }
 
-.copyright {
+.impressum {
   background-color: transparent;
   border: none;
   position: absolute;
-  bottom: 10px;
-  padding: 12px 20px;
+  bottom: 45px;
+  left: 20px;
+  padding: 10px 15px;
   border-radius: 10px;
   background-color: rgba(20, 18, 18, 0.644);
   transition: all 0.2s ease-in-out;
+}
+
+.impressum:hover {
+  background-color: rgba(37, 37, 37, 0.856);
+}
+
+.copyright {
+  color: white;
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  border-radius: 10px;
 }
 
 .howto_container {
@@ -163,7 +176,7 @@ h1 {
   margin: 0;
 }
 
-.copyright_container {
+.impressum_container {
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.705);
   position: absolute;
@@ -176,7 +189,7 @@ h1 {
   width: 1280px;
 }
 
-.copyright_content {
+.impressum_content {
   display: flex;
   position: relative;
   border-radius: 40px;
@@ -194,14 +207,14 @@ h1 {
     rgba(151, 164, 170, 0.637) 0px 2px 16px 0px;
 }
 
-.copyright_content h5 {
+.impressum_content h5 {
   color: rgb(253, 213, 213);
   letter-spacing: 5px;
   margin: 0 0 20px 0;
   font-size: 40px;
 }
 
-.copyright_content p {
+.impressum_content p {
   margin: 0;
 }
 
@@ -224,7 +237,7 @@ h1 {
 
 .controls:hover,
 .howto:hover,
-.copyright:hover,
+.impressum:hover,
 .close_button:hover,
 .endscreen_buttons:hover button,
 .endscreen_social:hover a,
@@ -271,10 +284,10 @@ h1 {
   pointer-events: none;
 }
 
-.copyright p {
+.impressum p {
   color: white;
   font-family: digitalDisco, Arial, Helvetica, sans-serif;
-  font-size: 30px;
+  font-size: 25px;
   margin: 0;
 }
 
@@ -292,7 +305,7 @@ h1 {
 
 .controls:hover img,
 .howto:hover img,
-.copyright:hover,
+.impressum:hover,
 .close_button:hover {
   transform: scale(1.1);
 }
@@ -442,6 +455,22 @@ canvas {
   transform: scale(1.1);
 }
 
+@media only screen and (max-height: 1050px) {
+  h1 {
+    font-size: 40px;
+  }
+
+  #start_screen,
+  #end_screen,
+  #win_screen {
+    margin-bottom: 100px;
+  }
+
+  .description {
+    height: 150px;
+  }
+}
+
 @media only screen and (max-width: 1280px) {
   canvas,
   #start_screen,
@@ -480,20 +509,20 @@ canvas {
   }
 
   .howto_container,
-  .copyright_container {
+  .impressum_container {
     width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
   }
 
   .howto_content,
-  .copyright_content {
+  .impressum_content {
     width: 60%;
     padding: 5vw;
     font-size: 3vw;
   }
 
-  .copyright_content h5 {
+  .impressum_content h5 {
     font-size: 4vw;
   }
 
@@ -597,11 +626,11 @@ canvas {
     display: none !important;
   }
 
-  .copyright {
+  .impressum {
     bottom: 30px;
   }
 
-  .copyright_content {
+  .impressum_content {
     padding: 2vw;
     gap: 50px;
   }

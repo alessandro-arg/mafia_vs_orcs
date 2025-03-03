@@ -234,6 +234,8 @@ function resetUIForMenu() {
   let winScreen = document.getElementById("win_screen");
   let canvasElement = document.getElementById("canvas");
   let startButton = document.querySelector(".start_game_btn");
+  let inGameButtons = document.querySelector(".in_game_buttons");
+  inGameButtons.classList.remove("visible");
   startButton.disabled = false;
   startScreen.style.visibility = "visible";
   startScreen.style.opacity = 1;
@@ -254,13 +256,13 @@ function clearGameState() {
   let canvasElement = document.getElementById("canvas");
   const context = canvasElement.getContext("2d");
   context.clearRect(0, 0, canvasElement.width, canvasElement.height);
-  stopGameWorld();
   sounds.forEach((sound) => {
     sound.pause();
     sound.currentTime = 0;
     sound.loop = false;
   });
   muted = true;
+  stopGameWorld();
 }
 
 /**
@@ -405,26 +407,26 @@ function showHowTo() {
 }
 
 /**
- * Toggles the visibility of the copyright container.
+ * Toggles the visibility of the impressum container.
  * Adds or removes an event listener to close the container if clicked outside.
  */
-function showCopyright() {
-  let copyrightContainer = document.querySelector(".copyright_container");
+function showImpressum() {
+  let impressumContainer = document.querySelector(".impressum_container");
 
   if (
-    copyrightContainer.style.display === "none" ||
-    copyrightContainer.style.display === ""
+    impressumContainer.style.display === "none" ||
+    impressumContainer.style.display === ""
   ) {
-    copyrightContainer.style.display = "flex";
-    copyrightContainer.addEventListener("click", closeIfClickOutside);
+    impressumContainer.style.display = "flex";
+    impressumContainer.addEventListener("click", closeIfClickOutside);
   } else {
-    copyrightContainer.style.display = "none";
-    copyrightContainer.removeEventListener("click", closeIfClickOutside);
+    impressumContainer.style.display = "none";
+    impressumContainer.removeEventListener("click", closeIfClickOutside);
   }
 }
 
 /**
- * Closes the how-to or copyright container if a click is detected outside of the container.
+ * Closes the how-to or impressum container if a click is detected outside of the container.
  * Removes the event listener once the container is closed.
  *
  * @param {Event} event - The click event that triggers the closure.
@@ -432,8 +434,8 @@ function showCopyright() {
 function closeIfClickOutside(event) {
   let howtoContainer = document.querySelector(".howto_container");
   let howtoContent = document.querySelector(".howto_content");
-  let copyrightContainer = document.querySelector(".copyright_container");
-  let copyrightContent = document.querySelector(".copyright_content");
+  let impressumContainer = document.querySelector(".impressum_container");
+  let impressumContent = document.querySelector(".impressum_content");
 
   if (
     howtoContainer.style.display === "flex" &&
@@ -442,10 +444,10 @@ function closeIfClickOutside(event) {
     howtoContainer.style.display = "none";
     document.removeEventListener("click", closeIfClickOutside);
   } else if (
-    copyrightContainer.style.display === "flex" &&
-    !copyrightContent.contains(event.target)
+    impressumContainer.style.display === "flex" &&
+    !impressumContent.contains(event.target)
   ) {
-    copyrightContainer.style.display = "none";
+    impressumContainer.style.display = "none";
     document.removeEventListener("click", closeIfClickOutside);
   }
 }
