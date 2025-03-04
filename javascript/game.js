@@ -379,10 +379,11 @@ function enableInGameButtons() {
  */
 function showInstructions() {
   let screenWidth = window.innerWidth;
+  let screenHeight = window.innerHeight;
   let instructions = document.querySelector(".instructions");
   let mobileInstructions = document.querySelector(".mobile_instructions");
 
-  if (screenWidth > 920) {
+  if (screenWidth > 920 && screenHeight > 900) {
     instructions.style.opacity = instructions.style.opacity == 0 ? 1 : 0;
   } else {
     mobileInstructions.style.display =
@@ -459,6 +460,24 @@ function enableMobileButtons() {
   let div = document.getElementById("mobile_buttons");
 
   if (window.innerWidth < 920) {
+    div.style.display = "flex";
+  } else if (
+    window.innerHeight < 1025 &&
+    window.innerWidth <= 1366 &&
+    window.innerWidth >= 1365
+  ) {
+    div.style.display = "flex";
+  } else if (
+    window.innerHeight <= 820 &&
+    window.innerWidth <= 1180 &&
+    window.innerWidth >= 1179
+  ) {
+    div.style.display = "flex";
+  } else if (
+    window.innerHeight <= 768 &&
+    window.innerWidth <= 1024 &&
+    window.innerWidth >= 1023
+  ) {
     div.style.display = "flex";
   }
 }

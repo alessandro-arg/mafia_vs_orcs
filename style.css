@@ -458,6 +458,7 @@ canvas {
 @media only screen and (max-height: 1050px) {
   h1 {
     font-size: 40px;
+    margin-bottom: 0px;
   }
 
   #start_screen,
@@ -466,8 +467,68 @@ canvas {
     margin-bottom: 100px;
   }
 
+  .instructions {
+    margin-top: 20px !important;
+  }
+
   .description {
     height: 150px;
+  }
+
+  .description img {
+    height: 60px !important;
+    width: 60px !important;
+  }
+
+  .description .spacebar {
+    width: 180px !important;
+  }
+
+  .description p {
+    font-size: 30px !important;
+  }
+}
+
+@media only screen and (max-height: 900px) {
+  .instructions {
+    display: none !important;
+  }
+
+  #start_screen,
+  #end_screen,
+  #win_screen {
+    margin-bottom: 0 !important;
+  }
+
+  .canvas_wrapper {
+    margin-top: -70px;
+  }
+
+  .mobile_instructions {
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.705);
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .instructions_content {
+    display: flex;
+    position: relative;
+    border-radius: 40px;
+    padding: 8vw 3vw;
+    background-color: rgba(0, 0, 0, 0.966);
+    gap: 10px;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    width: 80%;
+    box-shadow: rgba(185, 189, 190, 0.582) 0px 2px 4px 0px,
+      rgba(151, 164, 170, 0.637) 0px 2px 16px 0px;
   }
 }
 
@@ -563,6 +624,10 @@ canvas {
     margin: 0;
     aspect-ratio: 19/9;
     gap: 50px;
+  }
+
+  .canvas_wrapper {
+    margin-top: 0 !important;
   }
 
   .endscreen_buttons button {
