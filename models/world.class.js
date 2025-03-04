@@ -92,7 +92,8 @@ class World {
    * Plays the background game music if not already playing.
    */
   setupGameMusic() {
-    if (this.game_sound.paused) {
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
       this.game_sound.loop = true;
       this.game_sound.volume = 0.1;
       this.game_sound.play();
@@ -160,12 +161,15 @@ class World {
    * Handles endboss death and triggers the victory sound.
    */
   handleEndbossDeath() {
+    const isMuted = localStorage.getItem("muted") === "true";
     this.end_fight_sound.pause();
     this.game_sound.pause();
     if (!this.endboss.gameOverSoundPlayed) {
       setTimeout(() => {
-        this.endboss.victory_sound.play();
-        this.endboss.victory_sound.volume = 0.2;
+        if (!isMuted) {
+          this.endboss.victory_sound.play();
+          this.endboss.victory_sound.volume = 0.2;
+        }
         this.endboss.gameOverSoundPlayed = true;
       }, 1500);
     }

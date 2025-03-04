@@ -3,9 +3,13 @@ let world;
 let keyboard = new Keyboard();
 let activeIntervals = [];
 let sounds = [];
-let muted = false;
+let muted;
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (muted) {
+    muteAllSounds();
+  }
+  updateMuteButton();
   checkOrientation();
   window.addEventListener("resize", checkOrientation);
   let howtoContainer = document.querySelector(".howto_container");
@@ -90,6 +94,9 @@ function init() {
       canvas.style.opacity = 1;
       initLevel();
       clearSounds();
+      if (muted) {
+        muteAllSounds();
+      }
       world = new World(canvas, keyboard);
       updateMuteButton();
       setTimeout(function () {
@@ -136,11 +143,12 @@ function initializeElements() {
 function restartGame() {
   disableInGameButtons();
   clearAllIntervals();
-  muteAllSounds();
   resetUIElements();
   clearCanvas();
   stopGameWorld();
-  level1 = null;
+  if (muted) {
+    muteAllSounds();
+  }
   setTimeout(startNewGame, 500);
 }
 
@@ -191,8 +199,10 @@ function startNewGame() {
   setTimeout(() => {
     let canvasElement = document.getElementById("canvas");
     canvasElement.style.opacity = 1;
-    world.game_sound.play();
-    world.game_sound.loop = true;
+    if (!muted) {
+      world.game_sound.play();
+      world.game_sound.loop = true;
+    }
     enableInGameButtons();
   }, 2000);
 }
@@ -204,9 +214,11 @@ function returnMenu() {
   exitFullscreenMode();
   disableGameControls();
   clearAllIntervals();
-  muteAllSounds();
   resetUIForMenu();
   clearGameState();
+  if (muted) {
+    muteAllSounds();
+  }
 }
 
 /**
@@ -257,12 +269,7 @@ function clearGameState() {
   let canvasElement = document.getElementById("canvas");
   const context = canvasElement.getContext("2d");
   context.clearRect(0, 0, canvasElement.width, canvasElement.height);
-  sounds.forEach((sound) => {
-    sound.pause();
-    sound.currentTime = 0;
-    sound.loop = false;
-  });
-  muted = true;
+  clearSounds();
   stopGameWorld();
 }
 
@@ -275,8 +282,8 @@ function mute() {
     sound.muted = !sound.muted;
     muted = sound.muted;
   });
+  localStorage.setItem("muted", muted);
   const muteButton = document.getElementById("mute_button");
-
   if (muted) {
     muteButton.src = "img/in_game_buttons/mute.png";
   } else {
@@ -285,12 +292,13 @@ function mute() {
 }
 
 /**
- * Resets the mute state to unmuted and updates the mute button icon.
+ * Checks the mute status and make sure to display the correct image..
  */
 function updateMuteButton() {
-  muted = false;
   const muteButton = document.getElementById("mute_button");
-  if (!muted) {
+  if (muted) {
+    muteButton.src = "img/in_game_buttons/mute.png";
+  } else {
     muteButton.src = "img/in_game_buttons/loud.png";
   }
 }
@@ -304,8 +312,8 @@ function clearSounds() {
     sound.pause();
     sound.currentTime = 0;
     sound.loop = false;
+    sound.muted = muted;
   });
-  sounds = [];
 }
 
 /**
@@ -320,6 +328,7 @@ function muteAllSounds() {
     sound.muted = true;
   });
   muted = true;
+  localStorage.setItem("muted", "true");
 }
 
 /**
