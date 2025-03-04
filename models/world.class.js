@@ -59,14 +59,16 @@ class World {
    */
   stopGame() {
     cancelAnimationFrame(this.animationFrameId);
-    clearAllIntervals();
+    clearInterval(this.intervalId1);
+    clearInterval(this.intervalId2);
+    clearInterval(this.intervalId3);
   }
 
   /**
    * Runs the main game loops to handle collisions, shooting, and game state updates.
    */
   run() {
-    setInterval(() => {
+    this.intervalId1 = setInterval(() => {
       this.checkCollisionsCharacterWithEnemie();
       if (this.character.energy > 0 || this.endboss.energy > 0) {
         this.setupGameMusic();
@@ -74,11 +76,11 @@ class World {
       this.checkEndbossProximity();
     }, 300);
 
-    setInterval(() => {
+    this.intervalId2 = setInterval(() => {
       this.checkShootingObject();
     }, 100);
 
-    setInterval(() => {
+    this.intervalId3 = setInterval(() => {
       this.endbossHealthBar.update();
       this.checkCollisions();
       this.checkCollisionsEnemieWithBullet();

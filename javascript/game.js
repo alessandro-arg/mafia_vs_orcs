@@ -140,7 +140,8 @@ function restartGame() {
   resetUIElements();
   clearCanvas();
   stopGameWorld();
-  setTimeout(startNewGame, 400);
+  level1 = null;
+  setTimeout(startNewGame, 500);
 }
 
 /**
@@ -165,9 +166,9 @@ function resetUIElements() {
  */
 function clearCanvas() {
   let canvasElement = document.getElementById("canvas");
+  const context = canvasElement.getContext("2d");
   canvasElement.style.transition = "opacity 2s ease-in-out";
   canvasElement.style.opacity = 0;
-  const context = canvasElement.getContext("2d");
   context.clearRect(0, 0, canvasElement.width, canvasElement.height);
 }
 
@@ -175,7 +176,7 @@ function clearCanvas() {
  * Stops the current game world instance if it exists.
  */
 function stopGameWorld() {
-  if (window.world) {
+  if (world) {
     world.stopGame();
     world = null;
   }
@@ -187,7 +188,7 @@ function stopGameWorld() {
 function startNewGame() {
   init();
   updateMuteButton();
-  setTimeout(function () {
+  setTimeout(() => {
     let canvasElement = document.getElementById("canvas");
     canvasElement.style.opacity = 1;
     world.game_sound.play();
@@ -345,7 +346,7 @@ function toggleFullscreen() {
  * Resets the 'activeIntervals' array to an empty state.
  */
 function clearAllIntervals() {
-  activeIntervals.forEach(clearInterval);
+  activeIntervals.forEach((interval) => clearInterval(interval));
   activeIntervals = [];
 }
 
