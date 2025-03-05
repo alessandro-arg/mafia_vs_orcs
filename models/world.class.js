@@ -133,14 +133,17 @@ class World {
    * Handles actions when the character is near the endboss.
    */
   handleProximityToEndboss() {
-    this.game_sound.pause();
-    this.game_sound.loop = false;
-    this.game_sound.volume = 0;
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
+      this.game_sound.pause();
+      this.game_sound.loop = false;
+      this.game_sound.volume = 0;
 
-    if (!this.end_fight_sound.playing) {
-      this.end_fight_sound.loop = true;
-      this.end_fight_sound.play();
-      this.end_fight_sound.volume = 0.2;
+      if (!this.end_fight_sound.playing) {
+        this.end_fight_sound.loop = true;
+        this.end_fight_sound.play();
+        this.end_fight_sound.volume = 0.2;
+      }
     }
   }
 
@@ -149,11 +152,14 @@ class World {
    */
   handleCharacterDeath() {
     this.end_fight_sound.pause();
-    if (!this.character.gameOverSoundPlayed) {
-      this.character.lose_sound.play();
-      this.character.lose_sound.volume = 0.2;
-      this.character.gameOverSoundPlayed = true;
-      this.game_sound.pause();
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
+      if (!this.character.gameOverSoundPlayed) {
+        this.character.lose_sound.play();
+        this.character.lose_sound.volume = 0.2;
+        this.character.gameOverSoundPlayed = true;
+        this.game_sound.pause();
+      }
     }
   }
 
@@ -165,13 +171,13 @@ class World {
     this.end_fight_sound.pause();
     this.game_sound.pause();
     if (!this.endboss.gameOverSoundPlayed) {
-      setTimeout(() => {
-        if (!isMuted) {
+      if (!isMuted) {
+        setTimeout(() => {
           this.endboss.victory_sound.play();
           this.endboss.victory_sound.volume = 0.2;
-        }
-        this.endboss.gameOverSoundPlayed = true;
-      }, 1500);
+          this.endboss.gameOverSoundPlayed = true;
+        }, 1500);
+      }
     }
   }
 
@@ -206,9 +212,12 @@ class World {
     this.character.isShooting = true;
     this.character.ammo -= 1;
     this.ammoBar.setAmmunition(this.character.ammo);
-    this.shot_sound.currentTime = 0;
-    this.shot_sound.play();
-    this.shot_sound.volume = 0.3;
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
+      this.shot_sound.currentTime = 0;
+      this.shot_sound.play();
+      this.shot_sound.volume = 0.3;
+    }
   }
 
   /**
@@ -290,9 +299,12 @@ class World {
    * Plays the hurt sound when the character is hurt by an enemy.
    */
   playHurtSound() {
-    this.character.hurt_sound.currentTime = 0;
-    this.character.hurt_sound.play();
-    this.character.hurt_sound.volume = 0.1;
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
+      this.character.hurt_sound.currentTime = 0;
+      this.character.hurt_sound.play();
+      this.character.hurt_sound.volume = 0.1;
+    }
   }
 
   /**
@@ -367,9 +379,12 @@ class World {
    * @param {Enemy} enemy The enemy being hit by a bullet.
    */
   handleRegularEnemyCollision(enemy) {
-    this.dead_enemie_sound.currentTime = 0;
-    this.dead_enemie_sound.play();
-    this.dead_enemie_sound.volume = 0.15;
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
+      this.dead_enemie_sound.currentTime = 0;
+      this.dead_enemie_sound.play();
+      this.dead_enemie_sound.volume = 0.15;
+    }
     enemy.energy = 0;
     enemy.stopAtCurrentPosition();
   }
@@ -382,11 +397,14 @@ class World {
   handleEndbossCollision(bullet, enemy) {
     const headZone = enemy.y + enemy.height * 0.5;
     const damage = bullet.y < headZone ? 25 : 10;
+    const isMuted = localStorage.getItem("muted") === "true";
 
     enemy.energy -= damage;
-    this.endboss_hurt_sound.currentTime = 0;
-    this.endboss_hurt_sound.play();
-    this.endboss_hurt_sound.volume = 0.15;
+    if (!isMuted) {
+      this.endboss_hurt_sound.currentTime = 0;
+      this.endboss_hurt_sound.play();
+      this.endboss_hurt_sound.volume = 0.15;
+    }
     enemy.playHurtAnimation();
     this.endbossHealthBar.setPercentage(enemy.energy);
 
@@ -403,9 +421,12 @@ class World {
   checkCollisionsCoin() {
     this.level.coin.forEach((coin, index) => {
       if (this.character.isColliding(coin)) {
-        this.collecting_coin_sound.currentTime = 0;
-        this.collecting_coin_sound.play();
-        this.collecting_coin_sound.volume = 0.1;
+        const isMuted = localStorage.getItem("muted") === "true";
+        if (!isMuted) {
+          this.collecting_coin_sound.currentTime = 0;
+          this.collecting_coin_sound.play();
+          this.collecting_coin_sound.volume = 0.1;
+        }
         this.level.coin.splice(index, 1);
         this.character.addCoin();
         this.coinBar.setCoin(this.character.coin);
@@ -419,9 +440,12 @@ class World {
   checkCollisionsAmmo() {
     this.level.ammo.forEach((ammo, index) => {
       if (this.character.isColliding(ammo)) {
-        this.collecting_ammo_sound.currentTime = 0;
-        this.collecting_ammo_sound.play();
-        this.collecting_ammo_sound.volume = 0.1;
+        const isMuted = localStorage.getItem("muted") === "true";
+        if (!isMuted) {
+          this.collecting_ammo_sound.currentTime = 0;
+          this.collecting_ammo_sound.play();
+          this.collecting_ammo_sound.volume = 0.1;
+        }
         this.level.ammo.splice(index, 1);
         this.character.addAmmo();
         this.ammoBar.setAmmunition(this.character.ammo);
@@ -472,7 +496,7 @@ class World {
    */
   handleEnemyBounce(enemy) {
     let hasBounced = false;
-
+    const isMuted = localStorage.getItem("muted") === "true";
     if (
       (enemy.constructor.name === "Enemie" ||
         enemy.constructor.name === "Enemie2") &&
@@ -480,8 +504,10 @@ class World {
     ) {
       enemy.energy = 0;
       enemy.stopAtCurrentPosition();
-      this.dead_enemie_sound.play();
-      this.dead_enemie_sound.volume = 0.2;
+      if (!isMuted) {
+        this.dead_enemie_sound.play();
+        this.dead_enemie_sound.volume = 0.2;
+      }
       this.character.bounceOffEnemy();
       hasBounced = true;
     }

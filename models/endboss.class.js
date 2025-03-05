@@ -91,11 +91,7 @@ class Endboss extends MovableObject {
         this.handleGameEnd(this);
       } else if (this.isHurt() && !this.isHurtAnimationPlaying) {
         this.playHurtAnimation();
-      } else if (
-        this.energy <= 80 &&
-        this.energy > 0 &&
-        !this.gameOverSoundPlayed
-      ) {
+      } else if (this.energy <= 80 && this.energy > 0 && !this.isDead()) {
         this.startMoving();
         this.scheduleAttackAnimation();
       } else {

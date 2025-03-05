@@ -166,11 +166,14 @@ class Character extends MovableObject {
    * Updates character animations based on state.
    */
   updateAnimations() {
+    const isMuted = localStorage.getItem("muted") === "true";
     if (this.isDead()) {
       this.handleGameEnd(this);
     } else if (this.isHurt() && this.energy > 0) {
       this.playAnimation(this.HURT_IMAGES);
-      this.hurt_sound.play();
+      if (!isMuted) {
+        this.hurt_sound.play();
+      }
     } else if (this.isAboveGround()) {
       this.playAnimation(this.JUMP_IMAGES);
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -212,6 +215,7 @@ class Character extends MovableObject {
         this.handleElements();
         clearInterval(this.world.animationFrameId);
         this.world.stopGame();
+        this.stopAllSounds();
       }, 1000);
     }
   }
@@ -244,7 +248,10 @@ class Character extends MovableObject {
     this.otherDirection = false;
     this.savePosition();
     this.sleeping();
-    this.walking_sound.play();
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
+      this.walking_sound.play();
+    }
   }
 
   /** Moves character to the left. */
@@ -254,7 +261,10 @@ class Character extends MovableObject {
     this.moveLeft();
     this.savePosition();
     this.sleeping();
-    this.walking_sound.play();
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
+      this.walking_sound.play();
+    }
   }
 
   /** Makes the character jump. */
@@ -262,7 +272,10 @@ class Character extends MovableObject {
     this.wakeUp();
     this.sleeping();
     this.speedY = 30;
-    this.jumping_sound.play();
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
+      this.jumping_sound.play();
+    }
   }
 
   /** Starts checking if the character is idle for too long. */
@@ -273,24 +286,28 @@ class Character extends MovableObject {
   /** Checks if the character should enter sleep mode. */
   sleeping() {
     if (this.sleepTimeout) clearTimeout(this.sleepTimeout);
-    this.sleepTimeout = setTimeout(() => {
-      if (this.currentX === this.x && !this.isAboveGround()) {
-        this.sleep = true;
-        this.sleeps();
-      }
-    }, 10000);
+    if (!this.isDead()) {
+      this.sleepTimeout = setTimeout(() => {
+        if (this.currentX === this.x && !this.isAboveGround()) {
+          this.sleep = true;
+          this.sleeps();
+        }
+      }, 10000);
+    }
   }
 
   /** Puts the character into sleep mode. */
   sleeps() {
     this.sleep = true;
     this.playAnimation(this.SLEEP_IMAGES);
-    this.sleeping_sound.play();
+    const isMuted = localStorage.getItem("muted") === "true";
+    if (!isMuted) {
+      this.sleeping_sound.play();
+    }
   }
 
   /** Wakes the character up from sleep mode. */
   wakeUp() {
-    this.walking_sound.pause();
     this.sleep = false;
     this.sleeping();
     this.sleeping_sound.pause();
@@ -308,5 +325,24 @@ class Character extends MovableObject {
     this.jumping_sound.volume = 0.2;
     this.hurt_sound.volume = 0.1;
     this.lose_sound.volume = 0.1;
+  }
+
+  stopAllSounds() {
+    this.walking_sound.pause();
+    this.walking_sound.currentTime = 0;
+
+    this.sleeping_sound.pause();
+    this.sleeping_sound.currentTime = 0;
+
+    this.jumping_sound.pause();
+    this.jumping_sound.currentTime = 0;
+
+    this.hurt_sound.pause();
+    this.hurt_sound.currentTime = 0;
+
+    this.lose_sound.pause();
+    this.lose_sound.currentTime = 0;
+
+    clearTimeout(this.sleepTimeout);
   }
 }

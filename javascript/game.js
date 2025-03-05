@@ -6,10 +6,11 @@ let sounds = [];
 let muted;
 
 document.addEventListener("DOMContentLoaded", () => {
+  muted = localStorage.getItem("muted") === "true";
+  updateMuteButton();
   if (muted) {
     muteAllSounds();
   }
-  updateMuteButton();
   checkOrientation();
   window.addEventListener("resize", checkOrientation);
   let howtoContainer = document.querySelector(".howto_container");
@@ -149,6 +150,7 @@ function restartGame() {
   if (muted) {
     muteAllSounds();
   }
+  updateMuteButton();
   setTimeout(startNewGame, 500);
 }
 
@@ -188,6 +190,9 @@ function stopGameWorld() {
     world.stopGame();
     world = null;
   }
+  if (world && world.character) {
+    world.character.stopAllSounds();
+  }
 }
 
 /**
@@ -219,6 +224,7 @@ function returnMenu() {
   if (muted) {
     muteAllSounds();
   }
+  updateMuteButton();
 }
 
 /**
@@ -278,17 +284,12 @@ function clearGameState() {
  * The mute state is stored in a global variable 'muted'.
  */
 function mute() {
+  muted = !muted;
   sounds.forEach((sound) => {
-    sound.muted = !sound.muted;
-    muted = sound.muted;
+    sound.muted = muted;
   });
   localStorage.setItem("muted", muted);
-  const muteButton = document.getElementById("mute_button");
-  if (muted) {
-    muteButton.src = "img/in_game_buttons/mute.png";
-  } else {
-    muteButton.src = "img/in_game_buttons/loud.png";
-  }
+  updateMuteButton();
 }
 
 /**
@@ -314,6 +315,7 @@ function clearSounds() {
     sound.loop = false;
     sound.muted = muted;
   });
+  sounds = [];
 }
 
 /**
@@ -329,6 +331,7 @@ function muteAllSounds() {
   });
   muted = true;
   localStorage.setItem("muted", "true");
+  updateMuteButton();
 }
 
 /**
