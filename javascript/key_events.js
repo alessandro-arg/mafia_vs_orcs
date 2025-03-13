@@ -1,63 +1,64 @@
 /**
- * Handles keydown events to update the keyboard state.
- * Prevents input if the end boss is defeated.
- * @param {KeyboardEvent} event - The keydown event.
+ * Initializes key event listeners only after the world object is defined.
  */
-document.addEventListener("keydown", (event) => {
-  if (world.endbossDefeated) return;
+function initializeKeyListeners() {
+  if (typeof world !== "undefined" && world.endbossDefeated !== undefined) {
+    document.addEventListener("keydown", (event) => {
+      if (world.endbossDefeated) return;
 
-  if (event.keyCode == 32) {
-    keyboard.SPACE = true;
-  }
+      if (event.keyCode == 32) {
+        keyboard.SPACE = true;
+      }
 
-  if (event.keyCode == 38) {
-    keyboard.UP = true;
-  }
+      if (event.keyCode == 38) {
+        keyboard.UP = true;
+      }
 
-  if (event.keyCode == 39) {
-    keyboard.RIGHT = true;
-  }
+      if (event.keyCode == 39) {
+        keyboard.RIGHT = true;
+      }
 
-  if (event.keyCode == 37) {
-    keyboard.LEFT = true;
-  }
+      if (event.keyCode == 37) {
+        keyboard.LEFT = true;
+      }
 
-  if (event.keyCode == 70) {
-    keyboard.F = true;
-  }
-});
+      if (event.keyCode == 70) {
+        keyboard.F = true;
+      }
+    });
 
-/**
- * Handles keyup events to reset the keyboard state.
- * @param {KeyboardEvent} event - The keyup event.
- */
-document.addEventListener("keyup", (event) => {
-  if (event.keyCode == 32) {
-    keyboard.SPACE = false;
-  }
+    document.addEventListener("keyup", (event) => {
+      if (event.keyCode == 32) {
+        keyboard.SPACE = false;
+      }
 
-  if (event.keyCode == 38) {
-    keyboard.UP = false;
-  }
+      if (event.keyCode == 38) {
+        keyboard.UP = false;
+      }
 
-  if (event.keyCode == 39) {
-    keyboard.RIGHT = false;
-  }
+      if (event.keyCode == 39) {
+        keyboard.RIGHT = false;
+      }
 
-  if (event.keyCode == 37) {
-    keyboard.LEFT = false;
-  }
+      if (event.keyCode == 37) {
+        keyboard.LEFT = false;
+      }
 
-  if (event.keyCode == 70) {
-    keyboard.F = false;
+      if (event.keyCode == 70) {
+        keyboard.F = false;
+      }
+    });
+  } else {
+    setTimeout(initializeKeyListeners, 500);
   }
-});
+}
 
 /**
  * Initializes touch event listeners for on-screen buttons.
  * Ensures touch input updates the keyboard state.
  */
 document.addEventListener("DOMContentLoaded", () => {
+  initializeKeyListeners();
   let btnLeft = document.getElementById("btnLeft");
   let btnRight = document.getElementById("btnRight");
   let btnJump = document.getElementById("btnJump");

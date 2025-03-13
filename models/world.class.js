@@ -62,6 +62,9 @@ class World {
     clearInterval(this.intervalId1);
     clearInterval(this.intervalId2);
     clearInterval(this.intervalId3);
+    clearInterval(this.character.intervalId1);
+    clearInterval(this.character.intervalId2);
+    this.character.stopAllSounds();
   }
 
   /**

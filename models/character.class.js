@@ -121,12 +121,12 @@ class Character extends MovableObject {
    * Starts character animations and movement updates.
    */
   animate() {
-    setInterval(() => {
+    this.intervalId1 = setInterval(() => {
       this.updateMovement();
       this.updatePosition();
     }, 1000 / 60);
 
-    setInterval(() => {
+    this.intervalId2 = setInterval(() => {
       this.updateAnimations();
     }, 150);
   }
@@ -135,7 +135,6 @@ class Character extends MovableObject {
    * Updates character movement based on keyboard input.
    */
   updateMovement() {
-    this.walking_sound.pause();
     this.setAudioVolumes();
 
     if (!this.isDead()) {
@@ -214,6 +213,8 @@ class Character extends MovableObject {
         character.isDeadAnimationComplete = true;
         this.handleElements();
         clearInterval(this.world.animationFrameId);
+        clearInterval(this.intervalId1);
+        clearInterval(this.intervalId2);
         this.world.stopGame();
         this.stopAllSounds();
       }, 1000);
