@@ -1,56 +1,53 @@
-/**
- * Initializes key event listeners only after the world object is defined.
- */
-function initializeKeyListeners() {
-  if (typeof world !== "undefined" && world.endbossDefeated !== undefined) {
-    document.addEventListener("keydown", (event) => {
-      if (world.endbossDefeated) return;
+// Keydown handler for movement keys
+function handleKeyDown(event) {
+  if (!isGameReady) return; // Don't allow movement keys if the game isn't ready
 
-      if (event.keyCode == 32) {
-        keyboard.SPACE = true;
-      }
-
-      if (event.keyCode == 38) {
-        keyboard.UP = true;
-      }
-
-      if (event.keyCode == 39) {
-        keyboard.RIGHT = true;
-      }
-
-      if (event.keyCode == 37) {
-        keyboard.LEFT = true;
-      }
-
-      if (event.keyCode == 70) {
-        keyboard.F = true;
-      }
-    });
-
-    document.addEventListener("keyup", (event) => {
-      if (event.keyCode == 32) {
-        keyboard.SPACE = false;
-      }
-
-      if (event.keyCode == 38) {
-        keyboard.UP = false;
-      }
-
-      if (event.keyCode == 39) {
-        keyboard.RIGHT = false;
-      }
-
-      if (event.keyCode == 37) {
-        keyboard.LEFT = false;
-      }
-
-      if (event.keyCode == 70) {
-        keyboard.F = false;
-      }
-    });
-  } else {
-    setTimeout(initializeKeyListeners, 500);
+  if (event.keyCode == 32) {
+    keyboard.SPACE = true;
   }
+  if (event.keyCode == 38) {
+    keyboard.UP = true;
+  }
+  if (event.keyCode == 39) {
+    keyboard.RIGHT = true;
+  }
+  if (event.keyCode == 37) {
+    keyboard.LEFT = true;
+  }
+  if (event.keyCode == 70) {
+    keyboard.F = true;
+  }
+}
+
+// Keyup handler to reset movement keys
+function handleKeyUp(event) {
+  if (event.keyCode == 32) {
+    keyboard.SPACE = false;
+  }
+  if (event.keyCode == 38) {
+    keyboard.UP = false;
+  }
+  if (event.keyCode == 39) {
+    keyboard.RIGHT = false;
+  }
+  if (event.keyCode == 37) {
+    keyboard.LEFT = false;
+  }
+  if (event.keyCode == 70) {
+    keyboard.F = false;
+  }
+}
+
+// Initialize key listeners
+function initializeKeyListeners() {
+  document.addEventListener("keydown", handleKeyDown);
+  document.addEventListener("keyup", handleKeyUp);
+}
+
+// Function to disable key listeners
+function disableKeyListeners() {
+  document.removeEventListener("keydown", handleKeyDown);
+  document.removeEventListener("keyup", handleKeyUp);
 }
 
 /**

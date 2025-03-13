@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let activeIntervals = [];
 let sounds = [];
 let muted;
+let isGameReady = false;
 
 document.addEventListener("DOMContentLoaded", () => {
   muted = localStorage.getItem("muted") === "true";
@@ -79,6 +80,16 @@ function toggleDisplay(rotateScreen, start, mobile, end, win, canvas) {
   document.getElementById("canvas").style.display = canvas;
 }
 
+function disableMovement() {
+  isGameReady = false;
+  disableKeyListeners();
+}
+
+function enableMovement() {
+  isGameReady = true;
+  initializeKeyListeners();
+}
+
 /**
  * Initializes the game by setting up UI elements, enabling buttons, and starting the game logic.
  */
@@ -102,6 +113,7 @@ function init() {
       updateMuteButton();
       setTimeout(function () {
         enableInGameButtons();
+        enableMovement();
       }, 1500);
     }, 800);
   }, 150);
@@ -147,6 +159,7 @@ function restartGame() {
   resetUIElements();
   clearCanvas();
   stopGameWorld();
+  disableMovement();
   if (muted) {
     muteAllSounds();
   }
@@ -221,6 +234,7 @@ function returnMenu() {
   clearAllIntervals();
   resetUIForMenu();
   clearGameState();
+  disableMovement();
   if (muted) {
     muteAllSounds();
   }
