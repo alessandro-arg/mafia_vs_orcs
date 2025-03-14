@@ -215,6 +215,7 @@ class Character extends MovableObject {
         clearInterval(this.world.animationFrameId);
         clearInterval(this.intervalId1);
         clearInterval(this.intervalId2);
+        clearInterval(this.world.endboss.intervalId1);
         this.world.stopGame();
         this.stopAllSounds();
       }, 1000);

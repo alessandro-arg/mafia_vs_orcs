@@ -1,6 +1,6 @@
 // Keydown handler for movement keys
 function handleKeyDown(event) {
-  if (!isGameReady) return; // Don't allow movement keys if the game isn't ready
+  if (!isGameReady) return;
 
   if (event.keyCode == 32) {
     keyboard.SPACE = true;

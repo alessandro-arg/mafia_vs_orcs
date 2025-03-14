@@ -86,7 +86,7 @@ class Endboss extends MovableObject {
    * Handles the animation loop for the end boss.
    */
   animate() {
-    setInterval(() => {
+    this.intervalId1 = setInterval(() => {
       if (this.isDead()) {
         this.handleGameEnd(this);
       } else if (this.isHurt() && !this.isHurtAnimationPlaying) {
@@ -110,13 +110,12 @@ class Endboss extends MovableObject {
     const inGameButtons = document.querySelector(".in_game_buttons");
     const winScreen = document.getElementById("win_screen");
     const mobileButtons = document.getElementById("mobile_buttons");
-
     inGameButtons.classList.remove("visible");
-    clearInterval(endboss.movementInterval);
-    clearInterval(endboss.animationInterval);
-    clearInterval(endboss.attackInterval);
+    clearInterval(this.intervalId1);
     endboss.playAnimationOnce(endboss.ENDBOSS_DEAD);
-
+    this.stopMoving();
+    clearInterval(this.attackInterval);
+    disableMovement();
     setTimeout(() => {
       if (document.fullscreenElement) {
         document.exitFullscreen();
