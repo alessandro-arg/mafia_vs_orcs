@@ -127,9 +127,9 @@ class Endboss extends MovableObject {
    */
   stopGameActions(endboss) {
     clearInterval(this.intervalId1);
-    endboss.playAnimationOnce(endboss.ENDBOSS_DEAD);
     this.stopMoving();
     clearInterval(this.attackInterval);
+    endboss.playAnimationOnce(endboss.ENDBOSS_DEAD);
   }
 
   /**
@@ -166,7 +166,7 @@ class Endboss extends MovableObject {
    * Starts moving the boss towards the player.
    */
   startMoving() {
-    if (!this.isMoving) {
+    if (!this.isMoving && !this.isDead()) {
       this.isMoving = true;
 
       this.movementInterval = setInterval(() => {
@@ -178,7 +178,7 @@ class Endboss extends MovableObject {
       }, 1000 / 60);
 
       this.animationInterval = setInterval(() => {
-        if (this.energy <= 50) {
+        if (this.energy <= 50 && !this.isDead()) {
           this.playAnimation(this.ENDBOSS_RUN);
         } else {
           this.playAnimation(this.ENDBOSS_WALK);
