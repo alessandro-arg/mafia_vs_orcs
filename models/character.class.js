@@ -19,6 +19,7 @@ class Character extends MovableObject {
   gameOverSoundPlayed = false;
   isBouncing = false;
   isShooting = false;
+  gameOver = false;
 
   /**
    * Collision offset values.
@@ -192,10 +193,19 @@ class Character extends MovableObject {
    * @param {Character} character - The character instance that has reached the game-over state.
    */
   handleGameEnd(character) {
+    console.log("handleGameEnd triggered");
     if (character.isDeadAnimationComplete || character.isAboveGround()) return;
     this.hideGameUI();
-    character.playAnimationOnce(character.DEAD_IMAGES);
-    setTimeout(() => this.finalizeGameEnd(character), 1000);
+    if (!this.gameOver) {
+      console.log("UI correctly hidden.");
+      character.playAnimationOnce(character.DEAD_IMAGES);
+      console.log("Dead animation played");
+      setTimeout(() => {
+        this.finalizeGameEnd(character);
+        this.gameOver = true;
+        console.log("game finalized");
+      }, 1000);
+    }
   }
 
   /**
@@ -228,7 +238,11 @@ class Character extends MovableObject {
     clearInterval(this.world.animationFrameId);
     clearInterval(this.intervalId1);
     clearInterval(this.intervalId2);
-    clearInterval(this.world.endboss.intervalId1);
+    if (this.world.endboss) {
+      clearInterval(this.world.endboss.intervalId1);
+      clearInterval(this.world.endboss.movementInterval);
+      clearInterval(this.world.endboss.animationInterval);
+    }
   }
 
   /**

@@ -154,14 +154,17 @@ class World {
    * Handles character death, including sound effects and game state.
    */
   handleCharacterDeath() {
+    this.endboss.clearAllEndbossIntervals();
     this.end_fight_sound.pause();
     const isMuted = localStorage.getItem("muted") === "true";
     if (!isMuted) {
       if (!this.character.gameOverSoundPlayed) {
+        this.character.stopAllSounds();
         this.character.lose_sound.play();
         this.character.lose_sound.volume = 0.2;
         this.character.gameOverSoundPlayed = true;
         this.game_sound.pause();
+        this.character.isDeadAnimationComplete = false;
       }
     }
   }
@@ -276,14 +279,15 @@ class World {
   handleCollisionWithEnemy(enemy) {
     this.character.wakeUp();
     this.playHurtSound();
-
-    if (
-      enemy.constructor.name === "Enemie" ||
-      enemy.constructor.name === "Enemie2"
-    ) {
-      this.applyHitToCharacter();
-    } else if (enemy.constructor.name === "Endboss") {
-      this.handleCollisionWithEndboss(enemy);
+    if (this.character.energy > 0) {
+      if (
+        enemy.constructor.name === "Enemie" ||
+        enemy.constructor.name === "Enemie2"
+      ) {
+        this.applyHitToCharacter();
+      } else if (enemy.constructor.name === "Endboss") {
+        this.handleCollisionWithEndboss(enemy);
+      }
     }
   }
 
@@ -293,7 +297,7 @@ class World {
    */
   handleCollisionWithEndboss(enemy) {
     this.applyHitToCharacter();
-    if (enemy.energy <= 50) {
+    if (enemy.energy <= 50 && this.character.energy > 0) {
       this.applyHitToCharacter();
     }
   }
@@ -314,8 +318,10 @@ class World {
    * Applies damage to the character when hit by an enemy.
    */
   applyHitToCharacter() {
-    this.character.hit();
-    this.statusBar.setPercentage(this.character.energy);
+    if (this.character.energy > 0) {
+      this.character.hit();
+      this.statusBar.setPercentage(this.character.energy);
+    }
   }
 
   /**

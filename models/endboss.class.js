@@ -243,4 +243,15 @@ class Endboss extends MovableObject {
   stopAtCurrentPosition() {
     this.speed = 0;
   }
+
+  /**
+   * Clears all Endboss intervals.
+   */
+  clearAllEndbossIntervals() {
+    clearInterval(this.intervalId1);
+    clearInterval(this.attackInterval);
+    clearInterval(this.movementInterval);
+    clearInterval(this.animationInterval);
+    setInterval(() => this.playAnimation(this.ENDBOSS_IDLE), 150);
+  }
 }
