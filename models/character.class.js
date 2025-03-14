@@ -192,34 +192,43 @@ class Character extends MovableObject {
    * @param {Character} character - The character instance that has reached the game-over state.
    */
   handleGameEnd(character) {
-    if (character.isDeadAnimationComplete) {
-      return;
-    }
+    if (character.isDeadAnimationComplete || character.isAboveGround()) return;
+    this.hideGameUI();
+    character.playAnimationOnce(character.DEAD_IMAGES);
+    setTimeout(() => this.finalizeGameEnd(character), 1000);
+  }
 
+  /**
+   * Hides in-game UI elements.
+   */
+  hideGameUI() {
     const inGameButtons = document.querySelector(".in_game_buttons");
     inGameButtons.classList.remove("visible");
+  }
 
-    if (character.isAboveGround()) {
-      return;
+  /**
+   * Finalizes the game-over process by stopping the game and clearing intervals.
+   * @param {Character} character - The character instance that has reached the game-over state.
+   */
+  finalizeGameEnd(character) {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
     }
+    character.isDeadAnimationComplete = true;
+    this.handleElements();
+    this.clearAllCharacterIntervals();
+    this.world.stopGame();
+    this.stopAllSounds();
+  }
 
-    if (!character.isDeadAnimationComplete) {
-      character.playAnimationOnce(character.DEAD_IMAGES);
-
-      setTimeout(() => {
-        if (document.fullscreenElement) {
-          document.exitFullscreen();
-        }
-        character.isDeadAnimationComplete = true;
-        this.handleElements();
-        clearInterval(this.world.animationFrameId);
-        clearInterval(this.intervalId1);
-        clearInterval(this.intervalId2);
-        clearInterval(this.world.endboss.intervalId1);
-        this.world.stopGame();
-        this.stopAllSounds();
-      }, 1000);
-    }
+  /**
+   * Clears all game-related intervals.
+   */
+  clearAllCharacterIntervals() {
+    clearInterval(this.world.animationFrameId);
+    clearInterval(this.intervalId1);
+    clearInterval(this.intervalId2);
+    clearInterval(this.world.endboss.intervalId1);
   }
 
   /**

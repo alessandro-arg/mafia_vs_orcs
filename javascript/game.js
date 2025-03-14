@@ -506,6 +506,8 @@ function enableMobileButtons() {
     window.innerWidth >= 1023
   ) {
     div.style.display = "flex";
+  } else if (window.innerHeight == 1366 && window.innerWidth == 1024) {
+    div.style.display = "flex";
   }
 }
 

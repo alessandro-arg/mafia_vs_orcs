@@ -107,15 +107,39 @@ class Endboss extends MovableObject {
   handleGameEnd(endboss) {
     if (this.gameOver) return;
     this.gameOver = true;
+    this.hideGameUI();
+    this.stopGameActions(endboss);
+    this.showWinScreen(endboss);
+  }
+
+  /**
+   * Hides in-game buttons and disables movement.
+   */
+  hideGameUI() {
     const inGameButtons = document.querySelector(".in_game_buttons");
-    const winScreen = document.getElementById("win_screen");
-    const mobileButtons = document.getElementById("mobile_buttons");
     inGameButtons.classList.remove("visible");
+    disableMovement();
+  }
+
+  /**
+   * Stops all game actions like movement and attacks.
+   * @param {Endboss} endboss - The end boss instance.
+   */
+  stopGameActions(endboss) {
     clearInterval(this.intervalId1);
     endboss.playAnimationOnce(endboss.ENDBOSS_DEAD);
     this.stopMoving();
     clearInterval(this.attackInterval);
-    disableMovement();
+  }
+
+  /**
+   * Displays the win screen and handles fullscreen exit.
+   * @param {Endboss} endboss - The end boss instance.
+   */
+  showWinScreen(endboss) {
+    const winScreen = document.getElementById("win_screen");
+    const mobileButtons = document.getElementById("mobile_buttons");
+
     setTimeout(() => {
       if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -218,19 +242,5 @@ class Endboss extends MovableObject {
    */
   stopAtCurrentPosition() {
     this.speed = 0;
-  }
-
-  /**
-   * Stops all boss actions when the character dies.
-   */
-  stopWhenCharacterDies() {
-    clearInterval(this.movementInterval);
-    clearInterval(this.animationInterval);
-    this.stopAtCurrentPosition();
-    this.isMoving = false;
-    this.isAttacking = false;
-    this.isHurtAnimationPlaying = false;
-    this.isLoseAnimationPlaying = false;
-    this.playAnimation(this.ENDBOSS_IDLE);
   }
 }

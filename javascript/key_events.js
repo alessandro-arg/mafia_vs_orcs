@@ -1,4 +1,8 @@
-// Keydown handler for movement keys
+/**
+ * Handles keydown events and sets corresponding movement keys in the keyboard object.
+ * Ignores key inputs if the game is not ready.
+ * @param {KeyboardEvent} event - The keydown event object.
+ */
 function handleKeyDown(event) {
   if (!isGameReady) return;
 
@@ -19,7 +23,10 @@ function handleKeyDown(event) {
   }
 }
 
-// Keyup handler to reset movement keys
+/**
+ * Handles keyup events and resets corresponding movement keys in the keyboard object.
+ * @param {KeyboardEvent} event - The keyup event object.
+ */
 function handleKeyUp(event) {
   if (event.keyCode == 32) {
     keyboard.SPACE = false;
@@ -38,13 +45,17 @@ function handleKeyUp(event) {
   }
 }
 
-// Initialize key listeners
+/**
+ * Initializes key event listeners for handling movement inputs.
+ */
 function initializeKeyListeners() {
   document.addEventListener("keydown", handleKeyDown);
   document.addEventListener("keyup", handleKeyUp);
 }
 
-// Function to disable key listeners
+/**
+ * Removes key event listeners to disable movement inputs.
+ */
 function disableKeyListeners() {
   document.removeEventListener("keydown", handleKeyDown);
   document.removeEventListener("keyup", handleKeyUp);
@@ -91,7 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
     keyboard[key] = false;
   }
 
-  // Add touch event listeners to buttons
+  /**
+   * Add touch event listeners to buttons
+   */
   btnLeft.addEventListener("touchstart", (e) => handleTouchStart(e, "LEFT"));
   btnLeft.addEventListener("touchend", (e) => handleTouchEnd(e, "LEFT"));
   btnLeft.addEventListener("touchcancel", (e) => handleTouchCancel(e, "LEFT"));
