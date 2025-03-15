@@ -16,6 +16,7 @@ class Character extends MovableObject {
   hurt_sound = new Audio("audio/hurt.mp3");
   lose_sound = new Audio("audio/lose.mp3");
   isDeadAnimationComplete = false;
+  gameEndTriggered = false;
   gameOverSoundPlayed = false;
   isBouncing = false;
   isShooting = false;
@@ -193,17 +194,14 @@ class Character extends MovableObject {
    * @param {Character} character - The character instance that has reached the game-over state.
    */
   handleGameEnd(character) {
-    console.log("handleGameEnd triggered");
-    if (character.isDeadAnimationComplete || character.isAboveGround()) return;
+    if (this.gameEndTriggered || character.isAboveGround()) return;
     this.hideGameUI();
     if (!this.gameOver) {
-      console.log("UI correctly hidden.");
       character.playAnimationOnce(character.DEAD_IMAGES);
-      console.log("Dead animation played");
       setTimeout(() => {
         this.finalizeGameEnd(character);
         this.gameOver = true;
-        console.log("game finalized");
+        this.gameEndTriggered = true;
       }, 1000);
     }
   }
@@ -224,9 +222,8 @@ class Character extends MovableObject {
     if (document.fullscreenElement) {
       document.exitFullscreen();
     }
-    character.isDeadAnimationComplete = true;
-    this.handleElements();
-    this.clearAllCharacterIntervals();
+    character.handleElements();
+    character.clearAllCharacterIntervals();
     this.world.stopGame();
     this.stopAllSounds();
   }
